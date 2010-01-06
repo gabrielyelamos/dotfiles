@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
 # Description:
-#     
+#     Prints a line with the user and host names, and a clock on the right.
 #
 # Author
 #     Julien Nicoulaud - julien.nicoulaud@gmail.com

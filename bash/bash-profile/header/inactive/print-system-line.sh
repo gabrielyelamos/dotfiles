@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
 # Description:
-#
+#     Prints a line with informations about the partitions and the RAM. If a
+#     partition is greater than 80%, it is emphasized.
 #
 # Author
 #     Julien Nicoulaud - julien.nicoulaud@gmail.com
