@@ -63,7 +63,7 @@ export RESET_FORMATTING=`tput sgr0`
 function bash-profile_print-header()
 {
   # Loop through files in the header folder
-  for file in $BASH_PROFILE_LOCATION/header/*; do
+  for file in $BASH_PROFILE_LOCATION/header/active*; do
 
     # If this is a file, execute it
     if [ -f "$file" ]; then
