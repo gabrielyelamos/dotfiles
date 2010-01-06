@@ -8,4 +8,5 @@ set shiftwidth=4
 set showmatch
 set ruler
 set virtualedit=all
+colorscheme peachpuff
 
