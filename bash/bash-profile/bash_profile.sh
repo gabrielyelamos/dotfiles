@@ -161,7 +161,7 @@ function bash-profile_load-folder-bash-configs()
         
       # If this is a folder, call this function bash-profile_recursively
       elif [ -d $file ]; then
-        bash-profile_load-folder-bash-configs "$file"
+        bash-profile_load-folder-bash-configs $load_opts "$file"
       fi
     done
     
