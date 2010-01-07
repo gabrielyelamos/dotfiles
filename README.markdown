@@ -4,10 +4,10 @@ nicoulaj's dotfiles
 Description
 -----------
 I use this project to store my dotfiles:
-  *  bashrc/profile
-  * vimrc
-  * gitconfig
-  * subversion settings
+  * Bashrc/profile
+  * Vimrc
+  * Gitconfig
+  * Subversion settings
 
 More to come...
 
