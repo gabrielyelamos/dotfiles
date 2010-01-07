@@ -1,3 +1,6 @@
+# Full documentation on inputrc available on: 
+# $ info rluserman
+
 set completion-ignore-case On
 set expand-tilde on
 set convert-meta off
