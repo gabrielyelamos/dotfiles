@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
-# Description:
+# Description
 #   Prints a line with the user and host names, and a clock on the right.
 #
 # Author

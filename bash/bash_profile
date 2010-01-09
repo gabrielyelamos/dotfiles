@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
-# Description:
+# Description
 #   "Modular" bashrc/bash_profile.
 #     - First executes every script in header/ to output a custom terminal
 #       header or welcome screen.
@@ -9,7 +9,7 @@
 #       * configs/prompt/: prompts the user to source every file
 #         found recursively.
 #
-# Usage:
+# Usage
 #   The directory structure must be as follows:
 #       |-- header
 #       |-- configs

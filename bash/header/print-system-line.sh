@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
-# Description:
+# Description
 #   Prints a line with informations about the partitions and the RAM. If a
 #   partition usage is greater than 80%, it is emphasized.
 #
