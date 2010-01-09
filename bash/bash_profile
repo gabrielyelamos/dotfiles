@@ -1,29 +1,32 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
 # Description:
-#     "Modular" bashrc/bash_profile.
-#       - First executes every script in header/ to output a custom terminal
-#         header or welcome screen.
-#       - Then sources the configs in configs/
-#         * configs/active/: sources every file found recursively.
-#         * configs/prompt/: prompts the user to source every file
-#           found recursively.
+#   "Modular" bashrc/bash_profile.
+#     - First executes every script in header/ to output a custom terminal
+#       header or welcome screen.
+#     - Then sources the configs in configs/
+#       * configs/active/: sources every file found recursively.
+#       * configs/prompt/: prompts the user to source every file
+#         found recursively.
 #
 # Usage:
-#     The directory structure must be as follows:
-#         |-- header
-#         |-- configs
-#         |   |-- active
-#         |   |-- inactive
-#         |   |-- prompt
-#         |-- bash_profile.sh
+#   The directory structure must be as follows:
+#       |-- header
+#       |-- configs
+#       |   |-- active
+#       |   |-- inactive
+#       |   |-- prompt
+#       |-- bash_profile.sh
 #
-#     Then make sure bash_profile.sh is sourced at bash startup, for example by
-#     setting a symbolic link this way:
-#         ln -s /path/to/bash_profile.sh $HOME/.bash_profile
+#   Then make sure bash_profile.sh is sourced at bash startup, for example by
+#   setting a symbolic link this way:
+#       ln -s /path/to/bash_profile.sh $HOME/.bash_profile
 #
 # Author
-#     Julien Nicoulaud - julien.nicoulaud@gmail.com
+#   nicoulaj - http://www.ju-n.net
+# 
+# Project
+#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 
@@ -60,8 +63,7 @@ export RESET_FORMATTING=`tput sgr0`
 
 
 # Print the header.
-function bash-profile_print-header()
-{
+function bash-profile_print-header() {
   # Loop through files in the header folder
   for file in $BASH_PROFILE_LOCATION/header/active/*; do
     
@@ -71,6 +73,7 @@ function bash-profile_print-header()
     fi
   done
 }
+
 
 # Ask the user a "yes/no" question. Defaults to "no".
 #
@@ -269,4 +272,3 @@ unset -f bash-profile_print-footer
 # Unset all variables and functions to ensure their visibility stay local
 unset _SAVEIFS
 unset _BASH_CONFIGS_LOADED
-
