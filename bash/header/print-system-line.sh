@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
 # Description:
-#     Prints a line with informations about the partitions and the RAM. If a
-#     partition is greater than 80%, it is emphasized.
+#   Prints a line with informations about the partitions and the RAM. If a
+#   partition usage is greater than 80%, it is emphasized.
 #
 # Author
-#     Julien Nicoulaud - julien.nicoulaud@gmail.com
+#   nicoulaj - http://www.ju-n.net
+# 
+# Project
+#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
-
 
 # Add the line title
 echo -ne "${TEXT_BLUE}${BOLD}System >${RESET_FORMATTING}"
@@ -35,4 +37,3 @@ df -HT | tail -n +2 | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{print $6 " " $7
   done
   
 echo
-
