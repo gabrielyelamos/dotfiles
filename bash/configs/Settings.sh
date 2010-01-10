@@ -13,19 +13,40 @@
 #   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
-# Use 'most' for pager
+
+# Use 'most' as pager
 export PAGER="/usr/bin/most"
 
-# Fixes Swing apps displaying blank windows when using Compiz.
-export AWT_TOOLKIT=MToolkit
+
+# Use 'geany' as editor
+export EDITOR="/usr/bin/geany"
+
+
+# Set displayed directories when running '$ cd <TAB>'
+export CDPATH='.:..:~/projects'
+
+
+# Add some directories to $PATH
+export PATH=$HOME/bin:$PATH
+
 
 # Ignore duplicates in history control without overriding Midnight Commander's
 # setting for 'ignorespaces'
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 
+
 # Append to the history file, don't overwrite it
 shopt -s histappend
+
 
 # Check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+
+
+# Correct small typos in directories names
+shopt -s cdspell
+
+
+# Fixes Swing apps displaying blank windows when using Compiz.
+export AWT_TOOLKIT=MToolkit
