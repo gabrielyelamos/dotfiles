@@ -3,9 +3,14 @@
 # Description
 #   A customized prompt.
 #
+# Dependencies
+#   * bash_profile
+#   * Commands: svn, git, readlink, awk.
+#   * Configs: Functions.
+#
 # Author
 #   nicoulaj - http://www.ju-n.net
-# 
+#
 # Project
 #   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
@@ -105,7 +110,7 @@ function bash_prompt_command() {
     fi
 
 # Set Window title
-# windowtitle ${NEW_PWD}
+set-terminal-title ${NEW_PWD}
 
 }
 

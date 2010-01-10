@@ -6,6 +6,10 @@
 #     $ export PROXY_HOST="proxy"
 #     $ export PROXY_PORT="port"
 #     $ export NON_PROXY_HOSTS="host1|host2|..."
+#   NON_PROXY_HOSTS should at least include "localhost".
+#
+# Dependencies
+#   none.
 #
 # Author
 #   nicoulaj - http://www.ju-n.net

@@ -16,11 +16,14 @@
 #       |   |-- active
 #       |   |-- inactive
 #       |   |-- prompt
-#       |-- bash_profile.sh
+#       |-- bash_profile
 #
 #   Then make sure bash_profile.sh is sourced at bash startup, for example by
 #   setting a symbolic link this way:
-#       ln -s /path/to/bash_profile.sh $HOME/.bash_profile
+#       ln -s /path/to/this/file $HOME/.bash_profile
+#
+# Dependencies
+#   * Commands: awk, tput, read, source, test, readlink.
 #
 # Author
 #   nicoulaj - http://www.ju-n.net
@@ -63,7 +66,8 @@ export RESET_FORMATTING=`tput sgr0`
 
 
 # Print the header.
-function bash-profile_print-header() {
+function bash-profile_print-header()
+{
   # Loop through files in the header folder
   for file in $BASH_PROFILE_LOCATION/header/active/*; do
     
@@ -79,7 +83,8 @@ function bash-profile_print-header() {
 #
 # Arguments
 #     1 (optional) the question to ask.
-function bash-profile_ask() {
+function bash-profile_ask()
+{
   read -s -n1 -p "$@ [y/N] " ans
   case "$ans" in
     y*|Y*)
@@ -248,6 +253,9 @@ declare _BASH_CONFIGS_LOADED
 _SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
 
+# Clear the terminal
+clear
+
 # Print the header
 bash-profile_print-header
 
@@ -261,6 +269,8 @@ bash-profile_print-footer
 IFS=$_SAVEIFS
 
 # Unset all variables and functions to ensure their visibility stay local
+unset _SAVEIFS
+unset _BASH_CONFIGS_LOADED
 unset -f bash-profile_print-header
 unset -f bash-profile_ask
 unset -f bash-profile_load-bash-config
@@ -268,7 +278,3 @@ unset -f bash-profile_load-folder-bash-configs
 unset -f bash-profile_print-configs-line
 unset -f bash-profile_load-configs
 unset -f bash-profile_print-footer
-
-# Unset all variables and functions to ensure their visibility stay local
-unset _SAVEIFS
-unset _BASH_CONFIGS_LOADED
