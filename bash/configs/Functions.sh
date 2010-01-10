@@ -340,3 +340,17 @@ function webshare()
   python -m SimpleHTTPServer
 }
 
+
+# Go to the documentation of the command.
+#
+# Arguments
+#   1 (required) the command to lookup
+function doc
+{
+  if [ -d "/usr/share/doc/$1" ]; then
+    cd "/usr/share/doc/$1" && ls
+  else
+    echo "No doc found for '$1'."
+    return 1
+  fi
+}
