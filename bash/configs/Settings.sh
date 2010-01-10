@@ -4,7 +4,7 @@
 #   General settings for the bash environnement.
 #
 # Dependencies
-#   * Commands: most.
+#   * Commands: most, shopt.
 #
 # Author
 #   nicoulaj - http://www.ju-n.net
@@ -18,3 +18,14 @@ export PAGER="/usr/bin/most"
 
 # Fixes Swing apps displaying blank windows when using Compiz.
 export AWT_TOOLKIT=MToolkit
+
+# Ignore duplicates in history control without overriding Midnight Commander's
+# setting for 'ignorespaces'
+export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+
+# Append to the history file, don't overwrite it
+shopt -s histappend
+
+# Check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize

@@ -21,14 +21,21 @@
 
 
 # ls
-alias ls='ls -F --color'
-alias ll='ls -al --color'
-alias la='ls -AF --color'
-alias l.='ls -Fd --color .[[:alnum:]]* 2> /dev/null || echo "No hidden file here..."'
+alias ls='ls -F --color=auto'
+alias ll='ls -al --color=auto'
+alias la='ls -AF --color=auto'
+alias l.='ls -Fd --color=auto .[[:alnum:]]* 2> /dev/null || echo "No hidden file here..."'
+
+
+# dir
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
 
 
 # grep
-alias grep='grep --color'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 
 
 # shred
@@ -124,7 +131,9 @@ function flag-command()
   if [ -n $1 ]; then
     flag $@
     $@
+    return $?
   fi
+  return 1
 }
 
 
