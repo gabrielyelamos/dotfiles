@@ -137,6 +137,35 @@ function flag-command()
 }
 
 
+# Run a command and display a popup showing the success/failure.
+#
+# Arguments
+#     @ (optional) the command to run
+function notify-command()
+{
+  # Execute the command
+  $@
+  
+  # Get the result
+  result=$?
+  
+  # Try to use 'notify-send'
+  if [ `which notify-send` ]; then
+    case $result in
+      0)
+        notify-send -i info "OK" "The command ran successfully."
+        ;;
+      *)
+        notify-send -i error -u critical "KO" "The command failed."
+        ;;
+    esac
+  else
+    echo "notify-send is not available."
+    echo "It is available in the 'libnotify-bin' package."
+    return 1
+  fi
+}
+
 # Ask the user a "yes/no" question. Defaults to "no".
 #
 # Arguments
