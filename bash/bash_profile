@@ -66,8 +66,7 @@ export RESET_FORMATTING=`tput sgr0`
 
 
 # Print the header.
-function bash-profile_print-header()
-{
+bash-profile_print-header () {
   # Loop through files in the header folder
   for file in $BASH_PROFILE_LOCATION/header/active/*; do
     
@@ -83,8 +82,7 @@ function bash-profile_print-header()
 #
 # Arguments
 #     1 (optional) the question to ask.
-function bash-profile_ask()
-{
+bash-profile_ask () {
   read -s -n1 -p "$@ [y/N] " ans
   case "$ans" in
     y*|Y*)
@@ -105,8 +103,8 @@ function bash-profile_ask()
 # Options
 #     --ask Prompt the user before.
 #           To be put before first argument.
-function bash-profile_load-bash-config()
-{
+bash-profile_load-bash-config () {
+  
   # Handle the --ask option
   if [ $1 = "--ask" ]; then
     shift
@@ -117,7 +115,7 @@ function bash-profile_load-bash-config()
 
   # Extract a readable name from the file name
   # Example: "/home/user/folder/010_Aliases and functions.sh" => "Aliases and functions"
-  config_name=$(expr match "$1" '.*[/_]\([^\.]*\)')
+  config_name=$(expr match "`echo $@`" '.*[/_]\([^\.]*\)')
   
   # Ask if needed
   if [ $ask -eq 0 ]; then
@@ -126,13 +124,25 @@ function bash-profile_load-bash-config()
       return 1
     fi
   fi
-  
+
   # Source the file
-  source $1
+  # errors=$(source "`echo $@`")
+  source "`echo $@`"
   
-  # Add the file name to the array of loaded configs and update the display
-  _BASH_CONFIGS_LOADED[${#_BASH_CONFIGS_LOADED[@]}]="$config_name"
-  bash-profile_print-configs-line
+  # Update the error report if needed
+  if [ -n "$errors" ]; then
+    ERRORS=$ERRORS"${TEXT_RED}${BOLD}$config_name${RESET_FORMATTING}\n$errors\n"
+  fi
+  
+  # Update the configurations line
+  if [ -z "${CONFIGS_LINE}" ]; then
+    export CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs > ${RESET_FORMATTING} $config_name"
+  else
+    export CONFIGS_LINE=${CONFIGS_LINE}" ${TEXT_BLUE}|${RESET_FORMATTING} $config_name"
+  fi
+  
+  # Print the line at the last saved position
+  echo -e `tput rc; tput ed`$CONFIGS_LINE
 }
 
 
@@ -144,8 +154,8 @@ function bash-profile_load-bash-config()
 # Options
 #     --ask Prompt the user before loading each script.
 #           To be put before first argument.
-function bash-profile_load-folder-bash-configs()
-{
+bash-profile_load-folder-bash-configs () {
+  
   # Handle the --ask option
   if [ $1 = "--ask" ]; then
     shift
@@ -157,22 +167,30 @@ function bash-profile_load-folder-bash-configs()
   # Declare a boolean to determine the success of the operation
   success=true
   
-  # Check that a valid folder was given
-  if [ -d $1 ]; then
+  # Escape spaces in the folder name
+  local folder=`echo $1 | sed -e "s/ /\\ /g"`
   
-    # Loop through files in the folder
-    for file in $1/*; do
+  # Check that a valid folder was given
+  if [ -d "$folder" ]; then
     
-      # If this is a file, try loading it
-      if [ -f $file ]; then
+    # Check the folder is not empty
+    if [ `ls "$folder" | wc -l` -ne 0 ]; then
+    
+      # Loop through files in the folder
+      # (Trick: replace spaces in filenames with '&' to enter the for loop)
+      for file in `find $folder/* -xtype f | sort | sed -e "s/ /\\&/g"`
+      do
+      
+        # Restore spaces
+        file=`echo $file | sed -e "s/\\&/ /g"`
+
+        # Try loading the config
         bash-profile_load-bash-config $load_opts $file
         
-      # If this is a folder, call this function bash-profile_recursively
-      elif [ -d $file ]; then
-        bash-profile_load-folder-bash-configs $load_opts "$file"
-      fi
-    done
-    
+      done
+      
+    fi
+      
   # If this is not a valid folder
   else
     echo "${TEXT_RED}${BOLD}'$1' is not a valid folder.${RESET_FORMATTING}"
@@ -185,37 +203,9 @@ function bash-profile_load-folder-bash-configs()
   fi
 }
 
-# Print the configuration loaded summary.
-function bash-profile_print-configs-line()
-{
-  local _CONFIGS_LINE=""
-
-  # If no configurations loaded, clear the line
-  if [ ! ${#_BASH_CONFIGS_LOADED[@]} = 0 ]; then
-
-    # Add the line title
-    _CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs > ${RESET_FORMATTING}"
-    
-    # For each stored loaded configuration
-    for ((i=0;i<${#_BASH_CONFIGS_LOADED[@]};i++)); do
-    
-      # Add the config name
-      _CONFIGS_LINE=${_CONFIGS_LINE}${_BASH_CONFIGS_LOADED[${i}]}
-      
-      # If this is not the last, add a separator
-      if [ ! $i = `expr ${#_BASH_CONFIGS_LOADED[@]} - 1` ]; then
-        _CONFIGS_LINE=${_CONFIGS_LINE}" ${TEXT_BLUE}|${RESET_FORMATTING} "
-      fi
-    done
-  fi
-  
-  # Print the line at the last saved position
-  echo -e `tput rc; tput ed`$_CONFIGS_LINE
-}
 
 # Load the configurations
-function bash-profile_load-configs()
-{
+bash-profile_load-configs () {
   # Save the current cursor position
   tput sc
 
@@ -226,9 +216,9 @@ function bash-profile_load-configs()
   bash-profile_load-folder-bash-configs --ask "$BASH_PROFILE_LOCATION/configs/prompt"
 }
 
+
 # Print the footer line.
-function bash-profile_print-footer()
-{
+bash-profile_print-footer () {
   local _WINDOW_Y=`tput cols`
   local _FOOTER_LINE_CHARACTER="_"
   echo -e ${BOLD}`echo ""|awk '
@@ -247,11 +237,8 @@ function bash-profile_print-footer()
 export BASH_PROFILE_LOCATION="$HOME/$(dirname "$(test -L "$BASH_SOURCE" && readlink "$BASH_SOURCE" || echo "$BASH_SOURCE")")"
 
 # Local variables declarations
-declare _BASH_CONFIGS_LOADED
-
-# Switch file separator to handle filenames with spaces
-_SAVEIFS=$IFS
-IFS=$(echo -en "\n\b")
+CONFIGS_LINE=""
+ERRORS=""
 
 # Clear the terminal
 clear
@@ -265,12 +252,11 @@ bash-profile_load-configs
 # Print the footer
 bash-profile_print-footer
 
-# Restore file separator
-IFS=$_SAVEIFS
+# Output the error report
+echo -ne $ERRORS
 
 # Unset all variables and functions to ensure their visibility stay local
-unset _SAVEIFS
-unset _BASH_CONFIGS_LOADED
+unset CONFIGS_LINE
 unset -f bash-profile_print-header
 unset -f bash-profile_ask
 unset -f bash-profile_load-bash-config

@@ -153,10 +153,10 @@ function notify-command()
   if [ `which notify-send` ]; then
     case $result in
       0)
-        notify-send -i info "OK" "The command ran successfully."
+        notify-send -i info "OK" "The command $@ ran successfully."
         ;;
       *)
-        notify-send -i error -u critical "KO" "The command failed."
+        notify-send -i error -u critical "KO" "The command $@ failed."
         ;;
     esac
   else
