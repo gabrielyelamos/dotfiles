@@ -120,7 +120,7 @@ bash-profile_load-bash-config () {
   # Ask if needed
   if [ $ask -eq 0 ]; then
     if ! bash-profile_ask "Load $config_name ?"; then
-      bash-profile_print-configs-line
+      echo -e `tput rc; tput ed`$CONFIGS_LINE
       return 1
     fi
   fi
