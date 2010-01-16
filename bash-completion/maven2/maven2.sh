@@ -1,12 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ------------------------------------------------------------------------------
 # Description
 #   bash-completion script for Maven's "mvn" command.
-#
-# Usage
-#   Locate the bash_completion.d/ folder:
-#     $ sudo updatedb && locate bash_completion.d
-#   Drop this file there, or create a symbolic link to this file from there.
 #
 # Author
 #   nicoulaj - http://www.ju-n.net

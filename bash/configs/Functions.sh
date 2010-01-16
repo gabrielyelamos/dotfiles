@@ -55,9 +55,9 @@ alias ps-u='ps -u "$USER" -o user,pid,ppid,pcpu,pmem,args | most'
 
 
 # Aptitude
-alias apt-upgrade='flagcommand sudo aptitude update && flagcommand sudo aptitude safe-upgrade && flagcommand sudo aptitude autoclean && flagcommand sudo aptitude clean'
-alias apt-search='flagcommand apt-cache search'
-alias apt-install='flagcommand sudo aptitude install'
+alias apt-upgrade='flag-command sudo aptitude update && flag-command sudo aptitude safe-upgrade && flag-command sudo aptitude autoclean && flag-command sudo aptitude clean'
+alias apt-search='flag-command apt-cache search'
+alias apt-install='flag-command sudo aptitude install'
 
 
 # ------------------------------------------------------------------------------

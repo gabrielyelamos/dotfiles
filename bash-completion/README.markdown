@@ -4,7 +4,7 @@ nicoulaj's dotfiles // bash-completion
 Description
 -----------
 These scripts allow to use bash auto-completion for some commands that
-do not provide already provide it.
+do not already provide it.
 
 Usage
 -----

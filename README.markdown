@@ -14,5 +14,5 @@ More to come...
 
 Author
 ------
-[Julien Nicoulaud](http://ju-n.net)
+[nicoulaj](http://ju-n.net)
 

@@ -1,4 +1,19 @@
-
+#!/usr/bin/env bash
+# ------------------------------------------------------------------------------
+# Description
+#   bash-completion script for the "jonas" command (http://jonas.ow2.org).
+#
+# Usage
+#   Locate the bash_completion.d/ folder:
+#     $ sudo updatedb && locate bash_completion.d
+#   Drop this file there, or create a symbolic link to this file from there.
+#
+# Author
+#   nicoulaj - http://www.ju-n.net
+# 
+# Project
+#   dotfiles - http://github.com/nicoulaj/dotfiles
+# ------------------------------------------------------------------------------
 
 _jonas_reply_options()
 {

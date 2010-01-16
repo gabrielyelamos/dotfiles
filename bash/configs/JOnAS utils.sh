@@ -16,8 +16,11 @@
 # ------------------------------------------------------------------------------
 
 # Output JONAS_ROOT and JONAS_BASE variables
-alias jonasenv='echo "[\$JONAS_ROOT] $JONAS_ROOT" && echo "[\$JONAS_BASE] $JONAS_BASE"'
+alias jonas-env='echo "[\$JONAS_ROOT] $JONAS_ROOT" && echo "[\$JONAS_BASE] $JONAS_BASE"'
 
 # Start JOnAS
-alias jonasstart='flagcommand jonas start'
-alias jonasstop='flagcommand jonas stop'
+alias jonas-start='flag-command jonas start'
+alias jonas-stop='flag-command jonas stop'
+
+# Update PATH
+export PATH=$JONAS_ROOT/bin:$PATH
