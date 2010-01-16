@@ -15,7 +15,3 @@ I use this project to store my dotfiles:
 Browse each subfolder to find more infos.
 
 *More to come...*
-
-Author
-------
-[nicoulaj](http://ju-n.net)

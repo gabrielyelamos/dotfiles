@@ -11,7 +11,3 @@ Usage
 Locate the bash_completion.d/ folder:
     $ sudo updatedb && locate bash_completion.d
 Drop the script here, or create a symbolic link to the script from here.
-
-Author
-------
-[nicoulaj](http://ju-n.net)
