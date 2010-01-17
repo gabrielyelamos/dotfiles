@@ -9,5 +9,7 @@ do not already provide it.
 Usage
 -----
 Locate the bash_completion.d/ folder:
+    $ echo $BASH_COMPLETION_DIR
+or
     $ sudo updatedb && locate bash_completion.d
 Drop the script here, or create a symbolic link to the script from here.

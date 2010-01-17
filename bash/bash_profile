@@ -126,12 +126,12 @@ bash-profile_load-bash-config () {
   fi
 
   # Source the file
-  # errors=$(source "`echo $@`")
-  source "`echo $@`"
+  ((source "`echo $@`" 3>&1 1>&2 2>&3 | sed -e "s/^\(.*\)$/$TEXT_RED\1$RESET_FORMATTING/") 3>&1 1>&1 2>&1 ) > /tmp/bash_profile_config_out.log
   
-  # Update the error report if needed
-  if [ -n "$errors" ]; then
-    ERRORS=$ERRORS"${TEXT_RED}${BOLD}$config_name${RESET_FORMATTING}\n$errors\n"
+  # Append the output to the report if needed
+  if [ -s /tmp/bash_profile_config_out.log ]; then
+    echo "${TEXT_BLUE}${BOLD}$config_name${RESET_FORMATTING} > " >> /tmp/bash_profile_configs_out
+    (cat /tmp/bash_profile_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/bash_profile_configs_out
   fi
   
   # Update the configurations line
@@ -229,6 +229,15 @@ bash-profile_print-footer () {
 }
 
 
+# Print the configurations output report.
+bash-profile_print-configs-output() {
+  if [ -s /tmp/bash_profile_configs_out ]; then
+    cat /tmp/bash_profile_configs_out | head --lines=-1
+    bash-profile_print-footer
+  fi
+}
+
+
 # ------------------------------------------------------------------------------
 # Main
 # ------------------------------------------------------------------------------
@@ -238,10 +247,12 @@ export BASH_PROFILE_LOCATION="$HOME/$(dirname "$(test -L "$BASH_SOURCE" && readl
 
 # Local variables declarations
 CONFIGS_LINE=""
-ERRORS=""
 
 # Clear the terminal
 clear
+
+# Clean traces from a previous execution
+rm -f /tmp/bash_profile_configs_out
 
 # Print the header
 bash-profile_print-header
@@ -252,8 +263,8 @@ bash-profile_load-configs
 # Print the footer
 bash-profile_print-footer
 
-# Output the error report
-echo -ne $ERRORS
+# Print the configurations output
+bash-profile_print-configs-output
 
 # Unset all variables and functions to ensure their visibility stay local
 unset CONFIGS_LINE
