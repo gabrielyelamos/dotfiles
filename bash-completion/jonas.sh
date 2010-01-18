@@ -10,10 +10,18 @@
 #   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
-_jonas_reply_options()
+_jonas_make_options()
 {
-    COMPREPLY=( $( compgen -W "`echo "-$@" | sed -e 's/\ /\ -/g'`" -- $cur ) \
+    COMPREPLY=( ${COMPREPLY[@]} \
+                $( compgen -W "`echo "-$@" | sed -e 's/\ /\ -/g'`" -- $cur ) \
                 $( compgen -P "-" -W "$@" -- $cur ) )
+}
+
+_jonas_make_java_options()
+{
+    COMPREPLY=( ${COMPREPLY[@]} \
+                $( compgen -W "`echo "-D$@=" | sed -e 's/\ /=\ -D/g'`" -- $cur ) \
+                $( compgen -P "-D" -S "=" -W "$@" -- $cur ) )
 }
 
 _jonas()
@@ -31,7 +39,8 @@ _jonas()
                     COMPREPLY=()
                     ;;
                 *)
-                    _jonas_reply_options "standby fg bg win tui gui dev clean n target Ddomain.name="
+                    _jonas_make_options "standby fg bg win tui gui dev clean n target"
+                    _jonas_make_java_options "domain.name"
                     ;;
             esac
             ;;
@@ -41,15 +50,22 @@ _jonas()
                     COMPREPLY=()
                     ;;
                 *)
-                    _jonas_reply_options "standby n target Ddomain.name="
+                    _jonas_make_options "standby n target"
+                    _jonas_make_java_options "domain.name"
                     ;;
             esac
             ;;
         admin)
             jonas_admin_opts="win n registry protocol username password ? a r gc passivate e j l synch debug tt ping"
             case "$prev" in
-                -n|-registry|-username|-password|-debug|-timeout)
+                -n|-registry|-debug|-timeout)
                     COMPREPLY=()
+                    ;;
+                -username)
+                    COMPREPLY=( $(compgen -W "$USER jonas" $cur ) )
+                    ;;
+                -password)
+                    COMPREPLY=( $(compgen -W "jonas" $cur ) )
                     ;;
                 -protocol)
                     COMPREPLY=( $( compgen -W "jrmp iiop irmi" -- $cur ) )
@@ -66,10 +82,10 @@ _jonas()
                     fi
                     ;;
                 -ping)
-                    _jonas_reply_options "$jonas_admin_opts timeout"
+                    _jonas_make_options "$jonas_admin_opts timeout"
                     ;;
                 *)
-                    _jonas_reply_options "$jonas_admin_opts"
+                    _jonas_make_options "$jonas_admin_opts"
                     ;;
             esac
             ;;
@@ -77,7 +93,7 @@ _jonas()
             COMPREPLY=()
             ;;
         check)
-            _jonas_reply_options "help"
+            _jonas_make_options "help"
             ;;
         esac
     fi
