@@ -9,7 +9,7 @@
 #
 # Author
 #   nicoulaj - http://www.ju-n.net
-# 
+#
 # Project
 #   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
@@ -145,10 +145,10 @@ function notify-command()
 {
   # Execute the command
   $@
-  
+
   # Get the result
   result=$?
-  
+
   # Try to use 'notify-send'
   if [ `which notify-send` ]; then
     case $result in
@@ -282,8 +282,8 @@ function swap()
 # Arguments
 #   1 (required) the file to backup
 function bak ()
-{                                                                                                  
-  cp $1 $1_`date +%H:%M:%S_%d-%m-%Y`                                                               
+{
+  cp $1 $1_`date +%H:%M:%S_%d-%m-%Y`
 }
 
 
@@ -329,7 +329,7 @@ function remove-spaces()
 # Arguments
 #   0 (optional) the signal to send
 #   1 (required) a string to look for
-# 
+#
 # Example
 #   $ ps-kill fire
 #   Kill process 10161 </usr/lib/firefox-3.5.7/firefox> with signal -TERM ?  [y/N] y
@@ -356,15 +356,15 @@ function webshare()
   # Resolve host IPs
   local private_ip=`ip-private`
   local public_ip=`ip-public`
-  
+
   # Displays the server IPs
   echo -e "${TEXT_BLUE}Setting up a web server at the following adresses:"
   echo -e "Local: http://${private_ip}:8000"
   echo -e "Public: http://${public_ip}:8000${RESET_FORMATTING}"
-  
+
   # Copy the IPs in the clipboard
   echo "http://${private_ip}:8000 /// http://${public_ip}:8000" | xclip -sel clip
-  
+
   # Start the web server
   python -m SimpleHTTPServer
 }
