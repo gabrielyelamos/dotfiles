@@ -22,7 +22,7 @@
 
 # ls
 alias ls='ls -F --color=auto'
-alias ll='ls -al --color=auto'
+alias ll='ls -alh --color=auto'
 alias la='ls -AF --color=auto'
 alias l.='ls -Fd --color=auto .[[:alnum:]]* 2> /dev/null || echo "No hidden file here..."'
 
@@ -382,4 +382,57 @@ function doc
     echo "No doc found for '$1'."
     return 1
   fi
+}
+
+
+# Generate PDF files from man pages.
+#
+# Arguments
+#   1 (required) the command to lookup
+man-pdf () {
+  man -t $@ | ps2pdf - $@.pdf
+}
+
+
+# Colorized log.
+log-view()
+{
+  ccze -A < $1 | less -R
+}
+
+
+# Colorized log.
+log-tail()
+{
+  tail -f $1 | ccze
+}
+
+# 'cp' with a progress bar.
+cp-progress()
+{
+	local params=( "$@" )
+	unset params[$(( ${#params[@]} - 1 ))]
+	kill -s WINCH $$
+	[ $COLUMNS -lt 20 ] && (cp -a -- "$@"; return $?)
+	lim=$(( $COLUMNS - 10 ))
+	strace -e write cp -a -- "$@" 2>&1 |
+		awk '{
+			count += $NF	# rajoute la valeur du dernier champs
+			# 10 représente la fréquence d affichage
+			if (count % 10 == 0)
+			{
+				percent = count / total_size * 100
+				printf "%3d%% [", percent
+				for (i=0;i<=percent*'$lim'/100;i++)
+					printf "="
+				if (percent<100)
+ 					printf ">"
+				for (j=i;j< '$lim';j++)
+					printf " "
+				printf "]\r"
+			}
+		}
+		END { printf "100\n" }' \
+		total_size=$(du -bc "${params[@]}" | awk 'END {print $1}') \
+		count=0
 }
