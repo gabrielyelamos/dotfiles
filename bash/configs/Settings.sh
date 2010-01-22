@@ -23,12 +23,17 @@ export EDITOR="/usr/bin/geany"
 
 
 # Set displayed directories when running '$ cd <TAB>'
-export CDPATH='.:..:~/projects'
+export CDPATH='.:..:$OLDPWD:~/projects'
 
 
 # Add some directories to $PATH
 export PATH=$HOME/bin:$PATH
 
+
+# Make sure bash-completion is activated
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
 
 # Ignore duplicates in history control without overriding Midnight Commander's
 # setting for 'ignorespaces'
