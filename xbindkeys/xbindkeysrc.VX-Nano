@@ -1,0 +1,21 @@
+# ------------------------------------------------------------------------------
+# Description
+#   Configuration file for xbindkeysrc with a Logitech VX Nano.
+#
+# Usage
+#   This file goes to $HOME/.xbindkeysrc.
+#
+# Author
+#   nicoulaj - http://www.ju-n.net
+# 
+# Project
+#   dotfiles - http://github.com/nicoulaj/dotfiles
+# ------------------------------------------------------------------------------
+
+# Down arrow: ALT+LEFT
+"/usr/bin/xvkbd -xsendevent -text "\[Alt_L]\[Left]""
+  m:0×0 + b:9
+
+# Up arrow: ALT+RIGHT
+"/usr/bin/xvkbd -xsendevent -text "\[Alt_L]\[Right]""
+  m:0×0 + b:8
