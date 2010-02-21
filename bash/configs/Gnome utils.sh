@@ -32,5 +32,5 @@ gnome-panel-load()
 #                at $GNOME_CONFIGS_LOCATION/apps/panel/<name>.xml
 gnome-panel-save()
 {
-    gconftool --dump apps/panel > $GNOME_CONFIGS_LOCATION/apps/panel/$@.xml
+    gconftool --dump /apps/panel > $GNOME_CONFIGS_LOCATION/apps/panel/$@.xml
 }
