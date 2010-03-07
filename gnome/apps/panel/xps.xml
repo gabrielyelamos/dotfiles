@@ -60,14 +60,14 @@
       <key>applets/applet_0/panel_right_stick</key>
       <schema_key>/schemas/apps/panel/objects/panel_right_stick</schema_key>
       <value>
-        <bool>false</bool>
+        <bool>true</bool>
       </value>
     </entry>
     <entry>
       <key>applets/applet_0/position</key>
       <schema_key>/schemas/apps/panel/objects/position</schema_key>
       <value>
-        <int>1328</int>
+        <int>112</int>
       </value>
     </entry>
     <entry>
@@ -501,14 +501,14 @@
       <key>applets/clock_screen0/panel_right_stick</key>
       <schema_key>/schemas/apps/panel/objects/panel_right_stick</schema_key>
       <value>
-        <bool>false</bool>
+        <bool>true</bool>
       </value>
     </entry>
     <entry>
       <key>applets/clock_screen0/position</key>
       <schema_key>/schemas/apps/panel/objects/position</schema_key>
       <value>
-        <int>1277</int>
+        <int>44</int>
       </value>
     </entry>
     <entry>
@@ -754,7 +754,7 @@
       <key>applets/notification_area_screen0/position</key>
       <schema_key>/schemas/apps/panel/objects/position</schema_key>
       <value>
-        <int>1</int>
+        <int>205</int>
       </value>
     </entry>
     <entry>

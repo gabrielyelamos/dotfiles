@@ -407,32 +407,15 @@ log-tail()
   tail -f $1 | ccze
 }
 
-# 'cp' with a progress bar.
-cp-progress()
+# Import and install the GPG key.
+#
+# Arguments
+#   1 (required) the key to import
+#
+# Example
+#   $ import-gpg-key 2EE5793634EF4A35
+import-gpg-key()
 {
-	local params=( "$@" )
-	unset params[$(( ${#params[@]} - 1 ))]
-	kill -s WINCH $$
-	[ $COLUMNS -lt 20 ] && (cp -a -- "$@"; return $?)
-	lim=$(( $COLUMNS - 10 ))
-	strace -e write cp -a -- "$@" 2>&1 |
-		awk '{
-			count += $NF	# rajoute la valeur du dernier champs
-			# 10 représente la fréquence d affichage
-			if (count % 10 == 0)
-			{
-				percent = count / total_size * 100
-				printf "%3d%% [", percent
-				for (i=0;i<=percent*'$lim'/100;i++)
-					printf "="
-				if (percent<100)
- 					printf ">"
-				for (j=i;j< '$lim';j++)
-					printf " "
-				printf "]\r"
-			}
-		}
-		END { printf "100\n" }' \
-		total_size=$(du -bc "${params[@]}" | awk 'END {print $1}') \
-		count=0
+  gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-key $1 &&
+  gpg -a --export $1 | sudo apt-key add -
 }

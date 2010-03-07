@@ -22,7 +22,7 @@ colorscheme peachpuff
 set background&
 
 " Activate mouse
-set mouse=a
+set mouse=r
 
 " Show line numbers
 set number
