@@ -19,9 +19,8 @@ echo -ne " RAM `free -mto | grep Mem: | awk '{print int($3/$2*100)}'`%"
 
 # Loop through partitions
 # (discard tmp and cdrom partitions)
-df -HT | tail -n +2 | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{print $6 " " $7}' | while read output;
+df -HTP | tail -n +2 | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{print $6 " " $7}' | while read output;
   do
-    
     # Add a separator
     echo -ne " ${TEXT_BLUE}|${RESET_FORMATTING} "
     usage=$(echo $output | awk '{print $1}' | cut -d'%' -f1)
