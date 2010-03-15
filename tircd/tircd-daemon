@@ -7,12 +7,6 @@
 # Usage
 #   Drop it in /etc/init.d and run:
 #     $ update-rc.d tircd defaults
-#
-# Author
-#   nicoulaj - http://www.ju-n.net
-# 
-# Project
-#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 ### BEGIN INIT INFO

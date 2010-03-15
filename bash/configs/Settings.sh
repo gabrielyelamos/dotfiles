@@ -5,12 +5,6 @@
 #
 # Dependencies
 #   * Commands: most, shopt.
-#
-# Author
-#   nicoulaj - http://www.ju-n.net
-# 
-# Project
-#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 

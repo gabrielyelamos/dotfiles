@@ -6,12 +6,6 @@
 # Dependencies
 #   * bash_profile
 #   * Commands: awk, sed, vim, ps, du, grep, shred, python, xclip.
-#
-# Author
-#   nicoulaj - http://www.ju-n.net
-#
-# Project
-#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 

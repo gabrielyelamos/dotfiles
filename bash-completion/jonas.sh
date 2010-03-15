@@ -2,12 +2,6 @@
 # ------------------------------------------------------------------------------
 # Description
 #   bash-completion script for the "jonas" command (http://jonas.ow2.org).
-#
-# Author
-#   nicoulaj - http://www.ju-n.net
-# 
-# Project
-#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 _jonas_make_options()

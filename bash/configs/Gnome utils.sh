@@ -5,12 +5,6 @@
 #
 # Dependencies
 #   * Commands: gconftool.
-#
-# Author
-#   nicoulaj - http://www.ju-n.net
-# 
-# Project
-#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 export GNOME_CONFIGS_LOCATION=~/projects/dotfiles/gnome

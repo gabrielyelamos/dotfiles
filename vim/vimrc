@@ -1,12 +1,6 @@
 " ------------------------------------------------------------------------------
 " Description
 "   Configuration file for VIM.
-"
-" Author
-"   nicoulaj - http://www.ju-n.net
-"
-" Project
-"   dotfiles - http://github.com/nicoulaj/dotfiles
 " ------------------------------------------------------------------------------
 
 " Do not use vi compatibility mode
@@ -21,7 +15,7 @@ colorscheme peachpuff
 " Detect drak/light background
 set background&
 
-" Activate mouse
+" a=activate mouse, r=activate copy/pasting from X
 set mouse=r
 
 " Show line numbers

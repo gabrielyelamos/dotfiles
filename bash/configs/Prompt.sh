@@ -7,12 +7,6 @@
 #   * bash_profile
 #   * Commands: svn, git, readlink, awk.
 #   * Configs: Functions.
-#
-# Author
-#   nicoulaj - http://www.ju-n.net
-#
-# Project
-#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 

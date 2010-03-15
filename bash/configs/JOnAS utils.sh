@@ -7,12 +7,6 @@
 #   * bash_profile
 #   * Commands: jonas.
 #   * Configs: Functions.
-#
-# Author
-#   nicoulaj - http://www.ju-n.net
-# 
-# Project
-#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 # Output JONAS_ROOT and JONAS_BASE variables
