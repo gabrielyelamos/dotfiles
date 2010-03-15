@@ -2,12 +2,6 @@
 # ------------------------------------------------------------------------------
 # Description
 #   bash-completion script for Maven's "mvn" command.
-#
-# Author
-#   nicoulaj - http://www.ju-n.net
-# 
-# Project
-#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 #

@@ -2,12 +2,6 @@
 # ------------------------------------------------------------------------------
 # Description
 #   Prints a line with the user and host names, and a clock on the right.
-#
-# Author
-#   nicoulaj - http://www.ju-n.net
-# 
-# Project
-#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 # Measure the terminal width

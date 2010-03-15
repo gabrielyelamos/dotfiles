@@ -3,12 +3,6 @@
 # Description
 #   Prints a line with informations about the partitions and the RAM. If a
 #   partition usage is greater than 80%, it is emphasized.
-#
-# Author
-#   nicoulaj - http://www.ju-n.net
-# 
-# Project
-#   dotfiles - http://github.com/nicoulaj/dotfiles
 # ------------------------------------------------------------------------------
 
 # Add the line title
