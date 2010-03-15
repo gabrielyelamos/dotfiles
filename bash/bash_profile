@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------
 # Description
 #   "Modular" bashrc/bash_profile.
-#     - First executes every script in header/ to output a custom terminal
+#     - First executes every script in header/active to output a custom terminal
 #       header or welcome screen.
 #     - Then sources the configs in configs/
 #       * configs/active/: sources every file found recursively.
@@ -20,7 +20,7 @@
 #       |   |-- prompt
 #       |-- bash_profile
 #
-#   Then make sure bash_profile.sh is sourced at bash startup, for example by
+#   Then make sure bash_profile is sourced at bash startup, for example by
 #   setting a symbolic link this way:
 #       ln -s /path/to/this/file $HOME/.bash_profile
 #
@@ -128,7 +128,6 @@ bash-profile_load-bash-config () {
   fi
 
   # Source the file
-  # ((source "`echo $@`" 3>&1 1>&2 2>&3 | sed -e "s/^\(.*\)$/$TEXT_RED\1$RESET_FORMATTING/") 3>&1 1>&1 2>&1 ) > /tmp/bash_profile_config_out.log
   source "`echo $@`" &> /tmp/bash_profile_config_out.log
   
   # Append the output to the report if needed
