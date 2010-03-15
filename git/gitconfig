@@ -1,3 +1,8 @@
+# ------------------------------------------------------------------------------
+# Description
+#   Configuration file for Git.
+# ------------------------------------------------------------------------------
+
 [user]
   name = Julien Nicoulaud
   email = julien.nicoulaud@gmail.com
@@ -35,59 +40,74 @@
   color = auto
 
 [github]
-    user = nicoulaj
-    token = d229323408dff5f3a6ad44c37648fe88
+  user = nicoulaj
+  token = d229323408dff5f3a6ad44c37648fe88
 
 [alias]
+
+  # SVN style shortcuts
   co = "checkout"
   ci = "commit"
-  ciall = "commit -a -v"
+  cia = "commit -a -v"
   w = "whatchanged"
   st = "status"
 
-  unmerge = "reset --hard ORIG_HEAD"
-  lsbr = "branch -a" # list all branches, even remote ones
-  mkbr = "branch" # create branch if you specify a branch name after it, e.g. git mkbr upgrading_rails
-  # remove branch named after it, e.g. git rmbr upgrading_rails
-  rmbr = "branch -d"
-  # rename branch from one name to another
-  mvbr = "branch -m"
-  # 
-  track = "branch --track"
-  # list all tags, to keep commands consistent, e.g. git lstag
-  lstag = "tag -l"
-  # create a new tag based on specified commit
-  mktag = "tag -a"
-  # remove existing tag by name
-  rmtag = "tag -d"
-  # rename tag from one name to another
-  mvtag = "tag -m"
-  # create new remote repository for project
-  mkrem = "remote add"
-  # list remote repositories
-  lsrem = "remote"
-  # show status, keep same as svn command I used most frequently
-  st = "status"
-  # another alias for status that some scripts might use
-  stat = "status"
-  # fetch and rebase from svn repository
-  spull = !git svn fetch && git svn rebase
-  # push keeping each local commit as atomic.
-  spush = !git svn dcommit
-  # initialize all submodules
-  modinit = "submodule init"
-  # update all submodules
-  modup = "submodule update"
-  # show status of all submodules
-  modst = "submodule status"
-  # add new submodule, i.e. git modadd module-name url
-  modadd = "submodule add"
-  # show last 15 log entries
-  recentlog = "log -n 15"
-  # push local committed changes to rubyforge and origin (usually GitHub)
-  osspush = !git push rubyforge master && git push origin master
-  # pull changes from rubyforge and origin (usually GitHub)
-  osspull = !git pull rubyforge master && git pull origin master
-  # sync (pull then push) from rubyforge and origin (usually GitHub)
-  osssync = !git osspull && git osspush
+  # List all branches, even remote ones
+  lsbr = "branch -a"
 
+  # Create a branch (usage: 'git mkbr branch_name')
+  mkbr = "branch"
+
+  # Remove a branch (usage: 'git rmbr branch_name')
+  rmbr = "branch -d"
+
+  # Rename a branch (usage: 'git mvbr branch_name new_branch_name')
+  mvbr = "branch -m"
+
+  # List all tags
+  lstag = "tag -l"
+
+  # Create a new tag based on specified commit
+  mktag = "tag -a"
+
+  # Remove existing tag by name
+  rmtag = "tag -d"
+
+  # Rename tag from one name to another
+  mvtag = "tag -m"
+
+  # Create new remote repository for project
+  mkrem = "remote add"
+
+  # List remote repositories
+  lsrem = "remote"
+
+  # Fetch and rebase from SVN repository
+  spull = !git svn fetch && git svn rebase
+
+  # Push keeping each local commit as atomic.
+  spush = !git svn dcommit
+
+  # Initialize all submodules
+  modinit = "submodule init"
+
+  # Update all submodules
+  modup = "submodule update"
+
+  # Show status of all submodules
+  modst = "submodule status"
+
+  # Add a new submodule (usage: 'git modadd module-name url')
+  modadd = "submodule add"
+
+  # Show last 15 log entries
+  recentlog = "log -n 15"
+
+  # Push local committed changes to origin (usually GitHub)
+  opush = !git push origin master
+
+  # Pull changes from origin (usually GitHub)
+  opull = !git pull origin master
+
+  # Sync (pull then push) from origin (usually GitHub)
+  osync = !git opull && git opush
