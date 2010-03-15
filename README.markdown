@@ -5,12 +5,9 @@ Description
 -----------
 I use this project to store my dotfiles.
 
-* Bashrc/profile
+* Bashrc/bash_profile
 * Bash-completion
-* Readline (inputrc)
+* Inputrc
 * Vimrc
-* Git
-* Subversion settings
-* Tircd
-* X.org
-* Gnome...
+* Gitconfig
+* ...
