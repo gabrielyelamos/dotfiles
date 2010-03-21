@@ -1,0 +1,82 @@
+# ------------------------------------------------------------------------------
+# Description
+#   Configuration file for openssh-client.
+#
+#   See ssh_config(5) man page.
+#
+# Usage
+#   Ubuntu: Link it from /etc/ssh/ssh_config.
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# Default settings
+# ------------------------------------------------------------------------------
+
+Host *
+  ForwardAgent no
+  ForwardX11 no
+  ForwardX11Trusted yes
+  Protocol 2,1
+  RhostsRSAAuthentication no
+  RSAAuthentication yes
+  PasswordAuthentication yes
+  HostbasedAuthentication no
+  GSSAPIAuthentication no
+  GSSAPIDelegateCredentials no
+  GSSAPIKeyExchange no
+  GSSAPITrustDNS no
+  BatchMode no
+  CheckHostIP yes
+  AddressFamily any
+  ConnectTimeout 0
+  StrictHostKeyChecking ask
+  IdentityFile ~/.ssh/identity
+  IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_dsa
+  Port 22
+  SendEnv LANG LC_*
+  HashKnownHosts yes
+  GSSAPIAuthentication yes
+  GSSAPIDelegateCredentials no
+  ServerAliveInterval 120
+  ControlMaster auto
+  ControlPath ~/.ssh/master-%r@%h:%p
+
+
+# ------------------------------------------------------------------------------
+# Per-host settings
+# ------------------------------------------------------------------------------
+
+# Home
+Host nicoulaj.hd.free.fr
+  User nicoulaj
+  ForwardX11 yes
+
+# Bull / CG95
+Host *capwebct*.frec.bull.fr
+  User root
+
+Host vm1.capwebct*.frec.bull.fr
+  Port 11022
+
+Host vm2.capwebct*.frec.bull.fr
+  Port 12022
+
+Host vm3.capwebct*.frec.bull.fr
+  Port 13022
+
+Host vm4.capwebct*.frec.bull.fr
+  Port 14022
+
+Host vm5.capwebct*.frec.bull.fr
+  Port 15022
+
+Host vm6.capwebct*.frec.bull.fr
+  Port 16022
+
+Host vm7.capwebct*.frec.bull.fr
+  Port 17022
+
+# Bull / Aladin-NG
+Host aladin-*.frec.bull.fr
+  User root
