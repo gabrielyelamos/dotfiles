@@ -13,7 +13,7 @@
 # ------------------------------------------------------------------------------
 
 Host *
-  ForwardAgent no
+  ForwardAgent yes
   ForwardX11 no
   ForwardX11Trusted yes
   Protocol 2,1
