@@ -8,25 +8,63 @@
 # ------------------------------------------------------------------------------
 
 
-# Use 'most' as pager, default to 'less' if not available
-export PAGER=`which most`
-export PAGER=${PAGER:-less}
+# Charset
+export LESSCHARSET=utf-8
+export LC_ALL="fr_FR.UTF-8"
+export LC_CTYPE="fr_FR.UTF-8"
+export LANG=fr_FR.UTF-8
 
 
-# Use 'geany' as editor, default to gedit if not available
+# Pager: less
+export PAGER_VIM="/bin/sh -c \"unset PAGER;col -b -x | vim -R -c 'set ft=man nomod nolist' -c 'map q :q<CR>' -c 'map <SPACE> <C-D>' -c 'map b <C-U>' -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' -\""
+export PAGER="less"
+export MANPAGER="less"
+
+
+# Editor: Geany, default to vim if not available.
 export EDITOR=`which geany`
-export EDITOR=${EDITOR:-gedit}
+export EDITOR=${EDITOR:-vim}
+export VISUAL=`which geany`
+export VISUAL=${VISUAL:-vim}
+export CVSEDITOR=`which geany`
+export CVSEDITOR=${CVSEDITOR:-vim}
+export SVN_EDITOR=`which geany`
+export SVN_EDITOR=${SVN_EDITOR:-vim}
 
 
-# Set displayed directories when running '$ cd <TAB>'
+# Settings for less
+export LESS="-MWi -x2 --shift 5"
+export LESSHISTFILE="-"
+if [ "$UID" != 0 ]; then
+  if [ -z "$LESSOPEN" ]; then
+    [ -x "`which lesspipe`" ] && eval "$(lesspipe)"
+  fi
+  export LESS_TERMCAP_mb=$'\E[01;31m'
+  export LESS_TERMCAP_md=$'\E[01;31m'
+  export LESS_TERMCAP_me=$'\E[0m'
+  export LESS_TERMCAP_se=$'\E[0m'                           
+  export LESS_TERMCAP_so=$'\E[01;44;33m'                                 
+  export LESS_TERMCAP_ue=$'\E[0m'
+  export LESS_TERMCAP_us=$'\E[01;32m'
+fi
+
+
+# Web browser: elinks/Firefox.
+export BROWSER="elinks"
+if [ "$DISPLAY" ]; then
+  export BROWSER="firefox"
+fi
+
+
+# Set displayed directories when running '$ cd <TAB>'.
 export CDPATH='.:..:$OLDPWD:~/projects'
 
 
-# Add some directories to $PATH
+# Add some directories to $PATH.
 export PATH=$HOME/bin:$PATH
 
 
-# Make sure bash-completion is activated
+# Make sure bash-completion is activated.
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
@@ -37,19 +75,19 @@ fi
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 
 
-# Don't keep useless stuff in history
+# Don't keep useless stuff in history.
 export HISTIGNORE="cd:ls:[bf]g:clear"
 
 
-# Append to the history file, don't overwrite it
+# Append to the history file, don't overwrite it.
 shopt -s histappend
 
 
-# Number of history lines per session
+# Number of history lines per session.
 export HISTSIZE=5000
 
 
-# Number of total history lines
+# Number of total history lines.
 export HISTFILESIZE=20000
 
 
@@ -58,9 +96,25 @@ export HISTFILESIZE=20000
 shopt -s checkwinsize
 
 
-# Correct small typos in directories names
+# Correct small typos in directories names.
 shopt -s cdspell
+
+
+# Allows to 'cd' variables that contain a path.
+shopt -s cdable_vars
+
+
+# Save multi-line commands in the same history entry.
+shopt -s cmdhist
+
+
+# Do not auto-complete an empty line.
+shopt -s no_empty_cmd_completion
 
 
 # Fixes Swing apps displaying blank windows when using Compiz.
 export AWT_TOOLKIT=MToolkit
+
+
+# <CTRL>+D must be pressed twice to exit the shell.
+export IGNOREEOF=1
