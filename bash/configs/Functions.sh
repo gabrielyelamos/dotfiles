@@ -54,6 +54,19 @@ alias apt-search='flag-command apt-cache search'
 alias apt-install='flag-command sudo aptitude install'
 
 
+# Colorize some commands with grc
+if [ -n `which grc` ]; then
+  alias configure='grc -es --colour=auto ./configure'
+  alias diff='grc -es --colour=auto diff'
+  alias make='grc -es --colour=auto make'
+  alias gcc='grc -es --colour=auto gcc'
+  alias g++='grc -es --colour=auto g++'
+  alias ld='grc -es --colour=auto ld'
+  alias netstat='grc -es --colour=auto netstat'
+  alias ping='grc -es --colour=auto ping'
+fi
+
+
 # ------------------------------------------------------------------------------
 # New commands
 # ------------------------------------------------------------------------------
