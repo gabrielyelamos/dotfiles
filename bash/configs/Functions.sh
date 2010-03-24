@@ -401,6 +401,7 @@ log-tail()
   tail -f $1 | ccze
 }
 
+
 # Import and install the GPG key.
 #
 # Arguments
