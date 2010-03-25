@@ -11,14 +11,14 @@
 #
 # Usage
 #   The directory structure must be as follows:
-#       |-- header
-#       |   |-- active
-#       |   |-- inactive
-#       |-- configs
-#       |   |-- active
-#       |   |-- inactive
-#       |   |-- prompt
-#       |-- bash_profile
+#       ├─ header
+#       │  ├─ active
+#       │  └─ inactive
+#       ├─ configs
+#       │  ├─ active
+#       │  ├─ inactive
+#       │  └─ prompt
+#       └─ bash_profile
 #
 #   Then make sure bash_profile is sourced at bash startup, for example by
 #   setting a symbolic link this way:
