@@ -11,7 +11,7 @@
 
 
 # Location of the encrypted volume file.
-export PRIVATE_FOLDER_VOLUME_FILE=$HOME/documents/private.truecrypt
+export PRIVATE_FOLDER_VOLUME_FILE=$HOME/documents/private.tc
 
 
 # Mount point of the encrypted volume.
