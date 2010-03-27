@@ -1,0 +1,10 @@
+# ------------------------------------------------------------------------------
+# Description
+#   Configuration file for woof.
+#   See http://www.home.unix-ag.org/simon/woof.html.
+# ------------------------------------------------------------------------------
+
+[main]
+port=8008
+count=1
+compressed=gz
