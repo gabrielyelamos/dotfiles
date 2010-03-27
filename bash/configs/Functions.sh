@@ -36,6 +36,12 @@ alias egrep='egrep --color=auto'
 alias shred='shred -n 35 -z -u -v'
 
 
+# Force interactive commands
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+
+
 # cd
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -46,6 +52,11 @@ alias ......='cd ../../../../..'
 
 # ps
 alias ps-u='ps -u "$USER" -o user,pid,ppid,pcpu,pmem,args | most'
+
+
+# Shortcuts to open and edit files
+alias o='gnome-open'
+alias so='gksudo gnome-open'
 
 
 # Aptitude
@@ -64,6 +75,12 @@ if [ -n `which grc` ]; then
   alias ld='grc -es --colour=auto ld'
   alias netstat='grc -es --colour=auto netstat'
   alias ping='grc -es --colour=auto ping'
+fi
+
+
+# Replace diff with colordiff if available
+if [ -n `which colordiff` ]; then
+  alias diff='colordiff'
 fi
 
 

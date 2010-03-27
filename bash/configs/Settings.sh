@@ -9,10 +9,9 @@
 
 
 # Charset
-export LESSCHARSET=utf-8
-export LC_ALL="fr_FR.UTF-8"
-export LC_CTYPE="fr_FR.UTF-8"
-export LANG=fr_FR.UTF-8
+# export LC_ALL="fr_FR.UTF-8"
+# export LC_CTYPE="fr_FR.UTF-8"
+# export LANG=fr_FR.UTF-8
 
 
 # Pager: less
@@ -34,11 +33,10 @@ export SVN_EDITOR=${SVN_EDITOR:-vim}
 
 # Settings for less
 export LESS="-MWi -x2 --shift 5"
+export LESSCHARSET=utf-8
 export LESSHISTFILE="-"
 if [ "$UID" != 0 ]; then
-  if [ -z "$LESSOPEN" ]; then
-    [ -x "`which lesspipe`" ] && eval "$(lesspipe)"
-  fi
+  [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"  
   export LESS_TERMCAP_mb=$'\E[01;31m'
   export LESS_TERMCAP_md=$'\E[01;31m'
   export LESS_TERMCAP_me=$'\E[0m'
@@ -118,3 +116,5 @@ export AWT_TOOLKIT=MToolkit
 
 # <CTRL>+D must be pressed twice to exit the shell.
 export IGNOREEOF=1
+
+eval `dircolors -b`
