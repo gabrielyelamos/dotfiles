@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<![CDATA[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  - Description
+  -   Configuration file for Maven.
+  -
+  - Usage
+  -   The file goes to $HOME/.m2/settings.xml.
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+]]>-->
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+
+  <!-- Active profiles -->
+  <activeProfiles>
+    <activeProfile>repositories-flex</activeProfile>
+    <activeProfile>repositories-ow2</activeProfile>
+    <!--<activeProfile>repositories-sonatype-open-source</activeProfile>-->
+  </activeProfiles>
+
+
+  <!-- Repositories profiles -->
+  <profiles>
+
+    <!-- Flex -->
+    <profile>
+      <id>repositories-flex</id>
+      <repositories>
+        <repository>
+          <id>flex-mojos-repository</id>
+          <url>http://repository.sonatype.org/content/groups/flexgroup/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>flex-mojos-plugin-repository</id>
+          <url>http://repository.sonatype.org/content/groups/flexgroup/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>flexpmd-plugin-repository</id>
+          <url>http://opensource.adobe.com/svn/opensource/flexpmd/maven-repository/release/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+
+    <!-- OW2 -->
+    <profile>
+      <id>repositories-OW2</id>
+      <repositories>
+        <repository>
+          <id>OW2-release-repository</id>
+          <url>http://maven.ow2.org/maven2</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>OW2-snapshots-repository</id>
+          <url>http://maven.ow2.org/maven2-snapshot</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>OW2-plugin-repository</id>
+          <url>http://maven.ow2.org/maven2</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>OW2-plugin-snapshots-repository</id>
+          <url>http://maven.ow2.org/maven2-snapshot</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+
+    <!-- Sonatype OSS -->
+    <profile>
+      <id>repositories-sonatype-open-source</id>
+      <repositories>
+        <repository>
+          <id>sonatype-oss-repository</id>
+          <url>http://oss.sonatype.org/content/repositories/releases</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>sonatype-oss-snapshots-repository</id>
+          <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>sonatype-oss-plugin-repository</id>
+          <url>http://oss.sonatype.org/content/repositories/releases</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>sonatype-oss-plugin-snapshots-repository</id>
+          <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+
+  </profiles>
+
+
+  <!-- Servers -->
+  <servers>
+    <server>
+      <id>googlecode.com</id>
+      <username>Julien.Nicoulaud</username>
+      <password>{cEWDyMxW0bwHqRd1ME3+nZ704Y5d2uXHuqqBRymqCdA=}</password>
+    </server>
+    <server>
+      <id>sonatype-nexus-staging</id>
+      <username>nicoulaj</username>
+      <password>{3fkVWPyidSEHZoJD3cocM5T5YIZCdljVfmjeq6+Sgeo=}</password>
+    </server>
+    <server>
+      <id>sonatype-nexus-snapshots</id>
+      <username>nicoulaj</username>
+      <password>{nNV9j1/tGyYHFfzjm3J858SnDM8N+X60KcQAVi5juSc=}</password>
+    </server>
+    <server>
+      <id>novaforge6.bull.fr</id>
+      <username>usersvn</username>
+      <password>{rbk4yg26YfMHOtx7z5HO1MF1HE0j/LbmTBbqq5xKE0k=}</password>
+    </server>
+    <server>
+      <id>novaforge7-archiva-aladin-ng</id>
+      <username>aladin-ng-integration</username>
+      <password>{rbApb8WgfQ8HdTLMBBgPbNyYEkSIOXQmqP+PrKNbor0=}</password>
+    </server>
+  </servers>
+
+
+  <!-- Plugins groups -->
+  <pluginGroups>
+    <pluginGroup>org.mortbay.jetty</pluginGroup>
+    <pluginGroup>org.sonatype.flexmojos</pluginGroup>
+  </pluginGroups>
+
+
+</settings>
