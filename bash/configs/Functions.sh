@@ -79,9 +79,9 @@ fi
 
 
 # Replace diff with colordiff if available
-if [ -n `which colordiff` ]; then
-  alias diff='colordiff'
-fi
+#if [ -n `which colordiff` ]; then
+#  alias diff='colordiff'
+#fi
 
 
 # ------------------------------------------------------------------------------
