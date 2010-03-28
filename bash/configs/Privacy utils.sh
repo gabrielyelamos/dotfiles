@@ -25,14 +25,12 @@ export PRIVATE_FOLDER_MOUNT_POINT=$HOME/documents/private
 #   2 (required) The mount point of the encrypted volume.
 function toggle-truecrypt-folder()
 {
-  if [ ! -d $2 ]; then
+  if [ -z "$( truecrypt --text --list 2>/dev/null | grep -e "$2" )" ]; then
     flag Mounting $2
-    mkdir -vp $2
     truecrypt --text --protect-hidden=no --keyfiles='' $1 $2
   else
     flag Unmounting $2
     truecrypt --text --dismount $1
-    rm -vrf $2
   fi
 }
 
