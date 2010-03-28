@@ -1,12 +1,34 @@
-### This file configures various client-side behaviors.
-###
-### The commented-out examples below are intended to demonstrate
-### how to use this file.
+# ------------------------------------------------------------------------------
+# Description
+#   Configuration file for Subversion.
+#
+# Usage
+#   This file goes to ~/.subversion/config
+# ------------------------------------------------------------------------------
+
 
 ### Section for authentication and authorization customizations.
 [auth]
+### Set password stores used by Subversion. They should be
+### delimited by spaces or commas. The order of values determines
+### the order in which password stores are used.
+### Valid password stores:
+###   gnome-keyring        (Unix-like systems)
+###   kwallet              (Unix-like systems)
+###   keychain             (Mac OS X)
+###   windows-cryptoapi    (Windows)
+# password-stores = gnome-keyring,kwallet
+###
+### The rest of this section in this file has been deprecated.
+### Both 'store-passwords' and 'store-auth-creds' can now be
+### specified in the 'servers' file in your config directory.
+### Anything specified in this section is overridden by settings
+### specified in the 'servers' file.
+###
 ### Set store-passwords to 'no' to avoid storing passwords in the
-### auth/ area of your config directory.  It defaults to 'yes'.
+### auth/ area of your config directory.  It defaults to 'yes',
+### but Subversion will never save your password to disk in
+### plaintext unless you tell it to (see the 'servers' file).
 ### Note that this option only prevents saving of *new* passwords;
 ### it doesn't invalidate existing passwords.  (To do that, remove
 ### the cache files by hand as described in the Subversion book.)
@@ -20,7 +42,7 @@
 
 ### Section for configuring external helper applications.
 [helpers]
-### Set editor to the command used to invoke your text editor.
+### Set editor-cmd to the command used to invoke your text editor.
 ###   This will override the environment variables that Subversion
 ###   examines by default to find this information ($EDITOR, 
 ###   et al).
@@ -33,9 +55,9 @@
 ###   This will override the compile-time default, which is to use
 ###   Subversion's internal diff3 implementation.
 # diff3-cmd = diff3_program (diff3, gdiff3, etc.)
-### Set diff3-has-program-arg to 'true' or 'yes' if your 'diff3'
-###   program accepts the '--diff-program' option.
-# diff3-has-program-arg = [true | false]
+### Set diff3-has-program-arg to 'yes' if your 'diff3' program
+###   accepts the '--diff-program' option.
+# diff3-has-program-arg = [yes | no]
 ### Set merge-tool-cmd to the command used to invoke your external
 ### merging tool of choice. Subversion will pass 4 arguments to
 ### the specified command: base theirs mine merged
@@ -53,11 +75,10 @@
 ### spaces.  The command will be invoked as:
 ###   <command> <hostname> svnserve -t
 ### (If the URL includes a username, then the hostname will be
-### passed to the tunnel agent as <user>@<hostname>.)  Here we
-### redefine the built-in 'ssh' scheme to avoid an unfortunate
-### interaction with the "ControlMaster auto" feature (for
-### details, see Debian Bug #413102):
-ssh = $SVN_SSH ssh -o ControlMaster=no
+### passed to the tunnel agent as <user>@<hostname>.)  If the
+### built-in ssh scheme were not predefined, it could be defined
+### as:
+# ssh = $SVN_SSH ssh -q -o ControlMaster=no
 ### If you wanted to define a new 'rsh' scheme, to be used with
 ### 'svn+rsh:' URLs, you could do so as follows:
 # rsh = rsh
@@ -96,28 +117,81 @@ ssh = $SVN_SSH ssh -o ControlMaster=no
 ### Set enable-auto-props to 'yes' to enable automatic properties
 ### for 'svn add' and 'svn import', it defaults to 'no'.
 ### Automatic properties are defined in the section 'auto-props'.
-# enable-auto-props = yes
+enable-auto-props = yes
 ### Set interactive-conflicts to 'no' to disable interactive
 ### conflict resolution prompting.  It defaults to 'yes'.
 # interactive-conflicts = no
 
 ### Section for configuring automatic properties.
 [auto-props]
-### The format of the entries is:
-###   file-name-pattern = propname[=value][;propname[=value]...]
-### The file-name-pattern can contain wildcards (such as '*' and
-### '?').  All entries which match (case-insensitively) will be
-### applied to the file.  Note that auto-props functionality
-### must be enabled, which is typically done by setting the
-### 'enable-auto-props' option.
-# *.c = svn:eol-style=native
-# *.cpp = svn:eol-style=native
-# *.h = svn:eol-style=native
-# *.dsp = svn:eol-style=CRLF
-# *.dsw = svn:eol-style=CRLF
-# *.sh = svn:eol-style=native;svn:executable
-# *.txt = svn:eol-style=native
-# *.png = svn:mime-type=image/png
-# *.jpg = svn:mime-type=image/jpeg
-# Makefile = svn:eol-style=native
 
+# Code formats
+*.c          = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.cpp        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.h          = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.java       = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.as         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.mxml       = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+
+# Scriptish formats
+*.bat        = svn:eol-style=native; svn:keywords=Id; svn-mine-type=text/plain
+*.bsh        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-beanshell
+*.cgi        = svn:eol-style=native; svn:keywords=Id; svn-mine-type=text/plain
+*.cmd        = svn:eol-style=native; svn:keywords=Id; svn-mine-type=text/plain
+*.js         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/javascript
+*.php        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-php
+*.pl         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-perl; svn:executable
+*.pm         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-perl
+*.py         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-python; svn:executable
+*.sh         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-sh; svn:executable
+
+# Image formats
+*.bmp        = svn:mime-type=image/bmp
+*.gif        = svn:mime-type=image/gif
+*.ico        = svn:mime-type=image/ico
+*.jpeg       = svn:mime-type=image/jpeg
+*.jpg        = svn:mime-type=image/jpeg
+*.png        = svn:mime-type=image/png
+*.tif        = svn:mime-type=image/tiff
+*.tiff       = svn:mime-type=image/tiff
+
+# Data formats
+*.pdf        = svn:mime-type=application/pdf
+*.avi        = svn:mime-type=video/avi
+*.doc        = svn:mime-type=application/msword
+*.eps        = svn:mime-type=application/postscript
+*.gz         = svn:mime-type=application/gzip
+*.mov        = svn:mime-type=video/quicktime
+*.mp3        = svn:mime-type=audio/mpeg
+*.ppt        = svn:mime-type=application/vnd.ms-powerpoint
+*.ps         = svn:mime-type=application/postscript
+*.psd        = svn:mime-type=application/photoshop
+*.rtf        = svn:mime-type=text/rtf
+*.swf        = svn:mime-type=application/x-shockwave-flash
+*.tgz        = svn:mime-type=application/gzip
+*.wav        = svn:mime-type=audio/wav
+*.xls        = svn:mime-type=application/vnd.ms-excel
+*.zip        = svn:mime-type=application/zip
+
+# Text formats
+.htaccess    = svn:keywords=Id; svn:mime-type=text/plain
+*.css        = svn:keywords=Id; svn:mime-type=text/css
+*.dtd        = svn:keywords=Id; svn:mime-type=text/xml
+*.html       = svn:keywords=Id; svn:mime-type=text/html
+*.ini        = svn:keywords=Id; svn:mime-type=text/plain
+*.sql        = svn:keywords=Id; svn:mime-type=text/x-sql
+*.txt        = svn:keywords=Id; svn:mime-type=text/plain
+*.xhtml      = svn:keywords=Id; svn:mime-type=text/xhtml+xml
+*.xml        = svn:keywords=Id; svn:mime-type=text/xml
+*.xsd        = svn:keywords=Id; svn:mime-type=text/xml
+*.xsl        = svn:keywords=Id; svn:mime-type=text/xml
+*.xslt       = svn:keywords=Id; svn:mime-type=text/xml
+*.xul        = svn:keywords=Id; svn:mime-type=text/xul
+*.yml        = svn:keywords=Id; svn:mime-type=text/plain
+CHANGES      = svn:keywords=Id; svn:mime-type=text/plain
+COPYING      = svn:keywords=Id; svn:mime-type=text/plain
+INSTALL      = svn:keywords=Id; svn:mime-type=text/plain
+Makefile*    = svn:keywords=Id; svn:mime-type=text/plain
+README       = svn:keywords=Id; svn:mime-type=text/plain
+TODO         = svn:keywords=Id; svn:mime-type=text/plain
+GREETINGS    = svn:keywords=Id; svn:mime-type=text/plain
