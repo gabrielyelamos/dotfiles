@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
 # Description
-#   "Modular" bashrc/bash_profile.
+#   "Modular" bash_profile.
 #     - First executes every script in header/active to output a custom terminal
 #       header or welcome screen.
 #     - Then sources the configs in configs/
