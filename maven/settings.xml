@@ -14,7 +14,7 @@
   <!-- Active profiles -->
   <activeProfiles>
     <activeProfile>repositories-flex</activeProfile>
-    <activeProfile>repositories-ow2</activeProfile>
+    <activeProfile>repositories-OW2</activeProfile>
     <!--<activeProfile>repositories-sonatype-open-source</activeProfile>-->
   </activeProfiles>
 
