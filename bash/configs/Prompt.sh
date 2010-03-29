@@ -40,7 +40,7 @@ _print_vcs_info()
     result=$BACKGROUND_GREEN$result
   fi
   result=$result$1"|"$2$RESET_FORMATTING
-  echo $result
+  echo -n $result
 }
 
 # Print infos if the directory is a Git working copy.
@@ -90,7 +90,15 @@ _print_path()
   set-terminal-title $result
   
   # Print the result
-  echo $result
+  echo -n $result
+}
+
+# Print the custom prompt.
+_print_custom_prompt()
+{
+  _print_svn_info
+  _print_git_info
+  _print_path
 }
 
 
@@ -99,4 +107,5 @@ _print_path()
 # ------------------------------------------------------------------------------
 
 # Define the custom prompt.
-PS1="\[$(_print_svn_info)\]\[$(_print_git_info)\]\[$(_print_path)\] \[$BOLD\]\$\[$RESET_FORMATTING\] "
+PS1=" \[$BOLD\]\$\[$RESET_FORMATTING\] "
+PROMPT_COMMAND=_print_custom_prompt
