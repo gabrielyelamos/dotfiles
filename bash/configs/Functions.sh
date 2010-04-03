@@ -451,12 +451,12 @@ ascii-color-table()
 {
   for i in 0 1 4 5 7; do
     case $i in
-      0)      MODE="Normal";;
-      1)      MODE="Bold";;
-      4)      MODE="Underline";;
-      5)      MODE="Blink";;
-      7)      MODE="Inverse";;
-      *)      MODE="undefined";;
+      0) MODE="Normal";;
+      1) MODE="Bold";;
+      4) MODE="Underline";;
+      5) MODE="Blink";;
+      7) MODE="Inverse";;
+      *) MODE="undefined";;
     esac
     echo
     echo "----------------------------------------------------------------"
