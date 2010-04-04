@@ -81,8 +81,12 @@ export HISTIGNORE="cd:ls:[bf]g:clear"
 shopt -s histappend
 
 
+# Allow to share history between terms at each command.
+PROMPT_COMMAND="$PROMPT_COMMAND; history -a; history -n"
+
+
 # Number of history lines per session.
-export HISTSIZE=5000
+export HISTSIZE=10000
 
 
 # Number of total history lines.
@@ -117,4 +121,6 @@ export AWT_TOOLKIT=MToolkit
 # <CTRL>+D must be pressed twice to exit the shell.
 export IGNOREEOF=1
 
+
+# Update $LS_COLORS.
 eval `dircolors -b`
