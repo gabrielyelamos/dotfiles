@@ -126,13 +126,13 @@ bash-profile_load-bash-config () {
   
   # Append the output to the report if needed
   if [ -s /tmp/bash_profile_config_out.log ]; then
-    echo "${TEXT_BLUE}${BOLD}$config_name${RESET_FORMATTING} > " >> /tmp/bash_profile_configs_out
+    echo "${TEXT_BLUE}${BOLD}$config_name${RESET_FORMATTING}▸ " >> /tmp/bash_profile_configs_out
     (cat /tmp/bash_profile_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/bash_profile_configs_out
   fi
   
   # Update the configurations line
   if [ -z "${CONFIGS_LINE}" ]; then
-    export CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs > ${RESET_FORMATTING} $config_name"
+    export CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs▸ ${RESET_FORMATTING} $config_name"
   else
     export CONFIGS_LINE=${CONFIGS_LINE}" ${TEXT_BLUE}|${RESET_FORMATTING} $config_name"
   fi

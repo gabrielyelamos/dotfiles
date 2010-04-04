@@ -6,7 +6,7 @@
 # ------------------------------------------------------------------------------
 
 # Add the line title
-echo -ne "${TEXT_BLUE}${BOLD}System >${RESET_FORMATTING}"
+echo -ne "${TEXT_BLUE}${BOLD}System▸${RESET_FORMATTING}"
 
 # Add RAM percentage used
 echo -ne " RAM `free -mto | grep Mem: | awk '{print int($3/$2*100)}'`%"
