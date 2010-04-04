@@ -472,3 +472,14 @@ ascii-color-table()
   done
   echo
 }
+
+
+# Add the given instructions to the prompt command.
+#
+# Arguments
+#   1 (required) the instructions to add.
+add-prompt-command()
+{
+  [[ -n $PROMPT_COMMAND ]] && PROMPT_COMMAND="$PROMPT_COMMAND; "
+  PROMPT_COMMAND="$PROMPT_COMMAND$@"
+}
