@@ -5,6 +5,7 @@
 #
 # Dependencies
 #   * Commands: most, shopt.
+#   * Configs: Functions.
 # ------------------------------------------------------------------------------
 
 
@@ -55,7 +56,17 @@ fi
 
 
 # Set displayed directories when running '$ cd <TAB>'.
-export CDPATH='.:..:$OLDPWD:~/projects'
+_update_cdpath()
+{
+  # Add the current and previous directory to the 'cd' path.
+  export CDPATH='.:$OLDPWD'
+  
+  # Add the projects directory too
+  if [[ $OLDPWD != '/home/'*'/projects' ]] && [[ $PWD != '/home/'*'/projects' ]]; then
+    export CDPATH='.:$OLDPWD:~/projects'
+  fi
+}
+add-prompt-command "_update_cdpath"
 
 
 # Add some directories to $PATH.
@@ -82,7 +93,7 @@ shopt -s histappend
 
 
 # Allow to share history between terms at each command.
-PROMPT_COMMAND="$PROMPT_COMMAND; history -a; history -n"
+add-prompt-command "history -a; history -n"
 
 
 # Number of history lines per session.
