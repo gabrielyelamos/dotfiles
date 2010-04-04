@@ -111,3 +111,6 @@
 
   # Sync (pull then push) from origin (usually GitHub)
   osync = !git opull && git opush
+
+  # Send the given commit to Pastebin
+  pastebinit = !sh -c 'git format-patch -1 --stdout $1 | pastebinit -f diff' -
