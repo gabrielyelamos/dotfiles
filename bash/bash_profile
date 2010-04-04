@@ -68,7 +68,8 @@ bash-profile_print-header () {
     
     # If this is a file, execute it
     if [ -f "$file" ]; then
-      "$file"
+      output=`eval "$file"`
+      bash-profile_wrap-line "│" "│" "$output"
     fi
   done
 }
@@ -102,43 +103,49 @@ bash-profile_ask () {
 bash-profile_load-bash-config () {
   
   # Handle the --ask option
+  ask=false
   if [ $1 = "--ask" ]; then
     shift
-    ask=0
-  else
-    ask=1
+    ask=true
   fi
 
   # Extract a readable name from the file name
   # Example: "/home/user/folder/010_Aliases and functions.sh" => "Aliases and functions"
   config_name=$(expr match "`echo $@`" '.*[/_]\([^\.]*\)')
   
-  # Ask if needed
-  if [ $ask -eq 0 ]; then
+  # Determine wether we're going to laod this config
+  load=true
+  if $ask; then
     if ! bash-profile_ask "Load $config_name ?"; then
-      echo -e `tput rc; tput ed`$CONFIGS_LINE
-      return 1
+      load=false
     fi
   fi
 
-  # Source the file
-  source "`echo $@`" &> /tmp/bash_profile_config_out.log
-  
-  # Append the output to the report if needed
-  if [ -s /tmp/bash_profile_config_out.log ]; then
-    echo "${TEXT_BLUE}${BOLD}$config_name${RESET_FORMATTING}▸ " >> /tmp/bash_profile_configs_out
-    (cat /tmp/bash_profile_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/bash_profile_configs_out
+  # Let's go
+  if $load; then
+
+    # Source the file
+    source "`echo $@`" &> /tmp/bash_profile_config_out.log
+
+    # Append the output to the report if needed
+    if [ -s /tmp/bash_profile_config_out.log ]; then
+      echo "${TEXT_BLUE}${BOLD}$config_name${RESET_FORMATTING} > " >> /tmp/bash_profile_configs_out
+      (cat /tmp/bash_profile_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/bash_profile_configs_out
+    fi
+
+    # Update the configurations line
+    if [ -z "${CONFIGS_LINE}" ]; then
+      export CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs▸${RESET_FORMATTING} $config_name"
+    else
+      export CONFIGS_LINE=${CONFIGS_LINE}" ${TEXT_BLUE}▪${RESET_FORMATTING} $config_name"
+    fi
   fi
   
-  # Update the configurations line
-  if [ -z "${CONFIGS_LINE}" ]; then
-    export CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs▸ ${RESET_FORMATTING} $config_name"
-  else
-    export CONFIGS_LINE=${CONFIGS_LINE}" ${TEXT_BLUE}|${RESET_FORMATTING} $config_name"
+  # If we have asked, redraw now
+  if $ask; then
+    tput rc; tput ed
+    bash-profile_wrap-line "│" "│" "$CONFIGS_LINE"
   fi
-  
-  # Print the line at the last saved position
-  echo -e `tput rc; tput ed`$CONFIGS_LINE
 }
 
 
@@ -202,35 +209,73 @@ bash-profile_load-folder-bash-configs () {
 
 # Load the configurations
 bash-profile_load-configs () {
+
   # Save the current cursor position
   tput sc
 
   # Source scripts in active/
   bash-profile_load-folder-bash-configs "$BASH_PROFILE_LOCATION/configs/active"
+  bash-profile_wrap-line "│" "│" "$CONFIGS_LINE"
 
   # Source scripts in prompt/ (ask first)
   bash-profile_load-folder-bash-configs --ask "$BASH_PROFILE_LOCATION/configs/prompt"
 }
 
 
-# Print the footer line.
-bash-profile_print-footer () {
+# 
+bash-profile_print-line () {
   local _WINDOW_Y=`tput cols`
-  local _FOOTER_LINE_CHARACTER="_"
-  echo -e ${BOLD}`echo ""|awk '
+  echo -ne "$1"
+  echo -ne `echo ""|awk '
   {
     _SPACES = '${_WINDOW_Y}'
-    while (_SPACES-- > 0) printf ("'${_FOOTER_LINE_CHARACTER}'")
-  }'`${RESET_FORMATTING}
+    while (_SPACES-- > 2) printf ("'$2'")
+  }'`
+  echo -e "$3"
 }
 
 
 # Print the configurations output report.
 bash-profile_print-configs-output() {
   if [ -s /tmp/bash_profile_configs_out ]; then
+    bash-profile_print-line "${TEXT_RED}─" "─" "─${RESET_FORMATTING}"
     cat /tmp/bash_profile_configs_out | head --lines=-1
-    bash-profile_print-footer
+    bash-profile_print-line "${TEXT_RED}─" "─" "─${RESET_FORMATTING}"
   fi
+}
+
+
+#
+bash-profile_get-cursor-column() {
+  exec < /dev/tty
+  oldstty=$(stty -g)
+  stty raw -echo min 0
+  tput u7 > /dev/tty
+  IFS=';' read -r -d R -a pos
+  stty $oldstty
+  echo $((${pos[1]} - 1))
+}
+
+
+#
+bash-profile_wrap-line() {
+  text_margin_right=$(( `tput cols` - 2 ))
+  printf "│"
+  for word in $3
+  do
+	col=`bash-profile_get-cursor-column`
+	
+    if [ $(($col + ${#word})) -le $text_margin_right ]
+    then
+      printf " %s" $word
+    else
+      padding=$(( $text_margin_right - $col + 1 ))
+      printf "%${padding}s│\n│ %s" "" "$word"
+    fi
+  done
+  col=`bash-profile_get-cursor-column`
+  padding=$(( $text_margin_right - $col + 1 ))
+  printf "%${padding}s│\n" ""
 }
 
 
@@ -247,8 +292,14 @@ CONFIGS_LINE=""
 # Clear the terminal
 clear
 
+# Clear PROMPT_COMMAND
+export PROMPT_COMMAND=
+
 # Clean traces from a previous execution
 rm -f /tmp/bash_profile_configs_out
+
+# Print the top
+bash-profile_print-line "╭" "─" "╮"
 
 # Print the header
 bash-profile_print-header
@@ -257,7 +308,7 @@ bash-profile_print-header
 bash-profile_load-configs
 
 # Print the footer
-bash-profile_print-footer
+bash-profile_print-line "╰" "─" "╯"
 
 # Print the configurations output
 bash-profile_print-configs-output
