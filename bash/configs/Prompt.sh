@@ -108,4 +108,4 @@ _print_custom_prompt()
 
 # Define the custom prompt.
 PS1=" \[$BOLD\]\$\[$RESET_FORMATTING\] "
-PROMPT_COMMAND=_print_custom_prompt
+add-prompt-command "_print_custom_prompt"
