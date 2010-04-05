@@ -273,6 +273,9 @@ bash-profile_print-configs-output ()
 # Main
 # ------------------------------------------------------------------------------
 
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
 # Resolve the real location of this file
 export BASH_PROFILE_LOCATION="$(dirname "$(test -L "$BASH_SOURCE" && readlink "$BASH_SOURCE" || echo "$BASH_SOURCE")")"
 
