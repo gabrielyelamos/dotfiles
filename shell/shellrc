@@ -33,33 +33,6 @@
 
 
 # ------------------------------------------------------------------------------
-# Constants
-# ------------------------------------------------------------------------------
-
-# Formatting constants
-export BOLD=`tput bold`
-export UNDERLINE_ON=`tput smul`
-export UNDERLINE_OFF=`tput rmul`
-export TEXT_BLACK=`tput setaf 0`
-export TEXT_RED=`tput setaf 1`
-export TEXT_GREEN=`tput setaf 2`
-export TEXT_YELLOW=`tput setaf 3`
-export TEXT_BLUE=`tput setaf 4`
-export TEXT_MAGENTA=`tput setaf 5`
-export TEXT_CYAN=`tput setaf 6`
-export TEXT_WHITE=`tput setaf 7`
-export BACKGROUND_BLACK=`tput setab 0`
-export BACKGROUND_RED=`tput setab 1`
-export BACKGROUND_GREEN=`tput setab 2`
-export BACKGROUND_YELLOW=`tput setab 3`
-export BACKGROUND_BLUE=`tput setab 4`
-export BACKGROUND_MAGENTA=`tput setab 5`
-export BACKGROUND_CYAN=`tput setab 6`
-export BACKGROUND_WHITE=`tput setab 7`
-export RESET_FORMATTING=`tput sgr0`
-
-
-# ------------------------------------------------------------------------------
 # Functions
 # ------------------------------------------------------------------------------
 
@@ -111,7 +84,7 @@ shellrc_print-top-line()
   elif [[ $SHELL_TYPE == 'zsh' ]]; then
     host_name=$HOST
   fi
-  echo -ne "──❮ ${SHELL_TYPE} ❯──❮ ${TEXT_YELLOW}$USER@$host_name${RESET_FORMATTING} ❯"
+  echo -ne "──❮ ${SHELL_TYPE} ❯──❮ `set_color brown`$USER@$host_name`set_color normal` ❯"
   shellrc_print-line "─" "─" "─" "$(( `tput cols` - ${#USER} - ${#host_name} - ${#SHELL_TYPE} - 13 ))"
 }
 
@@ -169,15 +142,15 @@ shellrc_load-config ()
 
     # Append the output to the report if needed
     if [ -s /tmp/SHELLRC_config_out.log ]; then
-      echo "${TEXT_BLUE}${BOLD}$config_name${RESET_FORMATTING} > " >> /tmp/SHELLRC_configs_out
+      echo "`set_color -o blue`$config_name`set_color normal` > " >> /tmp/SHELLRC_configs_out
       (cat /tmp/SHELLRC_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/SHELLRC_configs_out
     fi
 
     # Update the configurations line
     if [ -z "${SHELLRC_CONFIGS_LINE}" ]; then
-      export SHELLRC_CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs▸${RESET_FORMATTING} $config_name"
+      export SHELLRC_CONFIGS_LINE="`set_color -o blue`Configs▸`set_color normal` $config_name"
     else
-      export SHELLRC_CONFIGS_LINE=${SHELLRC_CONFIGS_LINE}" ${TEXT_BLUE}▪${RESET_FORMATTING} $config_name"
+      export SHELLRC_CONFIGS_LINE=${SHELLRC_CONFIGS_LINE}" `set_color blue`▪`set_color normal` $config_name"
     fi
   fi
   
@@ -237,7 +210,7 @@ shellrc_load-folder-configs ()
 
   # If this is not a valid folder
   else
-    echo -e "${TEXT_RED}${BOLD}'$1' not found or invalid.${RESET_FORMATTING}"
+    echo -e "`set_color -o red`'$1' not found or invalid.`set_color normal`"
     success=false
   fi
 
@@ -267,9 +240,9 @@ shellrc_load-configs ()
 shellrc_print-configs-output ()
 {
   if [ -s /tmp/SHELLRC_configs_out ]; then
-    shellrc_print-line "${TEXT_RED}─" "─" "─${RESET_FORMATTING}"
+    shellrc_print-line "`set_color red`─" "─" "─`set_color normal`"
     cat /tmp/SHELLRC_configs_out | head --lines=-1
-    shellrc_print-line "${TEXT_RED}─" "─" "─${RESET_FORMATTING}"
+    shellrc_print-line "`set_color red`─" "─" "─`set_color normal`"
   fi
 }
 

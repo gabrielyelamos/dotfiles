@@ -133,13 +133,13 @@ set-terminal-title ()
 #   $ flag [COMMENT]
 function flag()
 {
-  echo -ne "${BACKGROUND_BLUE}${TEXT_WHITE}${BOLD} "
+  echo -ne "`set_color white -o -b blue` "
   if [ -z $1 ]; then
     echo -ne  "`date +"%A %e %B %Y"`, `date +"%H"`h`date +"%M"`"
   else
     echo -ne  "$@"
   fi
-  echo -e " ${RESET_FORMATTING}"
+  echo -e " `set_color normal`"
 }
 
 
@@ -382,9 +382,9 @@ function webshare()
   local public_ip=`ip-public`
 
   # Displays the server IPs
-  echo -e "${TEXT_BLUE}Setting up a web server at the following adresses:"
+  echo -e "`set_color blue`Setting up a web server at the following adresses:"
   echo -e "Local: http://${private_ip}:8000"
-  echo -e "Public: http://${public_ip}:8000${RESET_FORMATTING}"
+  echo -e "Public: http://${public_ip}:8000`set_color normal`"
 
   # Copy the IPs in the clipboard
   echo "http://${private_ip}:8000 /// http://${public_ip}:8000" | xclip -sel clip
