@@ -78,8 +78,8 @@ _print_path()
 {
   # Truncate the path
   local dir=${PWD##*/}
-  pwdmaxlen=$(( ( $PROMPT_PATH_MAX_LENGTH < ${#dir} ) ? ${#dir} : $PROMPT_PATH_MAX_LENGTH ))
-  result=${PWD/#$HOME/\~}
+  local pwdmaxlen=$(( ( $PROMPT_PATH_MAX_LENGTH < ${#dir} ) ? ${#dir} : $PROMPT_PATH_MAX_LENGTH ))
+  local result=${PWD/#$HOME/\~}
   local pwdoffset=$(( ${#result} - pwdmaxlen ))
   if [ ${pwdoffset} -gt "0" ]; then
     result=${result:$pwdoffset:$pwdmaxlen}
