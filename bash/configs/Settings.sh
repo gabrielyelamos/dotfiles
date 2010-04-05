@@ -9,6 +9,9 @@
 # ------------------------------------------------------------------------------
 
 
+# Clear PROMPT_COMMAND
+unset PROMPT_COMMAND
+
 # Charset
 # export LC_ALL="fr_FR.UTF-8"
 # export LC_CTYPE="fr_FR.UTF-8"
