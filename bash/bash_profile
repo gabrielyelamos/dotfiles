@@ -232,7 +232,7 @@ bash-profile_load-folder-configs ()
 
   # If this is not a valid folder
   else
-    echo "${TEXT_RED}${BOLD}'$1' is not a valid folder.${RESET_FORMATTING}"
+    echo -e "${TEXT_RED}${BOLD}'$1' not found or invalid.${RESET_FORMATTING}"
     success=false
   fi
 
@@ -251,7 +251,7 @@ bash-profile_load-configs ()
 
   # Source scripts in active/
   bash-profile_load-folder-configs "$BASH_PROFILE_LOCATION/configs/active"
-  echo -e "$BASH_PROFILE_CONFIGS_LINE"
+  [[ -n $BASH_PROFILE_CONFIGS_LINE ]] && echo -e "$BASH_PROFILE_CONFIGS_LINE"
 
   # Source scripts in prompt/ (ask first)
   bash-profile_load-folder-configs --ask "$BASH_PROFILE_LOCATION/configs/prompt"
