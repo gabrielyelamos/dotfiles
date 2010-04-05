@@ -61,25 +61,12 @@ export RESET_FORMATTING=`tput sgr0`
 # ------------------------------------------------------------------------------
 
 
-# Print the header.
-bash-profile_print-header () {
-  # Loop through files in the header folder
-  for file in $BASH_PROFILE_LOCATION/header/active/*; do
-    
-    # If this is a file, execute it
-    if [ -f "$file" ]; then
-      output=`eval "$file"`
-      bash-profile_wrap-line "│" "│" "$output"
-    fi
-  done
-}
-
-
 # Ask the user a "yes/no" question. Defaults to "no".
 #
 # Arguments
 #     1 (optional) the question to ask.
-bash-profile_ask () {
+bash-profile_ask ()
+{
   read -s -n1 -p "$@ [y/N] " ans
   case "$ans" in
     y*|Y*)
@@ -92,6 +79,54 @@ bash-profile_ask () {
 }
 
 
+# Get the current cursor column.
+bash-profile_get-cursor-column ()
+{
+  exec < /dev/tty
+  oldstty=$(stty -g)
+  stty raw -echo min 0
+  tput u7 > /dev/tty
+  IFS=';' read -r -d R -a pos
+  stty $oldstty
+  echo $((${pos[1]} - 1))
+}
+
+
+# Print a line.
+#
+# Arguments
+#     1 (required) the first character.
+#     2 (required) the character repeated to draw the line.
+#     1 (required) the last character.
+bash-profile_print-line ()
+{
+  local _WINDOW_Y=$(( $(tput cols) - $(bash-profile_get-cursor-column) ))
+  echo -ne "$1"
+  echo -ne `echo ""|awk '
+  {
+    _SPACES = '${_WINDOW_Y}'
+    while (_SPACES-- > 2) printf ("'$2'")
+  }'`
+  echo -e "$3"
+}
+
+
+# Execute the header scripts.
+bash-profile_exec-headers ()
+{
+  local file	
+
+  # Loop through files in the header folder
+  for file in $BASH_PROFILE_LOCATION/header/active/*; do
+    
+    # If this is a file, execute it
+    if [ -f "$file" ]; then
+      eval "$file"
+    fi
+  done
+}
+
+
 # Source the given file.
 #
 # Arguments
@@ -100,10 +135,10 @@ bash-profile_ask () {
 # Options
 #     --ask Prompt the user before.
 #           To be put before first argument.
-bash-profile_load-bash-config () {
-  
+bash-profile_load-config ()
+{
   # Handle the --ask option
-  ask=false
+  local ask=false
   if [ $1 = "--ask" ]; then
     shift
     ask=true
@@ -111,10 +146,10 @@ bash-profile_load-bash-config () {
 
   # Extract a readable name from the file name
   # Example: "/home/user/folder/010_Aliases and functions.sh" => "Aliases and functions"
-  config_name=$(expr match "`echo $@`" '.*[/_]\([^\.]*\)')
+  local config_name=$(expr match "`echo $@`" '.*[/_]\([^\.]*\)')
   
   # Determine wether we're going to laod this config
-  load=true
+  local load=true
   if $ask; then
     if ! bash-profile_ask "Load $config_name ?"; then
       load=false
@@ -134,17 +169,17 @@ bash-profile_load-bash-config () {
     fi
 
     # Update the configurations line
-    if [ -z "${CONFIGS_LINE}" ]; then
-      export CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs▸${RESET_FORMATTING} $config_name"
+    if [ -z "${BASH_PROFILE_CONFIGS_LINE}" ]; then
+      export BASH_PROFILE_CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs▸${RESET_FORMATTING} $config_name"
     else
-      export CONFIGS_LINE=${CONFIGS_LINE}" ${TEXT_BLUE}▪${RESET_FORMATTING} $config_name"
+      export BASH_PROFILE_CONFIGS_LINE=${BASH_PROFILE_CONFIGS_LINE}" ${TEXT_BLUE}▪${RESET_FORMATTING} $config_name"
     fi
   fi
   
   # If we have asked, redraw now
   if $ask; then
     tput rc; tput ed
-    bash-profile_wrap-line "│" "│" "$CONFIGS_LINE"
+    echo -e "$BASH_PROFILE_CONFIGS_LINE"
   fi
 }
 
@@ -157,18 +192,19 @@ bash-profile_load-bash-config () {
 # Options
 #     --ask Prompt the user before loading each script.
 #           To be put before first argument.
-bash-profile_load-folder-bash-configs () {
-  
+bash-profile_load-folder-configs ()
+{
+  local file
+  local load_opts=""
+	
   # Handle the --ask option
   if [ $1 = "--ask" ]; then
     shift
     load_opts="--ask"
-  else
-    load_opts=""
   fi
   
   # Declare a boolean to determine the success of the operation
-  success=true
+  local success=true
   
   # Escape spaces in the folder name
   local folder=`echo $1 | sed -e "s/ /\\ /g"`
@@ -188,18 +224,18 @@ bash-profile_load-folder-bash-configs () {
         file=`echo $file | sed -e "s/\\&/ /g"`
 
         # Try loading the config
-        bash-profile_load-bash-config $load_opts $file
+        bash-profile_load-config $load_opts $file
         
       done
       
     fi
-      
+
   # If this is not a valid folder
   else
     echo "${TEXT_RED}${BOLD}'$1' is not a valid folder.${RESET_FORMATTING}"
     success=false
   fi
-  
+
   # If something went wrong, exit
   if ! $success; then
     `exit 1`
@@ -208,74 +244,28 @@ bash-profile_load-folder-bash-configs () {
 
 
 # Load the configurations
-bash-profile_load-configs () {
-
+bash-profile_load-configs ()
+{
   # Save the current cursor position
   tput sc
 
   # Source scripts in active/
-  bash-profile_load-folder-bash-configs "$BASH_PROFILE_LOCATION/configs/active"
-  bash-profile_wrap-line "│" "│" "$CONFIGS_LINE"
+  bash-profile_load-folder-configs "$BASH_PROFILE_LOCATION/configs/active"
+  echo -e "$BASH_PROFILE_CONFIGS_LINE"
 
   # Source scripts in prompt/ (ask first)
-  bash-profile_load-folder-bash-configs --ask "$BASH_PROFILE_LOCATION/configs/prompt"
-}
-
-
-# 
-bash-profile_print-line () {
-  local _WINDOW_Y=`tput cols`
-  echo -ne "$1"
-  echo -ne `echo ""|awk '
-  {
-    _SPACES = '${_WINDOW_Y}'
-    while (_SPACES-- > 2) printf ("'$2'")
-  }'`
-  echo -e "$3"
+  bash-profile_load-folder-configs --ask "$BASH_PROFILE_LOCATION/configs/prompt"
 }
 
 
 # Print the configurations output report.
-bash-profile_print-configs-output() {
+bash-profile_print-configs-output ()
+{
   if [ -s /tmp/bash_profile_configs_out ]; then
     bash-profile_print-line "${TEXT_RED}─" "─" "─${RESET_FORMATTING}"
     cat /tmp/bash_profile_configs_out | head --lines=-1
     bash-profile_print-line "${TEXT_RED}─" "─" "─${RESET_FORMATTING}"
   fi
-}
-
-
-#
-bash-profile_get-cursor-column() {
-  exec < /dev/tty
-  oldstty=$(stty -g)
-  stty raw -echo min 0
-  tput u7 > /dev/tty
-  IFS=';' read -r -d R -a pos
-  stty $oldstty
-  echo $((${pos[1]} - 1))
-}
-
-
-#
-bash-profile_wrap-line() {
-  text_margin_right=$(( `tput cols` - 2 ))
-  printf "│"
-  for word in $3
-  do
-	col=`bash-profile_get-cursor-column`
-	
-    if [ $(($col + ${#word})) -le $text_margin_right ]
-    then
-      printf " %s" $word
-    else
-      padding=$(( $text_margin_right - $col + 1 ))
-      printf "%${padding}s│\n│ %s" "" "$word"
-    fi
-  done
-  col=`bash-profile_get-cursor-column`
-  padding=$(( $text_margin_right - $col + 1 ))
-  printf "%${padding}s│\n" ""
 }
 
 
@@ -287,38 +277,43 @@ bash-profile_wrap-line() {
 export BASH_PROFILE_LOCATION="$(dirname "$(test -L "$BASH_SOURCE" && readlink "$BASH_SOURCE" || echo "$BASH_SOURCE")")"
 
 # Local variables declarations
-CONFIGS_LINE=""
+BASH_PROFILE_CONFIGS_LINE=""
 
 # Clear the terminal
 clear
 
-# Clear PROMPT_COMMAND
-export PROMPT_COMMAND=
-
 # Clean traces from a previous execution
 rm -f /tmp/bash_profile_configs_out
 
-# Print the top
-bash-profile_print-line "╭" "─" "╮"
+# Blank line
+echo
 
-# Print the header
-bash-profile_print-header
+# Print the top line
+echo -ne "──❮ ${TEXT_YELLOW}$USER@$HOSTNAME${RESET_FORMATTING} ❯"
+bash-profile_print-line "─" "─" "─"
+
+# Execute the header scripts
+bash-profile_exec-headers
 
 # Load the configurations
 bash-profile_load-configs
 
-# Print the footer
-bash-profile_print-line "╰" "─" "╯"
+# Print the footer line
+bash-profile_print-line "─" "─" "─"
 
 # Print the configurations output
 bash-profile_print-configs-output
 
+# Blank line
+echo
+
 # Unset all variables and functions to ensure their visibility stay local
-unset CONFIGS_LINE
-unset -f bash-profile_print-header
+unset BASH_PROFILE_CONFIGS_LINE
 unset -f bash-profile_ask
-unset -f bash-profile_load-bash-config
-unset -f bash-profile_load-folder-bash-configs
-unset -f bash-profile_print-configs-line
+unset -f bash-profile_get-cursor-column
+unset -f bash-profile_print-line
+unset -f bash-profile_exec-headers
+unset -f bash-profile_load-config
+unset -f bash-profile_load-folder-configs
 unset -f bash-profile_load-configs
-unset -f bash-profile_print-footer
+unset -f bash-profile_print-configs-output
