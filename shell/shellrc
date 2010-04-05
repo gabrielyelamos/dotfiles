@@ -21,9 +21,9 @@
 #             ├─ enabled
 #             └─ disabled
 #
-#   Then make sure bash_profile is sourced at bash startup, for example by
+#   Then make sure shellrc is sourced at bash startup, for example by
 #   setting a symbolic link this way:
-#     $ ln -s /path/to/this/file $HOME/.bash_profile
+#     $ ln -s /path/to/this/file $HOME/.SHELLRC
 #     $ ln -s /path/to/this/file $HOME/.bashrc
 #     $ ln -s /path/to/this/file $HOME/.zshrc
 #
@@ -68,7 +68,7 @@ export RESET_FORMATTING=`tput sgr0`
 #
 # Arguments
 #     1 (optional) the question to ask.
-bash-profile_ask ()
+shellrc_ask ()
 {
   read -s -n1 -p "$@ [y/N] " ans
   case "$ans" in
@@ -89,7 +89,7 @@ bash-profile_ask ()
 #     2 (required) the character repeated to draw the line.
 #     3 (required) the last character.
 #     4 (optional) the length of the line to print.
-bash-profile_print-line ()
+shellrc_print-line ()
 {
   local line_length=${4:-$(tput cols)}
   echo -ne "$1"
@@ -102,8 +102,22 @@ bash-profile_print-line ()
 }
 
 
+# Print the top line.
+shellrc_print-top-line()
+{
+  local host_name
+  if [[ $SHELL_TYPE == 'bash' ]]; then
+    host_name=$HOSTNAME
+  elif [[ $SHELL_TYPE == 'zsh' ]]; then
+    host_name=$HOST
+  fi
+  echo -ne "──❮ ${SHELL_TYPE} ❯──❮ ${TEXT_YELLOW}$USER@$host_name${RESET_FORMATTING} ❯"
+  shellrc_print-line "─" "─" "─" "$(( `tput cols` - ${#USER} - ${#host_name} - ${#SHELL_TYPE} - 13 ))"
+}
+
+
 # Execute the header scripts.
-bash-profile_exec-headers ()
+shellrc_exec-headers ()
 {
   local file	
 
@@ -126,7 +140,7 @@ bash-profile_exec-headers ()
 # Options
 #     --ask Prompt the user before.
 #           To be put before first argument.
-bash-profile_load-config ()
+shellrc_load-config ()
 {
   # Handle the --ask option
   local ask=false
@@ -142,7 +156,7 @@ bash-profile_load-config ()
   # Determine wether we're going to laod this config
   local load=true
   if $ask; then
-    if ! bash-profile_ask "Load $config_name ?"; then
+    if ! shellrc_ask "Load $config_name ?"; then
       load=false
     fi
   fi
@@ -151,26 +165,26 @@ bash-profile_load-config ()
   if $load; then
 
     # Source the file
-    source "`echo $@`" &> /tmp/bash_profile_config_out.log
+    source "`echo $@`" &> /tmp/SHELLRC_config_out.log
 
     # Append the output to the report if needed
-    if [ -s /tmp/bash_profile_config_out.log ]; then
-      echo "${TEXT_BLUE}${BOLD}$config_name${RESET_FORMATTING} > " >> /tmp/bash_profile_configs_out
-      (cat /tmp/bash_profile_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/bash_profile_configs_out
+    if [ -s /tmp/SHELLRC_config_out.log ]; then
+      echo "${TEXT_BLUE}${BOLD}$config_name${RESET_FORMATTING} > " >> /tmp/SHELLRC_configs_out
+      (cat /tmp/SHELLRC_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/SHELLRC_configs_out
     fi
 
     # Update the configurations line
-    if [ -z "${BASH_PROFILE_CONFIGS_LINE}" ]; then
-      export BASH_PROFILE_CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs▸${RESET_FORMATTING} $config_name"
+    if [ -z "${SHELLRC_CONFIGS_LINE}" ]; then
+      export SHELLRC_CONFIGS_LINE="${TEXT_BLUE}${BOLD}Configs▸${RESET_FORMATTING} $config_name"
     else
-      export BASH_PROFILE_CONFIGS_LINE=${BASH_PROFILE_CONFIGS_LINE}" ${TEXT_BLUE}▪${RESET_FORMATTING} $config_name"
+      export SHELLRC_CONFIGS_LINE=${SHELLRC_CONFIGS_LINE}" ${TEXT_BLUE}▪${RESET_FORMATTING} $config_name"
     fi
   fi
   
   # If we have asked, redraw now
   if $ask; then
     tput rc; tput ed
-    echo -e "$BASH_PROFILE_CONFIGS_LINE"
+    echo -e "$SHELLRC_CONFIGS_LINE"
   fi
 }
 
@@ -183,7 +197,7 @@ bash-profile_load-config ()
 # Options
 #     --ask Prompt the user before loading each script.
 #           To be put before first argument.
-bash-profile_load-folder-configs ()
+shellrc_load-folder-configs ()
 {
   local file
   local load_opts=""
@@ -215,7 +229,7 @@ bash-profile_load-folder-configs ()
         file=`echo $file | sed -e "s/\\&/ /g"`
 
         # Try loading the config
-        bash-profile_load-config $load_opts $file
+        shellrc_load-config $load_opts $file
         
       done
       
@@ -235,34 +249,34 @@ bash-profile_load-folder-configs ()
 
 
 # Load the configurations
-bash-profile_load-configs ()
+shellrc_load-configs ()
 {
   # Save the current cursor position
   tput sc
 
   # Source scripts in active/
-  bash-profile_load-folder-configs "$SHELL_INIT_DIR/configs/enabled"
-  [[ -n $BASH_PROFILE_CONFIGS_LINE ]] && echo -e "$BASH_PROFILE_CONFIGS_LINE"
+  shellrc_load-folder-configs "$SHELL_INIT_DIR/configs/enabled"
+  [[ -n $SHELLRC_CONFIGS_LINE ]] && echo -e "$SHELLRC_CONFIGS_LINE"
 
   # Source scripts in prompt/ (ask first)
-  bash-profile_load-folder-configs --ask "$SHELL_INIT_DIR/configs/prompt"
+  shellrc_load-folder-configs --ask "$SHELL_INIT_DIR/configs/prompt"
 }
 
 
 # Print the configurations output report.
-bash-profile_print-configs-output ()
+shellrc_print-configs-output ()
 {
-  if [ -s /tmp/bash_profile_configs_out ]; then
-    bash-profile_print-line "${TEXT_RED}─" "─" "─${RESET_FORMATTING}"
-    cat /tmp/bash_profile_configs_out | head --lines=-1
-    bash-profile_print-line "${TEXT_RED}─" "─" "─${RESET_FORMATTING}"
+  if [ -s /tmp/SHELLRC_configs_out ]; then
+    shellrc_print-line "${TEXT_RED}─" "─" "─${RESET_FORMATTING}"
+    cat /tmp/SHELLRC_configs_out | head --lines=-1
+    shellrc_print-line "${TEXT_RED}─" "─" "─${RESET_FORMATTING}"
   fi
 }
 
 
 # Resolve the shell used (Bash or Zsh) and set
 # the $SHELL_TYPE variable.
-bash-profile_resolve-shell()
+shellrc_resolve-shell()
 {
 	if [[ -n $ZSH_VERSION ]]; then
 	  export SHELL_TYPE='zsh'
@@ -280,48 +294,49 @@ bash-profile_resolve-shell()
 [ -z "$PS1" ] && return
 
 # Resolve the shell type
-bash-profile_resolve-shell
+shellrc_resolve-shell
 
-# Resolve the real location of this file
+# Declare the location of the initialization directory
 export SHELL_INIT_DIR=$HOME/shell.d
 
 # Local variables declarations
-BASH_PROFILE_CONFIGS_LINE=""
+SHELLRC_CONFIGS_LINE=""
 
 # Clear the terminal
 clear
 
 # Clean traces from a previous execution
-rm -f /tmp/bash_profile_configs_out
+rm -f /tmp/SHELLRC_configs_out
 
 # Blank line
 echo
 
 # Print the top line
-echo -ne "──❮ ${SHELL_TYPE} ❯──❮ ${TEXT_YELLOW}$USER@$HOSTNAME${RESET_FORMATTING} ❯"
-bash-profile_print-line "─" "─" "─" "$(( `tput cols` - ${#USER} - ${#HOSTNAME} - ${#SHELL_TYPE} - 13 ))"
+shellrc_print-top-line
 
 # Execute the header scripts
-bash-profile_exec-headers
+shellrc_exec-headers
 
 # Load the configurations
-bash-profile_load-configs
+shellrc_load-configs
 
 # Print the footer line
-bash-profile_print-line "─" "─" "─"
+shellrc_print-line "─" "─" "─"
 
 # Print the configurations output
-bash-profile_print-configs-output
+shellrc_print-configs-output
 
 # Blank line
 echo
 
 # Unset all variables and functions to ensure their visibility stay local
-unset BASH_PROFILE_CONFIGS_LINE
-unset -f bash-profile_ask
-unset -f bash-profile_print-line
-unset -f bash-profile_exec-headers
-unset -f bash-profile_load-config
-unset -f bash-profile_load-folder-configs
-unset -f bash-profile_load-configs
-unset -f bash-profile_print-configs-output
+unset SHELLRC_CONFIGS_LINE
+unset -f shellrc_ask
+unset -f shellrc_print-line
+unset -f shellrc_print-top-line
+unset -f shellrc_exec-headers
+unset -f shellrc_load-config
+unset -f shellrc_load-folder-configs
+unset -f shellrc_load-configs
+unset -f shellrc_print-configs-output
+unset -f shellrc_resolve-shell
