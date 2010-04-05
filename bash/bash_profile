@@ -257,12 +257,27 @@ bash-profile_print-configs-output ()
 }
 
 
+# Resolve the shell used (Bash or Zsh) and set
+# the $SHELL_TYPE variable.
+bash-profile_resolve-shell()
+{
+	if [[ -n $ZSH_VERSION ]]; then
+	  export SHELL_TYPE='zsh'
+	else
+	  export SHELL_TYPE='bash'
+	fi
+}
+
+
 # ------------------------------------------------------------------------------
 # Main
 # ------------------------------------------------------------------------------
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
+
+# Resolve the shell type
+bash-profile_resolve-shell
 
 # Resolve the real location of this file
 export BASH_PROFILE_LOCATION="$(dirname "$(test -L "$BASH_SOURCE" && readlink "$BASH_SOURCE" || echo "$BASH_SOURCE")")"
