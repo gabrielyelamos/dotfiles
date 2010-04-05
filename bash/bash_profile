@@ -79,32 +79,20 @@ bash-profile_ask ()
 }
 
 
-# Get the current cursor column.
-bash-profile_get-cursor-column ()
-{
-  exec < /dev/tty
-  oldstty=$(stty -g)
-  stty raw -echo min 0
-  tput u7 > /dev/tty
-  IFS=';' read -r -d R -a pos
-  stty $oldstty
-  echo $((${pos[1]} - 1))
-}
-
-
 # Print a line.
 #
 # Arguments
 #     1 (required) the first character.
 #     2 (required) the character repeated to draw the line.
-#     1 (required) the last character.
+#     3 (required) the last character.
+#     4 (optional) the length of the line to print.
 bash-profile_print-line ()
 {
-  local _WINDOW_Y=$(( $(tput cols) - $(bash-profile_get-cursor-column) ))
+  local line_length=${4:-$(tput cols)}
   echo -ne "$1"
   echo -ne `echo ""|awk '
   {
-    _SPACES = '${_WINDOW_Y}'
+    _SPACES = '${line_length}'
     while (_SPACES-- > 2) printf ("'$2'")
   }'`
   echo -e "$3"
@@ -293,7 +281,7 @@ echo
 
 # Print the top line
 echo -ne "──❮ ${TEXT_YELLOW}$USER@$HOSTNAME${RESET_FORMATTING} ❯"
-bash-profile_print-line "─" "─" "─"
+bash-profile_print-line "─" "─" "─" "$(( `tput cols` - ${#USER} - ${#HOSTNAME} - 7 ))"
 
 # Execute the header scripts
 bash-profile_exec-headers
@@ -313,7 +301,6 @@ echo
 # Unset all variables and functions to ensure their visibility stay local
 unset BASH_PROFILE_CONFIGS_LINE
 unset -f bash-profile_ask
-unset -f bash-profile_get-cursor-column
 unset -f bash-profile_print-line
 unset -f bash-profile_exec-headers
 unset -f bash-profile_load-config
