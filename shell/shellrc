@@ -270,7 +270,8 @@ shellrc_resolve-shell()
 shellrc_resolve-shell
 
 # Declare the location of the initialization directory
-export SHELL_INIT_DIR=$HOME/shell.d
+[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME=$HOME/.config
+export SHELL_INIT_DIR=$XDG_CONFIG_HOME/shell.d
 
 # Local variables declarations
 SHELLRC_CONFIGS_LINE=""
