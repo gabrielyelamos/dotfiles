@@ -124,7 +124,7 @@ shellrc_load-config ()
 
   # Extract a readable name from the file name
   # Example: "/home/user/folder/010_Aliases and functions.sh" => "Aliases and functions"
-  local config_name=$(expr match "`echo $@`" '.*[/_]\([^\.]*\)')
+  local config_name="$(expr match "`echo $@`" '.*[/_]\([^\.]*\)')"
   
   # Determine wether we're going to laod this config
   local load=true
