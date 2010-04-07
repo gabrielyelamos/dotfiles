@@ -448,14 +448,99 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
   
   # Input/Output
 
-  # TODO
+  # Expand aliases.
+  setopt ALIASES 
+
+  # Allows `>' redirection to truncate existing files, and `>>' to create files. Otherwise `>!' or `>|' must be
+  # used to truncate a file, and `>>!' or `>>|' to create a file.
+  setopt CLOBBER
+
+  # Try to correct the spelling of commands. Note that, when the HASH_LIST_ALL option is not set or when some
+  # directories in the path are not readable, this may falsely report spelling errors the first time some
+  # commands are used.
+  # The shell variable CORRECT_IGNORE may be set to a pattern to match words that will never be offered as
+  # corrections.
+  setopt CORRECT
+
+  # Try to correct the spelling of all arguments in a line.
+  setopt CORRECT_ALL
+
+  # Use the Dvorak keyboard instead of the standard qwerty keyboard as a basis for examining spelling mistakes
+  # for the CORRECT and CORRECT_ALL options and the spell-word editor command.
+  unsetopt DVORAK
+
+  # If this option is unset, output flow control via start/stop characters (usually assigned to ^S/^Q) is
+  # disabled in the shell's editor.
+  setopt FLOW_CONTROL
+
+  # Do not exit on end-of-file. Require the use of exit or logout instead. However, ten consecutive EOFs will
+  # cause the shell to exit anyway, to avoid the shell hanging if its tty goes away.
+  # Also, if this option is set and the Zsh Line Editor is used, widgets implemented by shell functions can be
+  # bound to EOF (normally Control-D) without printing the normal warning message. This works only for normal
+  # widgets, not for completion widgets.
+  unsetopt IGNORE_EOF
+
+  # Allow comments even in interactive shells.
+  unsetopt INTERACTIVE_COMMENTS
+
+  # Note the location of each command the first time it is executed. Subsequent invocations of the same command
+  # will use the saved location, avoiding a path search. If this option is unset, no path hashing is done at all.
+  # However, when CORRECT is set, commands whose names do not appear in the functions or aliases hash tables are
+  # hashed in order to avoid reporting them as spelling errors.
+  setopt HASH_CMDS
+
+  # Whenever a command name is hashed, hash the directory containing it, as well as all directories that occur
+  # earlier in the path. Has no effect if neither HASH_CMDS nor CORRECT is set.
+  setopt HASH_DIRS
+
+  # Print a warning message if a mail file has been accessed since the shell last checked.
+  unsetopt MAIL_WARNING
   
-  
+  # Perform a path search even on command names with slashes in them. Thus if `/usr/local/bin' is in the user's
+  # path, and he or she types `X11/xinit', the command `/usr/local/bin/X11/xinit' will be executed (assuming it
+  # exists). Commands explicitly beginning with `/', `./' or `../' are not subject to the path search. This also
+  # applies to the `.' builtin.
+  # Note that subdirectories of the current directory are always searched for executables specified in this form.
+  # This takes place before any search indicated by this option, and regardless of whether `.' or the current
+  # directory appear in the command search path.
+  setopt PATH_DIRS
+
+
+  # Print eight bit characters literally in completion lists, etc. This option is not necessary if
+  # your system correctly returns the printability of eight bit characters (see man page ctype(3)).
+  setopt PRINT_EIGHT_BIT
+
+  # Print the exit value of programs with non-zero exit status.
+  unsetopt PRINT_EXIT_VALUE
+
+  # Allow the character sequence `''' to signify a single quote within singly quoted strings. Note
+  # this does not apply in quoted strings using the format $'...', where a backslashed single quote
+  # can be used.
+  unsetopt RC_QUOTES
+
+  # Do not query the user before executing `rm *' or `rm path/*'.
+  unsetopt RM_STAR_SILENT
+
+  # If querying the user before executing `rm *' or `rm path/*', first wait ten seconds and ignore
+  # anything typed in that time. This avoids the problem of reflexively answering `yes' to the query
+  # when one didn't really mean it. The wait and query can always be avoided by expanding the `*' in
+  # ZLE (with tab).
+  unsetopt RM_STAR_WAIT
+
+  # Allow the short forms of for, repeat, select, if, and function constructs.
+  setopt SHORT_LOOPS
+
+  # If a line ends with a backquote, and there are an odd number of backquotes on the line, ignore
+  # the trailing backquote. This is useful on some keyboards where the return key is too small, and
+  # the backquote key lies annoyingly close to it.
+  unsetopt SUN_KEYBOARD_HACK
+
+
   # Job Control
 
   # TODO
-  
-  
+
+
   # Prompting
 
   # TODO
