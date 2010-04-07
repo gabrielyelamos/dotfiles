@@ -421,8 +421,30 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
   
   # Initialisation
 
-  # TODO
-  
+  # All parameters subsequently defined are automatically exported.
+  unsetopt ALL_EXPORT
+
+  # If this option is set, passing the -x flag to the builtins declare, float, integer, readonly and typeset
+  # (but not local) will also set the -g flag; hence parameters exported to the environment will not be made
+  # local to the enclosing function, unless they were already or the flag +g is given explicitly. If the
+  # option is unset, exported parameters will be made local in just the same way as any other parameter.
+  # This option is set by default for backward compatibility; it is not recommended that its behaviour be
+  # relied upon. Note that the builtin export always sets both the -x and -g flags, and hence its effect
+  # extends beyond the scope of the enclosing function; this is the most portable way to achieve this
+  # behaviour.
+  setopt GLOBAL_EXPORT
+
+  # If this option is unset, the startup files /etc/zprofile, /etc/zshrc, /etc/zlogin and /etc/zlogout will
+  # not be run. It can be disabled and re-enabled at any time, including inside local startup files (.zshrc,
+  # etc.).
+  setopt GLOBAL_RCS
+
+  # After /etc/zshenv is sourced on startup, source the .zshenv, /etc/zprofile, .zprofile, /etc/zshrc, .zshrc,
+  # /etc/zlogin, .zlogin, and .zlogout files, as described in Files. If this option is unset, the /etc/zshenv
+  # file is still sourced, but any of the others will not be; it can be set at any time to prevent the
+  # remaining startup files after the currently executing one from being sourced.
+  setopt RCS
+
   
   # Input/Output
 
