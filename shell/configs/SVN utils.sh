@@ -17,7 +17,7 @@ alias svn-add-all='find "$PWD" -exec svn add {} 2>/dev/null \;'
 
 
 # Display the log at the repository head revision.
-alias svn-log='svn log -v -r HEAD:0 | most'
+alias svn-log='svn log -v -r HEAD:0 | $PAGER'
 
 
 # Edit the svn log at the given revision.
@@ -25,7 +25,7 @@ alias svn-log='svn log -v -r HEAD:0 | most'
 # Arguments
 #   1 (required) The number of the revision to edit.
 svn-edit-log() {
-    svn propedit svn:log --revprop -r$1 --editor-cmd vim
+    svn propedit svn:log --revprop -r$1 --editor-cmd $EDITOR
 }
 
 
