@@ -538,13 +538,72 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
 
   # Job Control
 
-  # TODO
+  # With this option set, stopped jobs that are removed from the job table with the disown builtin
+  # command are automatically sent a CONT signal to make them running.
+  setopt AUTO_CONTINUE
+
+  # Treat single word simple commands without redirection as candidates for resumption of an
+  # existing job.
+  setopt AUTO_RESUME
+
+  # Run all background jobs at a lower priority. This option is set by default.
+  setopt BG_NICE
+
+  # Report the status of background and suspended jobs before exiting a shell with job control; a
+  # second attempt to exit the shell will succeed. NO_CHECK_JOBS is best used only in combination
+  # with NO_HUP, else such jobs will be killed automatically.
+  # The check is omitted if the commands run from the previous command line included a `jobs'
+  # command, since it is assumed the user is aware that there are background or suspended jobs. A
+  # `jobs' command run from one of the hook functions defined in the section Special Functions in
+  # Functions is not counted for this purpose.
+  setopt CHECK_JOBS
+
+  # Send the HUP signal to running jobs when the shell exits.
+  setopt HUP
+
+  # List jobs in the long format by default.
+  setopt LONG_LIST_JOBS
+
+  # Allow job control. Set by default in interactive shells.
+  setopt MONITOR
+
+  # Report the status of background jobs immediately, rather than waiting until just before printing
+  # a prompt.
+  setopt NOTIFY
 
 
   # Prompting
 
-  # TODO
-  
+  # If set, `!' is treated specially in prompt expansion. See Prompt Expansion.
+  setopt PROMPT_BANG
+
+  # Print a carriage return just before printing a prompt in the line editor. This is on by default
+  # as multi-line editing is only possible if the editor knows where the start of the line appears.
+  setopt PROMPT_CR
+
+  # Attempt to preserve a partial line (i.e. a line that did not end with a newline) that would
+  # otherwise be covered up by the command prompt due to the PROMPT_CR option. This works by
+  # outputting some cursor-control characters, including a series of spaces, that should make the
+  # terminal wrap to the next line when a partial line is present (note that this is only successful
+  # if your terminal has automatic margins, which is typical).
+  # When a partial line is preserved, by default you will see an inverse+bold character at the end
+  # of the partial line: a "%" for a normal user or a "#" for root. If set, the shell parameter
+  # PROMPT_EOL_MARK can be used to customize how the end of partial lines are shown.
+  # NOTE: if the PROMPT_CR option is not set, enabling this option will have no effect. This option
+  # is on by default.
+  setopt PROMPT_SP
+
+  # If set, `%' is treated specially in prompt expansion. See Prompt Expansion.
+  setopt PROMPT_PERCENT
+
+  # If set, parameter expansion, command substitution and arithmetic expansion are performed in
+  # prompts. Substitutions within prompts do not affect the command status.
+  setopt PROMPT_SUBST
+
+  # Remove any right prompt from display when accepting a command line. This may be useful with
+  # terminals with other cut/paste methods.
+  unsetopt TRANSIENT_RPROMPT
+
   
   # Scripts and Functions
 
