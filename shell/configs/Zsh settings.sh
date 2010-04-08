@@ -80,7 +80,7 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
   # Automatically use menu completion after the second consecutive request for
   # completion, for example by pressing the tab key repeatedly. This option is
   # overridden by MENU_COMPLETE.
-  setopt AUTO_MENU
+  unsetopt AUTO_MENU
 
   # Any parameter that is set to the absolute name of a directory immediately becomes
   # a name for that directory, that will be used by the `%~' and related prompt
