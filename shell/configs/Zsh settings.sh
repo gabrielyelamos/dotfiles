@@ -9,9 +9,13 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
   # Activate auto-completion
   autoload -Uz compinit
   compinit
-  
+
   # Use Emacs line editing mode
   bindkey -e
+
+  # Prompt
+  export PROMPT="%2~%b%#%b "
+
 
   # ----------------------------------------------------------------------------
   # Options
