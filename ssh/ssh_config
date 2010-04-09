@@ -18,6 +18,13 @@ Host nicoulaj.hd.free.fr
   User nicoulaj
   ForwardX11 yes
 
+# Bull / bench CG95
+Host bench-db
+  User brahimew
+
+Host bench-server
+  User bench
+
 # Bull / CG95
 Host *capwebct*.frec.bull.fr
   User root
