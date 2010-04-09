@@ -13,6 +13,12 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
   # Use Emacs line editing mode
   bindkey -e
 
+  # <CTRL><LEFT> => previous word
+  bindkey ';5D' emacs-backward-word
+
+  # <CTRL><RIGHT> => next word
+  bindkey ';5C' emacs-forward-word
+
   # Prompt
   export PROMPT="%2~%b%#%b "
 
