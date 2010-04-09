@@ -9,9 +9,13 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
   # Activate auto-completion
   autoload -Uz compinit
   compinit
-  
+
   # Use Emacs line editing mode
   bindkey -e
+
+  # Prompt
+  export PROMPT="%2~%b%#%b "
+
 
   # ----------------------------------------------------------------------------
   # Options
@@ -80,7 +84,7 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
   # Automatically use menu completion after the second consecutive request for
   # completion, for example by pressing the tab key repeatedly. This option is
   # overridden by MENU_COMPLETE.
-  setopt AUTO_MENU
+  unsetopt AUTO_MENU
 
   # Any parameter that is set to the absolute name of a directory immediately becomes
   # a name for that directory, that will be used by the `%~' and related prompt
@@ -607,22 +611,253 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
   
   # Scripts and Functions
 
-  # TODO
+  # Output hexadecimal numbers in the standard C format, for example `0xFF' instead of the usual
+  # `16#FF'. If the option OCTAL_ZEROES is also set (it is not by default), octal numbers will be
+  # treated similarly and hence appear as `077' instead of `8#77'. This option has no effect on the
+  # choice of the output base, nor on the output of bases other than hexadecimal and octal. Note that
+  # these formats will be understood on input irrespective of the setting of C_BASES.
+  setopt C_BASES
+
+  # This alters the precedence of arithmetic operators to be more like C and other programming
+  # languages; Arithmetic Evaluation has an explicit list.
+  unsetopt C_PRECEDENCES
+
+  # Run the DEBUG trap before each command; otherwise it is run after each command. Setting this
+  # option mimics the behaviour of ksh 93; with the option unset the behaviour is that of ksh 88.
+  setopt DEBUG_BEFORE_CMD
+
+  # If a command has a non-zero exit status, execute the ZERR trap, if set, and exit. This is disabled
+  # while running initialization scripts.
+  # The behaviour is also disabled inside DEBUG traps. In this case the option is handled specially:
+  # it is unset on entry to the trap. If the option DEBUG_BEFORE_CMD is set, as it is by default, and
+  # the option ERR_EXIT is found to have been set on exit, then the command for which the DEBUG trap
+  # is being executed is skipped. The option is restored after the trap exits.
+  unsetopt ERR_EXIT
+
+  # If a command has a non-zero exit status, return immediately from the enclosing function. The logic
+  # is identical to that for ERR_EXIT, except that an implicit return statement is executed instead
+  # of an exit. This will trigger an exit at the outermost level of a non-interactive script.
+  unsetopt ERR_RETURN
+
+  # If set, line numbers of expressions evaluated using the builtin eval are tracked separately of
+  # the enclosing environment. This applies both to the parameter LINENO and the line number output
+  # by the prompt escape %i. If the option is set, the prompt escape %N will output the string `(eval)'
+  # instead of the script or function name as an indication. (The two prompt escapes are typically used
+  # in the parameter PS4 to be output when the option XTRACE is set.) If EVAL_LINENO is unset, the line
+  # number of the surrounding script or function is retained during the evaluation.
+  setopt EVAL_LINENO
+
+  # Do execute commands. Without this option, commands are read and checked for syntax errors, but not
+  # executed. This option cannot be turned off in an interactive shell, except when `-n' is supplied
+  # to the shell at startup.
+  setopt EXEC
+
+  # When executing a shell function or sourcing a script, set $0 temporarily to the name of the
+  # function/script.
+  setopt FUNCTION_ARGZERO
+
+  # If this option is set at the point of return from a shell function, most options (including this
+  # one) which were in force upon entry to the function are restored; options that are not restored
+  # are PRIVILEGED and RESTRICTED. Otherwise, only this option and the XTRACE and PRINT_EXIT_VALUE
+  # options are restored. Hence if this is explicitly unset by a shell function the other options in
+  # force at the point of return will remain so. A shell function can also guarantee itself a known
+  # shell configuration with a formulation like `emulate -L zsh'; the -L activates LOCAL_OPTIONS.
+  unsetopt LOCAL_OPTIONS
+
+  # If this option is set when a signal trap is set inside a function, then the previous status of the
+  # trap for that signal will be restored when the function exits. Note that this option must be set
+  # prior to altering the trap behaviour in a function; unlike LOCAL_OPTIONS, the value on exit from
+  # the function is irrelevant. However, it does not need to be set before any global trap for that to
+  # be correctly restored by a function. For example,
+  #   unsetopt localtraps
+  #   trap - INT
+  #   fn() { setopt localtraps; trap '' INT; sleep 3; }
+  # will restore normally handling of SIGINT after the function exits.
+  unsetopt LOCAL_TRAPS
+
+  # Allow definitions of multiple functions at once in the form `fn1 fn2...()'; if the option is not
+  # set, this causes a parse error. Definition of multiple functions with the function keyword is
+  # always allowed. Multiple function definitions are not often used and can cause obscure errors.
+  setopt MULTI_FUNC_DEF
+
+  # Perform implicit tees or cats when multiple redirections are attempted (see Redirection).
+  setopt MULTIOS
+  
+  # Interpret any integer constant beginning with a 0 as octal, per IEEE Std 1003.2-1992 (ISO 9945-2:1993).
+  # This is not enabled by default as it causes problems with parsing of, for example, date and time strings
+  # with leading zeroes.
+  # Sequences of digits indicating a numeric base such as the `08' component in `08#77' are always
+  # interpreted as decimal, regardless of leading zeroes.
+  unsetopt OCTAL_ZEROES
+
+  # If this is unset, executing any of the `typeset' family of commands with no options and a list of
+  # parameters that have no values to be assigned but already exist will display the value of the
+  # parameter. If the option is set, they will only be shown when parameters are selected with the `-m'
+  # option. The option `-p' is available whether or not the option is set.
+  unsetopt TYPESET_SILENT
+
+  # Print shell input lines as they are read.
+  unsetopt VERBOSE
+
+  # Print commands and their arguments as they are executed.
+  unsetopt XTRACE
   
   
   # Shell Emulation
 
-  # TODO
-  
-  
-  # Shell State
+  # When set, matches performed with the =~ operator will set the BASH_REMATCH array variable, instead
+  # of the default MATCH and match variables. The first element of the BASH_REMATCH array will contain
+  # the entire matched text and subsequent elements will contain extracted substrings. This option makes
+  # more sense when KSH_ARRAYS is also set, so that the entire matched portion is stored at index 0 and
+  # the first substring is at index 1. Without this option, the MATCH variable contains the entire
+  # matched text and the match array variable contains substrings.
+  unsetopt BASH_REMATCH
 
-  # TODO
-  
+  # Make the echo builtin compatible with the BSD man page echo(1) command. This disables backslashed
+  # escape sequences in echo strings unless the -e option is specified.
+  unsetopt BSD_ECHO
+
+  # A history reference without an event specifier will always refer to the previous command. Without
+  # this option, such a history reference refers to the same event as the previous history reference,
+  # defaulting to the previous command.
+  unsetopt CSH_JUNKIE_HISTORY
+
+  # Allow loop bodies to take the form `list; end' instead of `do list; done'.
+  unsetopt CSH_JUNKIE_LOOPS
+
+  # Changes the rules for single- and double-quoted text to match that of csh. These require that
+  # embedded newlines be preceded by a backslash; unescaped newlines will cause an error message. In
+  # double-quoted strings, it is made impossible to escape `$', ``' or `"' (and `\' itself no longer
+  # needs escaping). Command substitutions are only expanded once, and cannot be nested.
+  unsetopt CSH_JUNKIE_QUOTES
+
+  # Do not use the values of NULLCMD and READNULLCMD when running redirections with no command. This
+  # make such redirections fail (see Redirection).
+  unsetopt CSH_NULLCMD
+
+  # Emulate ksh array handling as closely as possible. If this option is set, array elements are
+  # numbered from zero, an array parameter without subscript refers to the first element instead of
+  # the whole array, and braces are required to delimit a subscript (`${path[2]}' rather than just
+  # `$path[2]').
+  unsetopt KSH_ARRAYS
+
+  # Emulate ksh function autoloading. This means that when a function is autoloaded, the corresponding
+  # file is merely executed, and must define the function itself. (By default, the function is defined
+  # to the contents of the file. However, the most common ksh-style case - of the file containing only
+  # a simple definition of the function - is always handled in the ksh-compatible manner.)
+  unsetopt KSH_AUTOLOAD
+
+  # Alters the way options settings are printed: instead of separate lists of set and unset options,
+  # all options are shown, marked `on' if they are in the non-default state, `off' otherwise.
+  unsetopt KSH_OPTION_PRINT
+
+  # Alters the way arguments to the typeset family of commands, including declare, export, float,
+  # integer, local and readonly, are processed. Without this option, zsh will perform normal word splitting after command and parameter expansion in arguments of an assignment; with it, word splitting does not take place in those cases.
+  unsetopt KSH_TYPESET
+
+  # Treat use of a subscript of value zero in array or string expressions as a reference to the first
+  # element, i.e. the element that usually has the subscript 1. Ignored if KSH_ARRAYS is also set.
+  # If neither this option nor KSH_ARRAYS is set, accesses to an element of an array or string with
+  # subscript zero return an empty element or string, while attempts to set element zero of an array
+  # or string are treated as an error. However, attempts to set an otherwise valid subscript range
+  # that includes zero will succeed. For example, if KSH_ZERO_SUBSCRIPT is not set,
+  #   array[0]=(element)
+  # is an error, while
+  #   array[0,1]=(element)
+  # is not and will replace the first element of the array.
+  # This option is for compatibility with older versions of the shell and is not recommended in new code.
+  unsetopt KSH_ZERO_SUBSCRIPT
+
+  # When this option is set, reserved words are not candidates for alias expansion: it is still possible
+  # to declare any of them as an alias, but the alias will never be expanded. Reserved words are
+  # described in Reserved Words.
+  # Alias expansion takes place while text is being read; hence when this option is set it does not take
+  # effect until the end of any function or other piece of shell code parsed as one unit. Note this may
+  # cause differences from other shells even when the option is in effect. For example, when running a
+  # command with `zsh -c', or even `zsh -o posixaliases -c', the entire command argument is parsed as
+  # one unit, so aliases defined within the argument are not available even in later lines. If in doubt,
+  # avoid use of aliases in non-interactive code.
+  unsetopt POSIX_ALIASES
+
+  # When this option is set the command builtin can be used to execute shell builtin commands. Parameter
+  # assignments specified before shell functions and special builtins are kept after the command
+  # completes unless the special builtin is prefixed with the command builtin. Special builtins are ., :,
+  # break, continue, declare, eval, exit, export, integer, local, readonly, return, set, shift, source,
+  # times, trap and unset.
+  unsetopt POSIX_BUILTINS
+
+  # When this option is set, only the ASCII characters a to z, A to Z, 0 to 9 and _ may be used in
+  # identifiers (names of shell parameters and modules).
+  # When the option is unset and multibyte character support is enabled (i.e. it is compiled in and
+  # the option MULTIBYTE is set), then additionally any alphanumeric characters in the local character
+  # set may be used in identifiers. Note that scripts and functions written with this feature are not
+  # portable, and also that both options must be set before the script or function is parsed; setting
+  # them during execution is not sufficient as the syntax variable=value has already been parsed as a
+  # command rather than an assignment.
+  # If multibyte character support is not compiled into the shell this option is ignored; all octets
+  # with the top bit set may be used in identifiers. This is non-standard but is the traditional zsh
+  # behaviour.
+  unsetopt POSIX_IDENTIFIERS
+
+  # Perform filename expansion (e.g., ~ expansion) before parameter expansion, command substitution,
+  # arithmetic expansion and brace expansion. If this option is unset, it is performed after brace
+  # expansion, so things like `~$USERNAME' and `~{pfalstad,rc}' will work.
+  unsetopt SH_FILE_EXPANSION
+
+  # Do not use the values of NULLCMD and READNULLCMD when doing redirections, use `:' instead (see
+  # Redirection).
+  unsetopt SH_NULLCMD
+
+  # If this option is set the shell tries to interpret single letter options (which are used with set
+  # and setopt) like ksh does. This also affects the value of the - special parameter.
+  unsetopt SH_OPTION_LETTERS
+
+  # Causes field splitting to be performed on unquoted parameter expansions. Note that this option has
+  # nothing to do with word splitting. (See Parameter Expansion.)
+  unsetopt SH_WORD_SPLIT
+
+  # While waiting for a program to exit, handle signals and run traps immediately. Otherwise the trap
+  # is run after a child process has exited. Note this does not affect the point at which traps are
+  # run for any case other than when the shell is waiting for a child process.
+  unsetopt TRAPS_ASYNC
+
   
   # Zle
 
-  # TODO
-  
+  # Beep on error in ZLE.
+  unsetopt BEEP
+
+  # Assume that the terminal displays combining characters correctly. Specifically, if a base alphanumeric
+  # character is followed by one or more zero-width punctuation characters, assume that the zero-width
+  # characters will be displayed as modifications to the base character within the same width. Not all
+  # terminals handle this. If this option is not set, zero-width characters are displayed separately
+  # with special mark-up.
+  # If this option is set, the pattern test [[:WORD:]] matches a zero-width punctuation character on
+  # the assumption that it will be used as part of a word in combination with a word character. Otherwise
+  # the base shell does not handle combining characters specially.
+  setopt COMBINING_CHARS
+
+  # If ZLE is loaded, turning on this option has the equivalent effect of `bindkey -e'. In addition,
+  # the VI option is unset. Turning it off has no effect. The option setting is not guaranteed to reflect
+  # the current keymap. This option is provided for compatibility; bindkey is the recommended interface.
+  setopt EMACS
+
+  # Start up the line editor in overstrike mode.
+  unsetopt OVERSTRIKE
+
+  # Use single-line command line editing instead of multi-line.
+  # Note that although this is on by default in ksh emulation it only provides superficial compatibility
+  # with the ksh line editor and reduces the effectiveness of the zsh line editor. As it has no effect
+  # on shell syntax, many users may wish to disable this option when using ksh emulation interactively.
+  unsetopt SINGLE_LINE_ZLE
+
+  # If ZLE is loaded, turning on this option has the equivalent effect of `bindkey -v'. In addition,
+  # the EMACS option is unset. Turning it off has no effect. The option setting is not guaranteed to
+  # reflect the current keymap. This option is provided for compatibility; bindkey is the recommended
+  # interface.
+  unsetopt VI
+
+  # Use the zsh line editor. Set by default in interactive shells connected to a terminal.
+  setopt ZLE
 
 fi
