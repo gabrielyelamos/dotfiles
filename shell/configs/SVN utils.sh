@@ -44,3 +44,13 @@ svn-up-and-log()
     echo "No changes."
   fi
 }
+
+
+# Set recursively the svn:ignore rules defined in the file.
+#
+# Arguments
+#   1 (optionnal) The file containing the svn:ignore rules.
+svn-update-ignore()
+{
+  svn propset -R svn:ignore -F $1 .
+}
