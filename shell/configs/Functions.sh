@@ -483,3 +483,14 @@ add-prompt-command()
   [[ -n $PROMPT_COMMAND ]] && PROMPT_COMMAND="$PROMPT_COMMAND; "
   PROMPT_COMMAND="$PROMPT_COMMAND$@"
 }
+
+
+# Mount the given ISO file.
+#
+# Arguments
+#   1 (required) the file to mount.
+mount-iso()
+{
+  [[ ! -d /media/iso ]] && sudo mkdir /media/iso
+  sudo mount -o loop -t iso9660 $1 /media/iso
+}
