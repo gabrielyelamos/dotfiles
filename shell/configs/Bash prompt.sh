@@ -16,7 +16,7 @@ if [[ $SHELL_TYPE == 'bash' ]]; then
 	# ------------------------------------------------------------------------------
 
 	# Maximum length of the path displayed in the prompt.
-	export PROMPT_PATH_MAX_LENGTH=30
+	export PROMPT_PATH_MAX_LENGTH=20
 
 	# Symbol to display before the path to mark it has been truncated.
 	export PROMPT_PATH_TRUNCATION_SYMBOL="..."
@@ -34,13 +34,13 @@ if [[ $SHELL_TYPE == 'bash' ]]; then
 	#   3 (required) must be 1 if the working has uncommited changes.
 	_print_vcs_info()
 	{
-		local result=$TEXT_WHITE$BOLD
+		local result
 		if [[ $3 -eq 1 ]]; then
-			result=$BACKGROUND_BLUE$result
+			result="\[$( set_color -o -b blue white )\]"$result
 		else
-			result=$BACKGROUND_GREEN$result
+			result="\[$( set_color -o -b green white )\]"$result
 		fi
-		result=$result$1"|"$2$RESET_FORMATTING
+		result=$result$1"|"$2"\[$( set_color normal )\]"
 		echo -n $result
 	}
 
@@ -61,15 +61,15 @@ if [[ $SHELL_TYPE == 'bash' ]]; then
 	# Print infos if the directory is a Subversion working copy.
 	_print_svn_info()
 	{
-		# Get the version from SVN
-		local version=$( svnversion 2>/dev/null )
+		# Get the current revision
+		local revision=$( LANG='C' svn info 2>/dev/null | awk '/Revision:/ {print $2; }' )
 		
 		# If we are in a versionned directory
-		if [[ $version != 'export'* ]]; then
-			local revision=$( echo $version | sed -e 's/[^0-9]//g' )
+		if [[ -n $revision ]]; then
+    local uncommited_changes=$( LANG='C' svn status -q 2>/dev/null | grep "^[MA]" | wc -l )
 		_print_vcs_info "SVN" \
 										 "r$revision" \
-										 "$( test $version == $revision; echo $? )"
+										 "$( test $uncommited_changes -eq 0; echo $? )"
 		fi
 	}
 
@@ -97,9 +97,7 @@ if [[ $SHELL_TYPE == 'bash' ]]; then
 	# Print the custom prompt.
 	_print_custom_prompt()
 	{
-		_print_svn_info
-		_print_git_info
-		_print_path
+		PS1="$(_print_svn_info)$(_print_git_info)\[$( set_color -o )\]$(_print_path)\[$( set_color normal )\]\$ "
 	}
 
 
@@ -108,7 +106,6 @@ if [[ $SHELL_TYPE == 'bash' ]]; then
 	# ------------------------------------------------------------------------------
 
 	# Define the custom prompt.
-	PS1=" \[$BOLD\]\$\[$RESET_FORMATTING\] "
 	add-prompt-command "_print_custom_prompt"
 
 fi
