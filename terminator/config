@@ -12,7 +12,7 @@
   # you click in it. 'sloppy' means the focus will follow the mouse pointer. 'system' means the focus
   # will match that used by a GNOME window manager.
   # Default value: click
-  focus = click
+  focus = 'click'
 
   # Controls the width of the separator between terminals. Anything outside the range 0-5 (inclusive)
   # will be ignored and use your default theme value.
@@ -65,29 +65,32 @@
 
   # Sets the colour of the background of the titlebar in the active terminal.
   # Default value: '#C80003'
-  title_transmit_bg_color=#440003
+  title_transmit_bg_color='#440003'
 
   # Sets the colour of the text shown in the titlebar of any terminal that will receive input from
   # the active terminal.
   # Default value: '#FFFFFF'
-  title_receive_fg_color=#FFFFFF
+  title_receive_fg_color='#FFFFFF'
 
   # Sets the colour of the background of the titlebar of any terminal that will receive input from the
   # active terminal.
   # Default value: '#0076C9'
-  title_receive_bg_color=#0076C9
+  title_receive_bg_color='#0076C9'
 
   # Sets the colour of the text shown in the titlebar of any terminal that will not receive input from
   # the active terminal. Default value: '#000000' 
-  title_inactive_fg_color=#000000
+  title_inactive_fg_color='#000000'
 
   # Sets the colour of the background of the titlebar of any terminal that will not receive input from
   # the active terminal. Default value: '#C0BEBF' 
-  title_inactive_bg_color=#C0BEBF
+  title_inactive_bg_color='#C0BEBF'
 
   # A list of plugins which should not be loaded by default.
   # Default value: "TestPlugin, CustomCommandsMenu"
   disabled_plugins="TestPlugin, CustomCommandsMenu"
+
+  # Enable transparency with Compiz.
+  enable_real_transparency=True
 
 
 [keybindings]
@@ -339,7 +342,7 @@
     # Default colour of cursor, as a colour specification (can be HTML-style hex digits, or a colour
     # name such as "red").
     # Default value: Current value of foreground_color
-    cursor_color=foreground_color
+    cursor_color='#FFFFFF'
            
     # Default shape of cursor. Possibilities are "block", "ibeam", and "underline".
     # Default value: block 
@@ -359,7 +362,7 @@
     # Default  colour  of text in the terminal, as a colour specification (can be HTML-style hex dig‐
     # its, or a colour name such as "red"). Note: You may need to set use_theme_colors=False to force
     # this setting to take effect.  Default value: '#AAAAAA'
-    foreground_color=#EEEEEE
+    foreground_color='#FFFFFF'
 
     # Where to put the terminal scrollbar. Possibilities are "left", "right", and "disabled".
     # Default value: right 
@@ -445,4 +448,4 @@
     # If set to True, text selections will be automatically copied to the clipboard, in addition to
     # being made the Primary selection.
     # Default value: False
-    copy_on_selection False
+    copy_on_selection=False
