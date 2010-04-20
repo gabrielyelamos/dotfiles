@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookmarks>
+   <site url="http://andrei.gmxhome.de/eclipse/" selected="true" name="AnyEdit"/>
+   <site url="http://directory.apache.org/studio/update/1.x" selected="true" name="Apache Directory Studio"/>
+   <site url="http://update.atlassian.com/atlassian-eclipse-plugin/e3.4" selected="true" name="Atlassian connectors"/>
+   <site url="http://eclipse-cs.sf.net/update/" selected="true" name="CheckStyle"/>
+   <site url="http://findbugs.cs.umd.edu/eclipse" selected="true" name="FindBugs"/>
+   <site url="http://flexformatter.googlecode.com/svn/trunk/FlexFormatter/FlexPrettyPrintCommandUpdateSite" selected="true" name="FlexFormatter"/>
+   <site url="http://opensource.adobe.com/svn/opensource/flexpmd/plugin/trunk/flex-pmd-eclipse-plugin-site" selected="true" name="FlexPMD"/>
+   <site url="http://dl.google.com/eclipse/plugin/3.5" selected="true" name="Google Eclipse plugin"/>
+   <site url="http://dist.codehaus.org/groovy/distributions/greclipse/snapshot/e3.5/" selected="true" name="Groovy"/>
+   <site url="http://jope.ow2.org/update/jope" selected="true" name="JOPE"/>
+   <site url="http://jora.luenasoft.de/updatesite" selected="true" name="jOra"/>
+   <site url="http://m2eclipse.sonatype.org/sites/m2e" selected="true" name="M2Eclipse"/>
+   <site url="http://m2eclipse.sonatype.org/sites/m2e-extras" selected="true" name="M2Eclipse-extras"/>
+   <site url="http://pydev.org/updates" selected="true" name="PyDev"/>
+   <site url="http://quantum.sourceforge.net/update-site" selected="true" name="QuantumDB"/>
+   <site url="http://download.eclipse.org/technology/subversive/0.7/update-site/" selected="true" name="Subversive Site"/>
+   <site url="http://community.polarion.com/projects/subversive/download/eclipse/2.0/update-site/" selected="true" name="Subversive SVN connectors"/>
+</bookmarks>

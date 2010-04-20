@@ -54,6 +54,10 @@ Host vm7.capwebct*.frec.bull.fr
 Host aladin-*.frec.bull.fr
   User root
 
+# Bull / LibreCité
+Host clct*.frml.bull.fr
+  User root
+
 
 # ------------------------------------------------------------------------------
 # Default settings
