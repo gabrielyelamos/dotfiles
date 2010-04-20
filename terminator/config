@@ -1,0 +1,90 @@
+# ------------------------------------------------------------------------------
+# Description
+#   Configuration file for Terminator.
+#
+# Usage
+#   This file goes to ~/.config/terminator/config.
+# ------------------------------------------------------------------------------
+
+[global_config]
+
+# Control how focus is given to terminals. 'click' means the focus only moves to a terminal after
+# you click in it. 'sloppy' means the focus will follow the mouse pointer. 'system' means the focus
+# will match that used by a GNOME window manager.
+# Default value: click
+focus = click
+  
+# Controls the width of the separator between terminals. Anything outside the range 0-5 (inclusive)
+# will be ignored and use your default theme value.
+# Default value: -1 
+handle_size=-1
+
+# If True the window will resize in step with font sizes, if False it will follow pixels
+# Default value: True 
+geometry_hinting=True
+
+# When set to 'normal' the Terminator window opens normally. 'maximise' opens the window in a
+# maximised state, 'fullscreen' in a fullscreen state and 'hidden' will make it not shown by default.
+# Default value: normal 
+window_state=maximized
+
+# Controls whether the Terminator window will be started without window borders
+# Default value: False 
+borderless=False
+
+# Defines where tabs are placed. Can be any of: top, left, right, bottom.
+# Default value: top 
+tab_position=top
+
+# If set to True, tabs will have a close button on them.
+# Default value: True 
+close_button_on_tab=True
+
+# If set to True, the tab bar will be hidden. This means there will be no visual indication of either
+# how many tabs there are, or which one you are on. Be warned that this can be very confusing and
+# hard to use.
+# Default value: False 
+hide_tabbar=False
+
+# If set to True, the tab bar will not fill the width of the window. The titlebars of the tabs will
+# only take as much space as is necessary for the text they contain. Except, that is, if the tabs no
+# longer fit the width of the window - in that case scroll buttons will appear to move through the tabs.
+# Default value: False 
+scroll_tabbar=False
+
+# If set to True, URL matching regexps will try to use POSIX style first, and fall back on GNU style
+# on failure. If you are on Linux but URL matches don't work, try setting this to True. If you are
+# not on Linux, but you get VTE warnings on startup saying "Error compiling regular expression", set
+# this to False to silence them (they are otherwise harmless).
+# Default value: False on Linux, True otherwise. 
+try_posix_regexp=False
+
+# Sets the colour of the text shown in the titlebar of the active terminal.
+# Default value: '#FFFFFF'
+title_transmit_fg_color=#FFFFFF
+
+# Sets the colour of the background of the titlebar in the active terminal.
+# Default value: '#C80003'
+title_transmit_bg_color=#C80003
+
+# Sets the colour of the text shown in the titlebar of any terminal that will receive input from
+# the active terminal.
+# Default value: '#FFFFFF'
+title_receive_fg_color=#FFFFFF
+
+# Sets the colour of the background of the titlebar of any terminal that will receive input from the
+# active terminal.
+# Default value: '#0076C9'
+title_receive_bg_color=#0076C9
+
+# Sets the colour of the text shown in the titlebar of any terminal that will not receive input from
+# the active terminal. Default value: '#000000' 
+title_inactive_fg_color=#000000
+
+# Sets the colour of the background of the titlebar of any terminal that will not receive input from
+# the active terminal. Default value: '#C0BEBF' 
+title_inactive_bg_color=#C0BEBF
+
+# A list of plugins which should not be loaded by default.
+# Default value: "TestPlugin, CustomCommandsMenu"
+disabled_plugins="TestPlugin, CustomCommandsMenu"
