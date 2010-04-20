@@ -67,7 +67,7 @@
       <key>applets/applet_0/position</key>
       <schema_key>/schemas/apps/panel/objects/position</schema_key>
       <value>
-        <int>128</int>
+        <int>1</int>
       </value>
     </entry>
     <entry>
@@ -508,7 +508,7 @@
       <key>applets/applet_2/position</key>
       <schema_key>/schemas/apps/panel/objects/position</schema_key>
       <value>
-        <int>162</int>
+        <int>139</int>
       </value>
     </entry>
     <entry>
@@ -3209,7 +3209,7 @@
       <key>toplevels/panel_0/monitor</key>
       <schema_key>/schemas/apps/panel/toplevels/monitor</schema_key>
       <value>
-        <int>0</int>
+        <int>1</int>
       </value>
     </entry>
     <entry>
@@ -3398,7 +3398,7 @@
       <key>toplevels/top_panel_screen0/monitor</key>
       <schema_key>/schemas/apps/panel/toplevels/monitor</schema_key>
       <value>
-        <int>1</int>
+        <int>0</int>
       </value>
     </entry>
     <entry>
