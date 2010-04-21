@@ -45,10 +45,11 @@
     login_shell = True
     background_darkness = 0.88
     scrollback_lines = 10000
-    cursor_shape = underline
+    background_type = transparent
     cursor_color = "#FFFFFF"
     foreground_color = "#ffffff"
-    background_type = transparent
+    scroll_on_output = False
+    cursor_shape = underline
 [layouts]
   [[default]]
     [[[child1]]]
