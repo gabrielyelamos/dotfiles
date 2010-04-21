@@ -119,7 +119,7 @@ alias path='echo -e ${PATH//:/\\n} | most'
 #   1 (required) the new title
 set-terminal-title ()
 {
-  echo -ne "\\e]2;$1\\a"
+  echo -ne "\\e]2;$*\\a"
 }
 
 
