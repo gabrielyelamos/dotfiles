@@ -6,6 +6,10 @@
 
 if [[ $SHELL_TYPE == 'zsh' ]]; then
 
+  # ----------------------------------------------------------------------------
+  # Initialization
+  # ----------------------------------------------------------------------------
+
   # Activate auto-completion
   autoload -Uz compinit
   compinit
@@ -13,26 +17,6 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
   # Activate Bash auto-completion
   autoload -U bashcompinit
   bashcompinit
-
-  # Use Emacs line editing mode
-  bindkey -e
-
-  # <CTRL><LEFT> => previous word
-  bindkey ';5D' emacs-backward-word
-
-  # <CTRL><RIGHT> => next word
-  bindkey ';5C' emacs-forward-word
-
-  # Custom ZLE Widget to bind F5 => 'source ~/.zshrc'
-  _refresh()
-  {
-	source ~/.zshrc
-  }
-  zle -N _refresh
-  bindkey '^[[15~' _refresh
-
-  # Prompt
-  export PROMPT="%2~%b%#%b "
 
 
   # ----------------------------------------------------------------------------
