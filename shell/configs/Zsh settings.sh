@@ -7,7 +7,7 @@
 if [[ $SHELL_TYPE == 'zsh' ]]; then
 
   # ----------------------------------------------------------------------------
-  # Initialization
+  # Initializations
   # ----------------------------------------------------------------------------
 
   # Activate auto-completion
@@ -861,5 +861,17 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
 
   # Use the zsh line editor. Set by default in interactive shells connected to a terminal.
   setopt ZLE
+
+
+  # ----------------------------------------------------------------------------
+  # Initializations
+  # ----------------------------------------------------------------------------
+
+  # Hooks initialization
+  typeset -a precmd_functions
+  typeset -a preexec_functions
+
+  # Update CDPATH before each command
+  precmd_functions+=_update_cdpath
 
 fi

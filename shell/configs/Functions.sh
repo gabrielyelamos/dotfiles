@@ -494,3 +494,21 @@ mount-iso()
   [[ ! -d /media/iso ]] && sudo mkdir /media/iso
   sudo mount -o loop -t iso9660 $1 /media/iso
 }
+
+
+# ------------------------------------------------------------------------------
+# Private/internal commands
+# ------------------------------------------------------------------------------
+
+
+# Set displayed directories when running '$ cd <TAB>'.
+_update_cdpath()
+{
+  # Add the current and previous directory to the 'cd' path.
+  export CDPATH='.:$OLDPWD'
+
+  # Add the projects directory too
+  if [[ $OLDPWD != '$HOME/projects' ]] && [[ $PWD != '$HOME/projects' ]]; then
+    export CDPATH='.:$OLDPWD:$HOME/projects'
+  fi
+}

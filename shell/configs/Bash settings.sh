@@ -54,17 +54,7 @@ if [[ $SHELL_TYPE == 'bash' ]]; then
     export BROWSER="firefox"
   fi
 
-  # Set displayed directories when running '$ cd <TAB>'.
-  _update_cdpath()
-  {
-    # Add the current and previous directory to the 'cd' path.
-    export CDPATH='.:$OLDPWD'
-  
-    # Add the projects directory too
-    if [[ $OLDPWD != '/home/'*'/projects' ]] && [[ $PWD != '/home/'*'/projects' ]]; then
-      export CDPATH='.:$OLDPWD:~/projects'
-    fi
-  }
+  # Set the displayed directories when running '$ cd <TAB>'.
   add-prompt-command "_update_cdpath"
 
   # Append to the history file, don't overwrite it.
