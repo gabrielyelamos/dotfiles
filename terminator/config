@@ -1,10 +1,9 @@
 [global_config]
-  window_state = maximized
+  title_receive_bg_color = "#a31100"
+  title_transmit_bg_color = "#0e6daf"
+  title_inactive_fg_color = "#ffffff"
   title_transmit_fg_color = "#FFFFFF"
-  title_receive_bg_color = "#0076C9"
-  title_transmit_bg_color = "#8a0006"
-  title_receive_fg_color = "#FFFFFF"
-  title_inactive_bg_color = "#C0BEBF"
+  title_inactive_bg_color = "#000000"
 [keybindings]
   close_window = <Ctrl><Shift>Q
   resize_left = <Ctrl><Shift>Left
@@ -55,6 +54,7 @@
     [[[child1]]]
       type = Terminal
       parent = window0
+      profile = default
     [[[window0]]]
       type = Window
       parent = ""
