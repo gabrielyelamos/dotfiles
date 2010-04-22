@@ -25,6 +25,9 @@ Host bench-db
 Host bench-server
   User bench
 
+Host cg95-*.frec.bull.fr
+  User bench
+
 # Bull / CG95
 Host *capwebct*.frec.bull.fr
   User root
