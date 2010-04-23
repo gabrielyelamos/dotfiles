@@ -10,10 +10,10 @@ if [[ $SHELL_TYPE == 'zsh' ]]; then
   bindkey -e
 
   # <CTRL><LEFT> => previous word
-  bindkey ';5D' emacs-backward-word
+  bindkey '^[[1;5D' emacs-backward-word
 
   # <CTRL><RIGHT> => next word
-  bindkey ';5C' emacs-forward-word
+  bindkey '^[[1;5C' emacs-forward-word
 
   # Custom ZLE Widget to bind F5 => 'source ~/.zshrc'
   _refresh()
