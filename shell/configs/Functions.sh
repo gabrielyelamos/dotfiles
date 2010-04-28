@@ -154,7 +154,7 @@ function flag-command()
 {
   if [ -n $1 ]; then
     flag $@
-    $@
+    eval $@
     return $?
   fi
   return 1
