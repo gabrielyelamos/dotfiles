@@ -17,4 +17,5 @@
    <site url="http://quantum.sourceforge.net/update-site" selected="true" name="QuantumDB"/>
    <site url="http://download.eclipse.org/technology/subversive/0.7/update-site/" selected="true" name="Subversive Site"/>
    <site url="http://community.polarion.com/projects/subversive/download/eclipse/2.0/update-site/" selected="true" name="Subversive SVN connectors"/>
+   <site url="http://akurtakov.fedorapeople.org/shelled/" selected="true" name="Shelled (akurtakov)"/>
 </bookmarks>
