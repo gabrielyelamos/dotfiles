@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# ------------------------------------------------------------------------------
+# Description
+#   Add all files to versioning recursively.
+#
+# Dependencies
+#   * Commands: svn, find.
+# ------------------------------------------------------------------------------
+
+find "$PWD" -exec svn add {} 2>/dev/null \;
