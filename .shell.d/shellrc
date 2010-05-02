@@ -23,7 +23,7 @@
 #
 #   Then make sure shellrc is sourced at bash startup, for example by
 #   setting a symbolic link this way:
-#     $ ln -s /path/to/this/file $HOME/.SHELLRC
+#     $ ln -s /path/to/this/file $HOME/.bash_profile
 #     $ ln -s /path/to/this/file $HOME/.bashrc
 #     $ ln -s /path/to/this/file $HOME/.zshrc
 #
