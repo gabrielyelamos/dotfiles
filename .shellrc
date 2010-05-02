@@ -12,7 +12,7 @@
 # Usage
 #   The directory structure must be as follows:
 #       $HOME
-#       └─ shell.d
+#       └─ .shell.d
 #          ├─ configs
 #          │  ├─ enabled
 #          │  ├─ disabled
