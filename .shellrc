@@ -92,7 +92,7 @@ shellrc_print-top-line()
 # Execute the header scripts.
 shellrc_exec-headers ()
 {
-  local file	
+  local file
 
   # Loop through files in the header folder
   # (Trick: replace spaces in filenames with '&' to enter the for loop)
