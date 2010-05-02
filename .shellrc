@@ -95,8 +95,13 @@ shellrc_exec-headers ()
   local file	
 
   # Loop through files in the header folder
-  for file in $SHELL_INIT_DIR/header/enabled/*; do
-    
+  # (Trick: replace spaces in filenames with '&' to enter the for loop)
+  for file in `find $SHELL_INIT_DIR/header/enabled/* ! -name '.*' -xtype f | sort | sed -e "s/ /\\&/g"`
+  do
+
+	# Restore spaces
+	file=`echo $file | sed -e "s/\\&/ /g"`
+        
     # If this is a file, execute it
     if [ -f "$file" ]; then
       eval "$file"
@@ -195,7 +200,7 @@ shellrc_load-folder-configs ()
     
       # Loop through files in the folder
       # (Trick: replace spaces in filenames with '&' to enter the for loop)
-      for file in `find $folder/* -xtype f | sort | sed -e "s/ /\\&/g"`
+      for file in `find $folder/* ! -name '.*' -xtype f | sort | sed -e "s/ /\\&/g"`
       do
       
         # Restore spaces
