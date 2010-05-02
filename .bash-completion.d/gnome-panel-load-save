@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# ------------------------------------------------------------------------------
+# Description
+#   Completion for the gnome-panel-load/save scripts.
+# ------------------------------------------------------------------------------
+
+
+# Complete the gnome-panel load and save commands.
+_complete-gnome-panel-save-or-load()
+{
+  # Complete only once
+  if [[ $COMP_CWORD -le 1 ]]; then
+    cur=${COMP_WORDS[COMP_CWORD]}
+    COMPREPLY=( $( compgen -W "`/bin/ls $HOME/.config/dotfiles/gnome/apps/panel`" -- $cur ) )
+  fi
+}
+
+# Complete the gnome-panel load and save commands.
+complete -F _complete-gnome-panel-save-or-load gnome-panel-load
+complete -F _complete-gnome-panel-save-or-load gnome-panel-save

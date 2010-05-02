@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# ------------------------------------------------------------------------------
+# Description
+#   Save the current configuration for Gnome-panel.
+#
+# Arguments
+#   1 (required) the name of the config to save. The file will be saved
+#                at $HOME/.config/dotfiles/gnome/apps/panel/<name>
+#
+# Dependencies
+#   * Commands: gconftool.
+# ------------------------------------------------------------------------------
+
+gconftool --dump /apps/panel > $HOME/.config/dotfiles/gnome/apps/panel/$@
