@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# ------------------------------------------------------------------------------
+# Description
+#   Mount/unmount a TrueCrypt volume.
+#
+# Arguments
+#   1 (required) The location of the encrypted volume file.
+#   2 (required) The mount point of the encrypted volume.
+#
+# Dependencies
+#   * Configs: Functions.
+#   * Commands: truecrypt.
+# ------------------------------------------------------------------------------
+
+
+if [ -z "$( truecrypt --text --list 2>/dev/null | grep -e "$2" )" ]; then
+  flag Mounting $2
+  truecrypt --text --protect-hidden=no --keyfiles='' $1 $2
+else
+  flag Unmounting $2
+  truecrypt --text --dismount $1
+fi
