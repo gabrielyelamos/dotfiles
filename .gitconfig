@@ -39,10 +39,6 @@
 [status]
   color = auto
 
-[github]
-  user = nicoulaj
-  token = d229323408dff5f3a6ad44c37648fe88
-
 [alias]
 
   # SVN style shortcuts
