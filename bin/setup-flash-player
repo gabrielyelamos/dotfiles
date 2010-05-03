@@ -1,309 +1,201 @@
 #!/usr/bin/env bash
-# --------------------------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
 #   This script tries to setup a debug version of the Flash Player on Linux 64bits systems.
 #   Should work on Debian and Ubuntu, at least for Firefox.
 #   Use it at your own risk !
-# --------------------------------------------------------------------------------------------------
-
-# --------------------------------------------------------------------------------------------------
-# Variables
-# --------------------------------------------------------------------------------------------------
-
-# Package manager to use
-PACKAGE_MANAGER='apt-get'
-
-# Packages to purge
-PACKAGES_TO_PURGE='flashplugin-nonfree gnash gnash-common mozilla-plugin-gnash swfdec-mozilla libflashsupport nspluginwrapper flashplugin-installer'
-
-# Packages to (re)install
-PACKAGES_TO_INSTALL='nspluginwrapper ia32-libs'
-
-# Flash Player debug for Linux download location
-FLASH_PLAYER_DEBUG_DOWNLOAD_URL='http://download.macromedia.com/pub/flashplayer/updaters/10'
-FLASH_PLAYER_DEBUG_DOWNLOAD_FILENAME='flash_player_10_linux_dev.tar.gz'
-
-# Folder for temporary files
-TMP_FOLDER='/tmp/flash-player-install'
-
-# Folder to install binaries
-INSTALL_FOLDER='/opt/flash'
-
-# Flash player archive file names
-ARCHIVE_FOLDER_NAME='flash_player_10_linux_dev'
-PATH_TO_LIB_ARCHIVE='plugin/debugger'
-PATH_TO_STANDALONE_ARCHIVE='standalone/debugger'
-LIB_ARCHIVE_FILENAME='libflashplayer.so.tar.gz'
-STANDALONE_ARCHIVE_FILENAME='flashplayer.tar.gz'
-
-# Test application
-TEST_SWF_URL='http://www.ju-n.net/flash-player-version.swf'
-
-# Colors
-NO_COLOR='\e[0m'
-BLACK='\e[0;30m'
-RED='\e[0;31m'
-GREEN='\e[0;32m'
-YELLOW='\e[0;33m'
-BLUE='\e[0;34m'
-MAGENTA='\e[0;35m'
-CYAN='\e[0;36m'
-WHITE='\e[0;37m'
-EBLACK='\e[1;30m'
-ERED='\e[1;31m'
-EGREEN='\e[1;32m'
-EYELLOW='\e[1;33m'
-EBLUE='\e[1;34m'
-EMAGENTA='\e[1;35m'
-ECYAN='\e[1;36m'
-EWHITE='\e[1;37m'
-UBLACK='\e[4;30m'
-URED='\e[4;31m'
-UGREEN='\e[4;32m'
-UYELLOW='\e[4;33m'
-UBLUE='\e[4;34m'
-UMAGENTA='\e[4;35m'
-UCYAN='\e[4;36m'
-UWHITE='\e[4;37m'
-BBLACK='\e[40m'
-BRED='\e[41m'
-BGREEN='\e[42m'
-BYELLOW='\e[43m'
-BBLUE='\e[44m'
-BMAGENTA='\e[45m'
-BCYAN='\e[46m'
-BWHITE='\e[47m'
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 
-# --------------------------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+# Constants
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Functions
-# --------------------------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-# Output an info message
-function info() {
-    echo -e $EBLUE$@$NO_COLOR
+# Output an info message.
+function info()
+{
+  echo "[INFO] $@"
 }
 
-# Output an error message
-function error() {
-    echo -e $ERED$@$NO_COLOR
+# Output an warning message.
+function warn()
+{
+  echo "[WARNING] $@" 2>&1
 }
 
-# Display a title
-function title() {
-    echo
-    echo -e $BBLUE" $@ "$NO_COLOR
+# Output an error message.
+function error()
+{
+  echo "[ERROR] $@" 2>&1
+}
+
+# Display a title.
+title()
+{
+  echo "╷"
+  echo "│ $@"
+  echo "╰──────────────────────────────"
 }
 
 # Make sure we have root access
-function is_root() {
-    if [ ! `whoami` = "root" ]
-    then
-        return 1
-    else
-        return 0
-    fi
+is_root()
+{
+  [[ `id -u` -eq 0 ]] && return 0
+  return 1
 }
 
-# Make sure this is a 64 bits OS
-function is_64bits() {
-    if [ ! `uname -m` = "x86_64" ]
-    then
-        return 1
-    else
-        return 0
-    fi
+#
+is_64bits()
+{
+  [[ `uname -m` == 'x86_64' ]] && return 0
+  return 1
 }
 
 # Ask a Yes/No question
-function ask() {
-    echo -ne $EBLUE"$@" '[y/n] '$NO_COLOR ; read ans
-    case "$ans" in
-        y*|Y*) return 0 ;;
-        *) return 1 ;;
-    esac
+ask() {
+  echo -n "$@" '[y/N] ' ; read ans
+  case "$ans" in
+    y*|Y*) return 0 ;;
+    *) return 1 ;;
+  esac
 }
 
-# Make sure Firefox is not running
-function shutdown_firefox() {
-    local pid pname
-    for pid in $(ps -e | grep "firefox" | awk '{print $1;}') ; do
-        if ask "Kill Firefox process (pid $pid) ?"
-        then
-            kill "-TERM" $pid
-        else
-            return 1
-        fi
-    done
-    return 0
+#
+uninstall_flash_player()
+{
+  title "Uninstall Flash Player"
+
+  info "Uninstalling packages"
+  apt-get --assume-yes --purge -qq remove flashplugin-installer
+  apt-get --assume-yes --purge -qq remove adobe-flashplugin
+  apt-get --assume-yes --purge -qq remove nspluginwrapper
+  apt-get --assume-yes --purge -qq remove flashplugin-nonfree
+  apt-get --assume-yes --purge -qq remove gnash
+  apt-get --assume-yes --purge -qq remove gnash-common
+  apt-get --assume-yes --purge -qq remove mozilla-plugin-gnash
+  apt-get --assume-yes --purge -qq remove iceweasel-flashplugin
+  apt-get --assume-yes --purge -qq remove mozilla-flashplugin
+  apt-get --assume-yes --purge -qq remove firefox-flashplugin
+  apt-get --assume-yes --purge -qq remove swfdec-mozilla
+  apt-get --assume-yes --purge -qq remove mozilla-swfdec
+  apt-get --assume-yes --purge -qq remove libflashsupport
+  apt-get --assume-yes --purge -qq remove nspluginwrapper
+  apt-get --assume-yes --purge -qq remove iceape-flashplugin
+  apt-get --assume-yes --purge -qq remove xulrunner-flashplugin
+  apt-get --assume-yes --purge -qq remove midbrowser-flashplugin
+  apt-get --assume-yes --purge -qq remove xulrunner-addons-flashplugin
+  
+  info "Cleaning traces from any previous Flash Player installation"
+  rm -rvf /home/*/.mozilla/plugins/libflash* \
+          /home/*/.mozilla/plugins/ns*flash* \
+          /usr/lib/firefox*/plugins/libflash* \
+          /usr/lib/iceape/plugins/flash*.so \
+          /usr/lib/iceweasel/plugins/flash*.so \
+          /usr/lib/iceweasel/plugins/npwrapper.libflashplayer.so \
+          /usr/lib/midbrowser/plugins/flash*.so \
+          /usr/lib/mozilla/plugins/libflash* \
+          /usr/lib/xulrunner-addons/plugins/flashplugin-alternative.so \
+          /usr/lib/xulrunner/plugins/flash*.so \
+          /usr/lib/nspluginwrapper \
+          /var/lib/flashplugin-nonfree/npwrapper.libflashplayer.so
 }
 
-# Install getlibs
-function install_getlibs() {
-    if [[ ! `which getlibs` ]]
-    then
-        $PACKAGE_MANAGER install getlibs
-    fi
-    if [[ ! `which getlibs` ]]
-    then
-        wget frozenfox.freehostia.com/cappy/getlibs-all.deb
-        dpkg -i getlibs-all.deb
-        rm -vf getlibs-all.deb
-    fi
-    if [[ `which getlibs` ]]
-    then
-        return 0
-    else
-        return 1
-    fi
+#
+warn_and_uninstall_flash_player()
+{
+  if ask "This will erase any existing installation of the Flash Player. Are you sure you want to continue ?"; then
+    uninstall_flash_player
+    return $?
+  fi
+  return 1
 }
 
-# Clean temporary files
-function clean_tmp () {
-    cd -
-    rm -rvf $TMP_FOLDER
+#
+install_flash_player_by_package_manager()
+{
+  title "Install Flash Player"
+
+  info "Installing Flash Player with the package manager"
+  apt-get --assume-yes --quiet install flashplugin-installer
+
+  return $?
 }
 
-# Exit if previous command has failed
-function exit_if_failed() {
-    if [[ ! $? = 0 ]]
-    then
-        error $@
-        clean_tmp
-        exit 1
-    fi
+#
+install_flash_player()
+{
+  if warn_and_uninstall_flash_player; then
+    install_flash_player_by_package_manager
+    return $?
+  fi
+  return 1
 }
 
 
-# --------------------------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Main
-# --------------------------------------------------------------------------------------------------
-    
-# Make sure there are no temporary files from a previous execution
-title "Clean previous temporary files"
-rm -rvf $TMP_FOLDER
-mkdir -pv $TMP_FOLDER
-cd $TMP_FOLDER
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-# Check that we are on a 64 bits OS
-title "Check architecture"
-is_64bits
-exit_if_failed "This script only applies to 64 bits architectures."
-
-# Check that we are root
-title "Check execution rights"
-is_root
-exit_if_failed "You must run this script as root."
-
-# Make sure Firefox is not running
-title "Make sure Firefox is not running"
-shutdown_firefox
-exit_if_failed "You must shutdown all instances of Firefox to run the script."
-
-# Purge all Flash support shitty packages
-title "Purge Flash player packages"
-$PACKAGE_MANAGER remove -y --purge $PACKAGES_TO_PURGE
-exit_if_failed "An error happened while removing packages."
-
-# Clean all traces from Flash Player
-title "Purge remaining Flash Player traces"
-rm -vf /usr/lib/mozilla/plugins/*flash*
-rm -vf /usr/lib/firefox/plugins/*flash*
-rm -vf ~/.mozilla/plugins/*flash*
-rm -rvfd /usr/lib/nspluginwrapper
-rm -rfv $INSTALL_FOLDER
-
-# Install packages
-title "(Re)install needed packages"
-$PACKAGE_MANAGER install $PACKAGES_TO_INSTALL
-exit_if_failed "An error happened while installing packages."
-
-# Download our Flash player
-title "Download Flash Player debug version"
-wget $FLASH_PLAYER_DEBUG_DOWNLOAD_URL/$FLASH_PLAYER_DEBUG_DOWNLOAD_FILENAME
-exit_if_failed "An error happened while downloading the Flash Player."
-
-# Extract the downloaded archive
-title "Extract the archive"
-tar -xvzf $FLASH_PLAYER_DEBUG_DOWNLOAD_FILENAME
-exit_if_failed "An error happened while extracting the archive."
-tar -xvzf $ARCHIVE_FOLDER_NAME/$PATH_TO_LIB_ARCHIVE/$LIB_ARCHIVE_FILENAME
-exit_if_failed "An error happened while extracting the Flash Player library."
-tar -xvzf $ARCHIVE_FOLDER_NAME/$PATH_TO_STANDALONE_ARCHIVE/$STANDALONE_ARCHIVE_FILENAME
-exit_if_failed "An error happened while extracting the stadnalone Flash Player."
-
-# Look for the lib and replace it everywhere
-# (just to be sure and eventually make it work for other browsers / unexpected systems)
-title "Replace the library everywhere we find it"
-find / -name libflashplayer.so -print -exec cp -iv libflashplayer.so {} \;
-
-# Copy it to Firefox's plugins folder
-title "Copy the library to Firefox's plugins folder"
-cp -v libflashplayer.so /usr/lib/mozilla/plugins
-
-# Install getlibs if needed
-title "Install getlibs"
-install_getlibs
-exit_if_failed "An error happened while installing getlibs."
-
-# Get the needed 32 bits libs
-title "Install some 32 bits libraries"
-echo Y | getlibs -p libcurl3
-echo Y | getlibs -p libnss3-1d
-echo Y | getlibs -p libnspr4-0d
-
-# Setup the 32 -> 64 bits plugin wrapper
-title "Setup the 32 -> 64 bits plugin wrapper"
-nspluginwrapper -v -i /usr/lib/mozilla/plugins/libflashplayer.so
-exit_if_failed "An error happened while setting up nspluginwrapper."
-ln -svf /usr/lib/nspluginwrapper/plugins/npwrapper.libflashplayer.so /usr/lib/mozilla/plugins/
-ln -svf /usr/lib/nspluginwrapper/plugins/npwrapper.libflashplayer.so /usr/lib/firefox-addons/plugins/
-ln -svf /usr/lib/nspluginwrapper/plugins/npwrapper.libflashplayer.so /usr/lib/xulrunner-addons/plugins/
-
-# Install the standalone Flash Player
-title "Setup the standalone Flash Player"
-mkdir -v $INSTALL_FOLDER
-cp -vf flashplayer $INSTALL_FOLDER/flashplayer
-ln -svf $INSTALL_FOLDER/flashplayer /usr/bin/flashplayer
-
-# Setup Flash Player debug logfile
-title "Setup Flash log file"
-message "Setting up the Flash Player debug configuration file at $HOME/mm.cfg. Enables output of the Flash Player log in a file."
-rm -fv $HOME/mm.cfg
-echo 'ErrorReportingEnable 1                                   ' >> $HOME/mm.cfg
-echo 'MaxWarnings 0                                            ' >> $HOME/mm.cfg
-echo 'TraceOutputFileEnable 1                                  ' >> $HOME/mm.cfg
-chmod -v 775 $HOME/mm.cfg
-
-# Setup a command to trace the log
-title "Setup a command to trace the Flash Player log"
-echo '#!/usr/bin/env bash                                      ' >> $INSTALL_FOLDER/flashlog.sh
-echo 'tail -f $HOME/.macromedia/Flash_Player/Logs/flashlog.txt ' >> $INSTALL_FOLDER/flashlog.sh
-chmod -v +x $INSTALL_FOLDER/flashlog.sh
-ln -svf $INSTALL_FOLDER/flashlog.sh /usr/bin/flashlog
-
-# Clean our mess
-title "Clean temporary files"
-clean_tmp
-
-# Output info
-title "Finished"
-info "Two new commands have been added to your path:"
-info " 'flashplayer' runs the standalone Flash Player."
-info " 'flashlog' outputs the FlashPlayer log to the console. See $INSTALL_FOLDER/flashlog.sh for more information."
-
-# Make the user test
-title "Tests"
-if ask "Do you want to test the installation on Firefox ?"
-then
-    firefox $TEST_SWF_URL &> /dev/null &
-
-fi
-if ask "Do you want to test the installation of the standalone Flash Player ?"
-then
-    flashplayer $TEST_SWF_URL &> /dev/null &
+if ! is_root; then
+  warn "This script must be run as root. Don't worry, we'll be careful..."
+  su --login root --command "$0 $*"
+  exit $?
 fi
 
-# Exit
-exit 0
+title "Flash Player installer script"
 
+choices=( 'Install Flash Player' \
+		  'Install Flash Player debug' \
+		  'Install standalone Flash Player' \
+		  'Install standalone Flash Player debug' \
+		  'Uninstall Flash Player' \
+		  'Exit' )
+
+echo "What do you want to do ?"
+PS3="Choose a number: "
+select choice in "${choices[@]}"
+do
+  case $choice in
+    'Install Flash Player')
+      install_flash_player
+      exit $?
+      ;;
+    'Install Flash Player debug')
+      if is_64bits; then
+        echo "Install 64 bits Flash Player debug: not yet implemented."
+      else
+        echo "Install 32 bits Flash Player debug: not yet implemented."
+      fi
+      exit 0
+      ;;
+    'Install standalone Flash Player')
+      if is_64bits; then
+        echo "Install 64 bits standalone Flash Player: not yet implemented."
+      else
+        echo "Install 32 bits standalone Flash Player: not yet implemented."
+      fi
+      exit 0
+      ;;
+    'Install standalone Flash Player debug')
+      if is_64bits; then
+        echo "Install 64 bits standalone Flash Player debug: not yet implemented."
+      else
+        echo "Install 32 bits standalone Flash Player debug: not yet implemented."
+      fi
+      exit 0
+      ;;
+    'Uninstall Flash Player')
+      warn_and_uninstall_flash_player
+      exit $?
+      ;;
+    'Exit')
+      exit 0
+      ;;
+  esac
+done
