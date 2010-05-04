@@ -50,7 +50,7 @@ info()
 #   1 (required) The message to log.
 warn()
 {
-  echo -e "$BOLD$YELLOW$@$RESET_FORMATTING" 2>&1
+  echo -e "$YELLOW$@$RESET_FORMATTING" 2>&1
 }
 
 # Output an error message.
@@ -94,7 +94,7 @@ ask() {
 # Try to clean any trace from a Flash Player installation.
 uninstall_flash_player_plugin()
 {
-  ask "This will erase any existing installation of the Flash Player plugin. Are you sure you want to continue ?" || exit 1
+  ask "This will erase any existing installation of the Flash Player plugin. Are you sure you want to continue ?" || return 1
 
   info "Uninstalling packages"
   apt-get --assume-yes --purge -qq remove flashplugin-installer
@@ -135,13 +135,24 @@ uninstall_flash_player_plugin()
 install_flash_player_by_package_manager()
 {
   info "Installing Flash Player with the package manager"
-  apt-get --assume-yes --quiet install flashplugin-installer
-  return $?
+  apt-get --assume-yes --quiet install flashplugin-installer || return 1
 }
 
-# Replace the installed libflashplayer.so with the debug one.
-patch_libflashplayer_with_debug_one()
+# Install the standard Flash Player plugin.
+install_flash_player_plugin()
 {
+  title "Install Flash player plugin"
+  uninstall_flash_player_plugin || return 1
+  install_flash_player_by_package_manager || return 1
+}
+
+# Install the debugger Flash Player plugin.
+install_flash_player_debug_plugin()
+{
+  title "Install Flash player debug plugin"
+  uninstall_flash_player_plugin || return 1
+  install_flash_player_by_package_manager || return 1
+  
   info "Downloading, extracting libflashplayer.so and patching it"
   wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/plugin/debugger/libflashplayer.so.tar.gz \
                                        | tar xvzO libflashplayer.so \
@@ -149,37 +160,17 @@ patch_libflashplayer_with_debug_one()
                                        || return 1
 }
 
-# Replace the installed libflashplayer.so with the beta one.
-patch_libflashplayer_with_beta_one()
-{
-  info "Downloading, extracting libflashplayer.so and patching it"
-  wget -qO- $FLASH_PLAYER_BETA_DOWNLOAD_URL | tar xvzO libflashplayer.so \
-                                            > $LIBFLASHPLAYER_LOCATION \
-                                            || return 1
-}
-
-# Install the standard Flash Player plugin.
-install_flash_player_plugin()
-{
-  title "Install Flash player plugin"
-  uninstall_flash_player_plugin && install_flash_player_by_package_manager
-  return $?
-}
-
-# Install the debugger Flash Player plugin.
-install_flash_player_debug_plugin()
-{
-  title "Install Flash player debug plugin"
-  uninstall_flash_player_plugin && install_flash_player_by_package_manager && patch_libflashplayer_with_debug_one
-  return $?
-}
-
 # Install the beta Flash Player plugin.
 install_flash_player_beta_plugin()
 {
   title "Install Flash player beta plugin"
-  uninstall_flash_player_plugin && install_flash_player_by_package_manager && patch_libflashplayer_with_beta_one
-  return $?
+  uninstall_flash_player_plugin || return 1
+  install_flash_player_by_package_manager || return 1
+  
+  info "Downloading, extracting libflashplayer.so and patching it"
+  wget -qO- $FLASH_PLAYER_BETA_DOWNLOAD_URL | tar xvzO libflashplayer.so \
+                                            > $LIBFLASHPLAYER_LOCATION \
+                                            || return 1
 }
 
 # Install the standalone Flash Player.
