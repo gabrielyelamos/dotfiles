@@ -48,22 +48,15 @@ function error()
 # Display a title.
 title()
 {
-  echo -e "$BOLD$BLUE──────────────────────────────$RESET_FORMATTING"
+  echo -e "$BLUE──────────────────────────────$RESET_FORMATTING"
   echo -e "$BOLD$BLUE $@$RESET_FORMATTING"
-  echo -e "$BOLD$BLUE──────────────────────────────$RESET_FORMATTING"
+  echo -e "$BLUE──────────────────────────────$RESET_FORMATTING"
 }
 
 # Make sure we have root access
 is_root()
 {
   [[ `id -u` -eq 0 ]] && return 0
-  return 1
-}
-
-#
-is_64bits()
-{
-  [[ `uname -m` == 'x86_64' ]] && return 0
   return 1
 }
 
@@ -77,9 +70,9 @@ ask() {
 }
 
 #
-uninstall_flash_player()
+uninstall_flash_player_plugin()
 {
-  if ask "This will erase any existing installation of the Flash Player. Are you sure you want to continue ?"; then
+  if ask "This will erase any existing installation of the Flash Player plugin. Are you sure you want to continue ?"; then
     info "Uninstalling packages"
     apt-get --assume-yes --purge -qq remove flashplugin-installer
     apt-get --assume-yes --purge -qq remove adobe-flashplugin
@@ -124,9 +117,10 @@ install_flash_player_by_package_manager()
   return $?
 }
 
+#
 patch_libflashplayer_with_debug_one()
 {
-  info "Replacing libflashplayer.so"
+  info "Downloading, extracting libflashplayer.so and patching it"
   wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/plugin/debugger/libflashplayer.so.tar.gz \
                                        | tar xvzO libflashplayer.so \
                                        > /usr/lib/flashplugin-installer/libflashplayer.so
@@ -136,16 +130,41 @@ patch_libflashplayer_with_debug_one()
 #
 install_flash_player()
 {
-  title "Install Flash player"
-  uninstall_flash_player && install_flash_player_by_package_manager
+  title "Install Flash player plugin"
+  uninstall_flash_player_plugin && install_flash_player_by_package_manager
   return $?
 }
 
+#
 install_flash_player_debug()
 {
-  title "Install Flash player debug"
-  uninstall_flash_player && install_flash_player_by_package_manager && patch_libflashplayer_with_debug_one
+  title "Install Flash player debug plugin"
+  uninstall_flash_player_plugin && install_flash_player_by_package_manager && patch_libflashplayer_with_debug_one
   return $?
+}
+
+#
+install_standalone_flash_player()
+{
+  title "Install standalone Flash player"
+  info "Downloading and extracting the standalone Flash Player executable"
+  wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/standalone/release/flashplayer.tar.gz \
+                                       | tar xvzO flashplayer \
+                                       > /usr/local/bin/flashplayer \
+                                       || return 1
+  chmod +x /usr/local/bin/flashplayer
+}
+
+#
+install_standalone_flash_player_debug()
+{
+  title "Install standalone Flash player debug"
+  info "Downloading and extracting the standalone Flash Player debug executable"
+  wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/standalone/debugger/flashplayer.tar.gz \
+                                       | tar xvzO flashplayer \
+                                       > /usr/local/bin/flashplayer-debug \
+                                       || return 1
+  chmod +x /usr/local/bin/flashplayer-debug
 }
 
 
@@ -161,11 +180,11 @@ fi
 
 title "Flash Player setup script"
 
-choices=( 'Install Flash Player' \
-		  'Install Flash Player debug' \
+choices=( 'Install Flash Player plugin' \
+		  'Install Flash Player debug plugin' \
 		  'Install standalone Flash Player' \
 		  'Install standalone Flash Player debug' \
-		  'Uninstall Flash Player' \
+		  'Uninstall Flash Player plugin' \
 		  'Exit' )
 
 echo "What do you want to do ?"
@@ -182,23 +201,15 @@ do
       exit $?
       ;;
     'Install standalone Flash Player')
-      if is_64bits; then
-        error "Install 64 bits standalone Flash Player: not yet implemented."
-      else
-        error "Install 32 bits standalone Flash Player: not yet implemented."
-      fi
-      exit 0
+      install_standalone_flash_player
+      exit $?
       ;;
     'Install standalone Flash Player debug')
-      if is_64bits; then
-        error "Install 64 bits standalone Flash Player debug: not yet implemented."
-      else
-        error "Install 32 bits standalone Flash Player debug: not yet implemented."
-      fi
-      exit 0
+      install_standalone_flash_player_debug
+      exit $?
       ;;
-    'Uninstall Flash Player')
-      uninstall_flash_player
+    'Uninstall Flash Player plugin')
+      uninstall_flash_player_plugin
       exit $?
       ;;
     'Exit')
