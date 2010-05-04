@@ -84,7 +84,7 @@ is_root()
 # Arguments
 #   1 (required) The question to ask.
 ask() {
-  echo -ne "$@" '[y/N] ' ; read ans
+  echo -ne "$@" '[y/N] '; read ans
   case "$ans" in
     y*|Y*) return 0 ;;
     *) return 1 ;;
@@ -94,42 +94,41 @@ ask() {
 # Try to clean any trace from a Flash Player installation.
 uninstall_flash_player_plugin()
 {
-  if ask "$BOLD$YELLOWThis will erase any existing installation of the Flash Player plugin. Are you sure you want to continue ?$RESET_FORMATTING"; then
+  ask "This will erase any existing installation of the Flash Player plugin. Are you sure you want to continue ?" || exit 1
 
-    info "Uninstalling packages"
-    apt-get --assume-yes --purge -qq remove flashplugin-installer
-    apt-get --assume-yes --purge -qq remove adobe-flashplugin
-    apt-get --assume-yes --purge -qq remove nspluginwrapper
-    apt-get --assume-yes --purge -qq remove flashplugin-nonfree
-    apt-get --assume-yes --purge -qq remove gnash
-    apt-get --assume-yes --purge -qq remove gnash-common
-    apt-get --assume-yes --purge -qq remove mozilla-plugin-gnash
-    apt-get --assume-yes --purge -qq remove iceweasel-flashplugin
-    apt-get --assume-yes --purge -qq remove mozilla-flashplugin
-    apt-get --assume-yes --purge -qq remove firefox-flashplugin
-    apt-get --assume-yes --purge -qq remove swfdec-mozilla
-    apt-get --assume-yes --purge -qq remove mozilla-swfdec
-    apt-get --assume-yes --purge -qq remove libflashsupport
-    apt-get --assume-yes --purge -qq remove iceape-flashplugin
-    apt-get --assume-yes --purge -qq remove xulrunner-flashplugin
-    apt-get --assume-yes --purge -qq remove midbrowser-flashplugin
-    apt-get --assume-yes --purge -qq remove xulrunner-addons-flashplugin
-    apt-get --assume-yes --purge -qq remove nspluginwrapper
-    
-    info "Cleaning traces from any previous Flash Player installation"
-    rm -rvf /home/*/.mozilla/plugins/libflash* \
-            /home/*/.mozilla/plugins/ns*flash* \
-            /usr/lib/firefox*/plugins/libflash* \
-            /usr/lib/iceape/plugins/flash*.so \
-            /usr/lib/iceweasel/plugins/flash*.so \
-            /usr/lib/iceweasel/plugins/npwrapper.libflashplayer.so \
-            /usr/lib/midbrowser/plugins/flash*.so \
-            /usr/lib/mozilla/plugins/libflash* \
-            /usr/lib/xulrunner-addons/plugins/flashplugin-alternative.so \
-            /usr/lib/xulrunner/plugins/flash*.so \
-            /usr/lib/nspluginwrapper \
-            /var/lib/flashplugin-nonfree/npwrapper.libflashplayer.so
-  fi
+  info "Uninstalling packages"
+  apt-get --assume-yes --purge -qq remove flashplugin-installer
+  apt-get --assume-yes --purge -qq remove adobe-flashplugin
+  apt-get --assume-yes --purge -qq remove nspluginwrapper
+  apt-get --assume-yes --purge -qq remove flashplugin-nonfree
+  apt-get --assume-yes --purge -qq remove gnash
+  apt-get --assume-yes --purge -qq remove gnash-common
+  apt-get --assume-yes --purge -qq remove mozilla-plugin-gnash
+  apt-get --assume-yes --purge -qq remove iceweasel-flashplugin
+  apt-get --assume-yes --purge -qq remove mozilla-flashplugin
+  apt-get --assume-yes --purge -qq remove firefox-flashplugin
+  apt-get --assume-yes --purge -qq remove swfdec-mozilla
+  apt-get --assume-yes --purge -qq remove mozilla-swfdec
+  apt-get --assume-yes --purge -qq remove libflashsupport
+  apt-get --assume-yes --purge -qq remove iceape-flashplugin
+  apt-get --assume-yes --purge -qq remove xulrunner-flashplugin
+  apt-get --assume-yes --purge -qq remove midbrowser-flashplugin
+  apt-get --assume-yes --purge -qq remove xulrunner-addons-flashplugin
+  apt-get --assume-yes --purge -qq remove nspluginwrapper
+  
+  info "Cleaning traces from any previous Flash Player installation"
+  rm -rvf /home/*/.mozilla/plugins/libflash* \
+  		/home/*/.mozilla/plugins/ns*flash* \
+  		/usr/lib/firefox*/plugins/libflash* \
+  		/usr/lib/iceape/plugins/flash*.so \
+  		/usr/lib/iceweasel/plugins/flash*.so \
+  		/usr/lib/iceweasel/plugins/npwrapper.libflashplayer.so \
+  		/usr/lib/midbrowser/plugins/flash*.so \
+  		/usr/lib/mozilla/plugins/libflash* \
+  		/usr/lib/xulrunner-addons/plugins/flashplugin-alternative.so \
+  		/usr/lib/xulrunner/plugins/flash*.so \
+  		/usr/lib/nspluginwrapper \
+  		/var/lib/flashplugin-nonfree/npwrapper.libflashplayer.so
 }
 
 # Install the "official" Flash Player package.
