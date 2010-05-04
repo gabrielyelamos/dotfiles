@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   This script tries to setup a debug version of the Flash Player on Linux 64bits systems.
-#   Should work on Debian and Ubuntu, at least for Firefox.
-#   Use it at your own risk !
+#   Helper script to install/uninstall stantard/debugger plugin/standalone Flash Player on 32/64
+#   bits systems. Tested on Ubuntu, should work on Debian as well. Use it at your own risk !
+#
+# Usage
+#   $ ./setup-flash-player
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 
@@ -33,24 +35,36 @@ RESET_FORMATTING=`tput sgr0`
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 # Output an info message.
+#
+# Arguments
+#   1 (required) The message to log.
 function info()
 {
   echo -e "$BOLD$@$RESET_FORMATTING"
 }
 
-# Output an warning message.
+# Output a warning message.
+#
+# Arguments
+#   1 (required) The message to log.
 function warn()
 {
   echo -e "$BOLD$YELLOW$@$RESET_FORMATTING" 2>&1
 }
 
 # Output an error message.
+#
+# Arguments
+#   1 (required) The message to log.
 function error()
 {
   echo -e "$BOLD$RED$@$RESET_FORMATTING" 2>&1
 }
 
 # Display a title.
+#
+# Arguments
+#   1 (required) The title to show.
 title()
 {
   echo -e "$BLUE──────────────────────────────$RESET_FORMATTING"
@@ -58,26 +72,30 @@ title()
   echo -e "$BLUE──────────────────────────────$RESET_FORMATTING"
 }
 
-# Make sure we have root access
+# Test if the user running the script is root.
 is_root()
 {
   [[ `id -u` -eq 0 ]] && return 0
   return 1
 }
 
-# Ask a Yes/No question
+# Ask a Yes/No question.
+#
+# Arguments
+#   1 (required) The question to ask.
 ask() {
-  echo -n "$@" '[y/N] ' ; read ans
+  echo -ne "$@" '[y/N] ' ; read ans
   case "$ans" in
     y*|Y*) return 0 ;;
     *) return 1 ;;
   esac
 }
 
-#
+# Try to clean any trace from a Flash Player installation.
 uninstall_flash_player_plugin()
 {
-  if ask "This will erase any existing installation of the Flash Player plugin. Are you sure you want to continue ?"; then
+  if ask "$BOLD$YELLOWThis will erase any existing installation of the Flash Player plugin. Are you sure you want to continue ?$RESET_FORMATTING"; then
+
     info "Uninstalling packages"
     apt-get --assume-yes --purge -qq remove flashplugin-installer
     apt-get --assume-yes --purge -qq remove adobe-flashplugin
@@ -114,7 +132,7 @@ uninstall_flash_player_plugin()
   fi
 }
 
-#
+# Install the "official" Flash Player package.
 install_flash_player_by_package_manager()
 {
   info "Installing Flash Player with the package manager"
@@ -122,7 +140,7 @@ install_flash_player_by_package_manager()
   return $?
 }
 
-#
+# Replace the installed libflashplayer.so with the debug one.
 patch_libflashplayer_with_debug_one()
 {
   info "Downloading, extracting libflashplayer.so and patching it"
@@ -132,23 +150,23 @@ patch_libflashplayer_with_debug_one()
                                        || return 1
 }
 
-#
-install_flash_player()
+# Install the standard Flash Player plugin.
+install_flash_player_plugin()
 {
   title "Install Flash player plugin"
   uninstall_flash_player_plugin && install_flash_player_by_package_manager
   return $?
 }
 
-#
-install_flash_player_debug()
+# Install the debugger Flash Player plugin.
+install_flash_player_debug_plugin()
 {
   title "Install Flash player debug plugin"
   uninstall_flash_player_plugin && install_flash_player_by_package_manager && patch_libflashplayer_with_debug_one
   return $?
 }
 
-#
+# Install the standalone Flash Player.
 install_standalone_flash_player()
 {
   title "Install standalone Flash player"
@@ -161,7 +179,7 @@ install_standalone_flash_player()
   info "The standalone Flash Player has been installed at '$STANDALONE_FLASH_PLAYER_LOCATION'."
 }
 
-#
+# Install the standalone debug Flash Player.
 install_standalone_flash_player_debug()
 {
   title "Install standalone Flash player debug"
@@ -179,32 +197,34 @@ install_standalone_flash_player_debug()
 # Main
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
+# Enforce root privileges.
 if ! is_root; then
   warn "This script must be run as root. Don't worry, we'll be careful..."
   su --login root --command "$0 $*"
   exit $?
 fi
 
+# Show a banner.
 title "Flash Player setup script"
 
+# Make the user choose in a menu.
 choices=( 'Install Flash Player plugin' \
 		  'Install Flash Player debug plugin' \
 		  'Install standalone Flash Player' \
 		  'Install standalone Flash Player debug' \
 		  'Uninstall Flash Player plugin' \
 		  'Exit' )
-
 echo "What do you want to do ?"
 PS3="Choose a number: "
 select choice in "${choices[@]}"
 do
   case $choice in
     'Install Flash Player')
-      install_flash_player
+      install_flash_player_plugin
       exit $?
       ;;
     'Install Flash Player debug')
-      install_flash_player_debug
+      install_flash_player_debug_plugin
       exit $?
       ;;
     'Install standalone Flash Player')
