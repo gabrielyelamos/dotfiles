@@ -151,11 +151,11 @@ fi
 title "Flash Player installer script"
 
 choices=( 'Install Flash Player' \
-		  'Install Flash Player debug' \
-		  'Install standalone Flash Player' \
-		  'Install standalone Flash Player debug' \
-		  'Uninstall Flash Player' \
-		  'Exit' )
+          'Install Flash Player debug' \
+          'Install standalone Flash Player' \
+          'Install standalone Flash Player debug' \
+          'Uninstall Flash Player' \
+          'Exit' )
 
 echo "What do you want to do ?"
 PS3="Choose a number: "
