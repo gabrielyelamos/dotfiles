@@ -14,6 +14,11 @@
 # Download URLs
 FLASH_PLAYER_DOWNLOAD_URL=http://download.macromedia.com/pub/flashplayer/updaters/10/flash_player_10_linux_dev.tar.gz
 
+# Installation places
+LIBFLASHPLAYER_LOCATION=/usr/lib/flashplugin-installer/libflashplayer.so
+STANDALONE_FLASH_PLAYER_LOCATION=/usr/local/bin/flashplayer
+STANDALONE_FLASH_PLAYER_DEBUG_LOCATION=/usr/local/bin/flashplayer-debug
+
 # Colors 
 BOLD=`tput bold` 
 RED=`tput setaf 1` 
@@ -123,8 +128,8 @@ patch_libflashplayer_with_debug_one()
   info "Downloading, extracting libflashplayer.so and patching it"
   wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/plugin/debugger/libflashplayer.so.tar.gz \
                                        | tar xvzO libflashplayer.so \
-                                       > /usr/lib/flashplugin-installer/libflashplayer.so
-  return $?
+                                       > $LIBFLASHPLAYER_LOCATION \
+                                       || return 1
 }
 
 #
@@ -150,9 +155,10 @@ install_standalone_flash_player()
   info "Downloading and extracting the standalone Flash Player executable"
   wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/standalone/release/flashplayer.tar.gz \
                                        | tar xvzO flashplayer \
-                                       > /usr/local/bin/flashplayer \
+                                       > $STANDALONE_FLASH_PLAYER_LOCATION \
                                        || return 1
-  chmod +x /usr/local/bin/flashplayer
+  chmod +x $STANDALONE_FLASH_PLAYER_LOCATION
+  info "The standalone Flash Player has been installed at '$STANDALONE_FLASH_PLAYER_LOCATION'."
 }
 
 #
@@ -162,9 +168,10 @@ install_standalone_flash_player_debug()
   info "Downloading and extracting the standalone Flash Player debug executable"
   wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/standalone/debugger/flashplayer.tar.gz \
                                        | tar xvzO flashplayer \
-                                       > /usr/local/bin/flashplayer-debug \
+                                       > $STANDALONE_FLASH_PLAYER_DEBUG_LOCATION \
                                        || return 1
-  chmod +x /usr/local/bin/flashplayer-debug
+  chmod +x $STANDALONE_FLASH_PLAYER_DEBUG_LOCATION
+  info "The standalone Flash Player debug has been installed at '$STANDALONE_FLASH_PLAYER_DEBUG_LOCATION'."
 }
 
 
