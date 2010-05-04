@@ -11,13 +11,16 @@
 # Constants
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
+# Download URLs
+FLASH_PLAYER_DOWNLOAD_URL=http://download.macromedia.com/pub/flashplayer/updaters/10/flash_player_10_linux_dev.tar.gz
+
 # Colors 
-BOLD=`tput -T xterm bold` 
-RED=`tput -T xterm setaf 1` 
-GREEN=`tput -T xterm setaf 2` 
-YELLOW=`tput -T xterm setaf 3` 
-BLUE=`tput -T xterm setaf 4` 
-RESET_FORMATTING=`tput -T xterm sgr0` 
+BOLD=`tput bold` 
+RED=`tput setaf 1` 
+GREEN=`tput setaf 2` 
+YELLOW=`tput setaf 3` 
+BLUE=`tput setaf 4` 
+RESET_FORMATTING=`tput sgr0` 
 
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
@@ -76,72 +79,73 @@ ask() {
 #
 uninstall_flash_player()
 {
-  title "Uninstall Flash Player"
-
-  info "Uninstalling packages"
-  apt-get --assume-yes --purge -qq remove flashplugin-installer
-  apt-get --assume-yes --purge -qq remove adobe-flashplugin
-  apt-get --assume-yes --purge -qq remove nspluginwrapper
-  apt-get --assume-yes --purge -qq remove flashplugin-nonfree
-  apt-get --assume-yes --purge -qq remove gnash
-  apt-get --assume-yes --purge -qq remove gnash-common
-  apt-get --assume-yes --purge -qq remove mozilla-plugin-gnash
-  apt-get --assume-yes --purge -qq remove iceweasel-flashplugin
-  apt-get --assume-yes --purge -qq remove mozilla-flashplugin
-  apt-get --assume-yes --purge -qq remove firefox-flashplugin
-  apt-get --assume-yes --purge -qq remove swfdec-mozilla
-  apt-get --assume-yes --purge -qq remove mozilla-swfdec
-  apt-get --assume-yes --purge -qq remove libflashsupport
-  apt-get --assume-yes --purge -qq remove iceape-flashplugin
-  apt-get --assume-yes --purge -qq remove xulrunner-flashplugin
-  apt-get --assume-yes --purge -qq remove midbrowser-flashplugin
-  apt-get --assume-yes --purge -qq remove xulrunner-addons-flashplugin
-  apt-get --assume-yes --purge -qq remove nspluginwrapper
-  
-  info "Cleaning traces from any previous Flash Player installation"
-  rm -rvf /home/*/.mozilla/plugins/libflash* \
-          /home/*/.mozilla/plugins/ns*flash* \
-          /usr/lib/firefox*/plugins/libflash* \
-          /usr/lib/iceape/plugins/flash*.so \
-          /usr/lib/iceweasel/plugins/flash*.so \
-          /usr/lib/iceweasel/plugins/npwrapper.libflashplayer.so \
-          /usr/lib/midbrowser/plugins/flash*.so \
-          /usr/lib/mozilla/plugins/libflash* \
-          /usr/lib/xulrunner-addons/plugins/flashplugin-alternative.so \
-          /usr/lib/xulrunner/plugins/flash*.so \
-          /usr/lib/nspluginwrapper \
-          /var/lib/flashplugin-nonfree/npwrapper.libflashplayer.so
-}
-
-#
-warn_and_uninstall_flash_player()
-{
   if ask "This will erase any existing installation of the Flash Player. Are you sure you want to continue ?"; then
-    uninstall_flash_player
-    return $?
+    info "Uninstalling packages"
+    apt-get --assume-yes --purge -qq remove flashplugin-installer
+    apt-get --assume-yes --purge -qq remove adobe-flashplugin
+    apt-get --assume-yes --purge -qq remove nspluginwrapper
+    apt-get --assume-yes --purge -qq remove flashplugin-nonfree
+    apt-get --assume-yes --purge -qq remove gnash
+    apt-get --assume-yes --purge -qq remove gnash-common
+    apt-get --assume-yes --purge -qq remove mozilla-plugin-gnash
+    apt-get --assume-yes --purge -qq remove iceweasel-flashplugin
+    apt-get --assume-yes --purge -qq remove mozilla-flashplugin
+    apt-get --assume-yes --purge -qq remove firefox-flashplugin
+    apt-get --assume-yes --purge -qq remove swfdec-mozilla
+    apt-get --assume-yes --purge -qq remove mozilla-swfdec
+    apt-get --assume-yes --purge -qq remove libflashsupport
+    apt-get --assume-yes --purge -qq remove iceape-flashplugin
+    apt-get --assume-yes --purge -qq remove xulrunner-flashplugin
+    apt-get --assume-yes --purge -qq remove midbrowser-flashplugin
+    apt-get --assume-yes --purge -qq remove xulrunner-addons-flashplugin
+    apt-get --assume-yes --purge -qq remove nspluginwrapper
+    
+    info "Cleaning traces from any previous Flash Player installation"
+    rm -rvf /home/*/.mozilla/plugins/libflash* \
+            /home/*/.mozilla/plugins/ns*flash* \
+            /usr/lib/firefox*/plugins/libflash* \
+            /usr/lib/iceape/plugins/flash*.so \
+            /usr/lib/iceweasel/plugins/flash*.so \
+            /usr/lib/iceweasel/plugins/npwrapper.libflashplayer.so \
+            /usr/lib/midbrowser/plugins/flash*.so \
+            /usr/lib/mozilla/plugins/libflash* \
+            /usr/lib/xulrunner-addons/plugins/flashplugin-alternative.so \
+            /usr/lib/xulrunner/plugins/flash*.so \
+            /usr/lib/nspluginwrapper \
+            /var/lib/flashplugin-nonfree/npwrapper.libflashplayer.so
   fi
-  return 1
 }
 
 #
 install_flash_player_by_package_manager()
 {
-  title "Install Flash Player"
-
   info "Installing Flash Player with the package manager"
   apt-get --assume-yes --quiet install flashplugin-installer
+  return $?
+}
 
+patch_libflashplayer_with_debug_one()
+{
+  info "Replacing libflashplayer.so"
+  wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/plugin/debugger/libflashplayer.so.tar.gz \
+                                       | tar xvzO libflashplayer.so \
+                                       > /usr/lib/flashplugin-installer/libflashplayer.so
   return $?
 }
 
 #
 install_flash_player()
 {
-  if warn_and_uninstall_flash_player; then
-    install_flash_player_by_package_manager
-    return $?
-  fi
-  return 1
+  title "Install Flash player"
+  uninstall_flash_player && install_flash_player_by_package_manager
+  return $?
+}
+
+install_flash_player_debug()
+{
+  title "Install Flash player debug"
+  uninstall_flash_player && install_flash_player_by_package_manager && patch_libflashplayer_with_debug_one
+  return $?
 }
 
 
@@ -174,12 +178,8 @@ do
       exit $?
       ;;
     'Install Flash Player debug')
-      if is_64bits; then
-        error "Install 64 bits Flash Player debug: not yet implemented."
-      else
-        error "Install 32 bits Flash Player debug: not yet implemented."
-      fi
-      exit 0
+      install_flash_player_debug
+      exit $?
       ;;
     'Install standalone Flash Player')
       if is_64bits; then
@@ -198,7 +198,7 @@ do
       exit 0
       ;;
     'Uninstall Flash Player')
-      warn_and_uninstall_flash_player
+      uninstall_flash_player
       exit $?
       ;;
     'Exit')
