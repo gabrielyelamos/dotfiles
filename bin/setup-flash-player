@@ -39,7 +39,7 @@ RESET_FORMATTING=`tput sgr0`
 #
 # Arguments
 #   1 (required) The message to log.
-function info()
+info()
 {
   echo -e "$BOLD$@$RESET_FORMATTING"
 }
@@ -48,7 +48,7 @@ function info()
 #
 # Arguments
 #   1 (required) The message to log.
-function warn()
+warn()
 {
   echo -e "$BOLD$YELLOW$@$RESET_FORMATTING" 2>&1
 }
@@ -57,7 +57,7 @@ function warn()
 #
 # Arguments
 #   1 (required) The message to log.
-function error()
+error()
 {
   echo -e "$BOLD$RED$@$RESET_FORMATTING" 2>&1
 }
