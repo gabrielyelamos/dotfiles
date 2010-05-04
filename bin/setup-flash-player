@@ -11,6 +11,13 @@
 # Constants
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
+# Colors 
+BOLD=`tput -T xterm bold` 
+RED=`tput -T xterm setaf 1` 
+GREEN=`tput -T xterm setaf 2` 
+YELLOW=`tput -T xterm setaf 3` 
+BLUE=`tput -T xterm setaf 4` 
+RESET_FORMATTING=`tput -T xterm sgr0` 
 
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
@@ -20,27 +27,27 @@
 # Output an info message.
 function info()
 {
-  echo "[INFO] $@"
+  echo -e "$BOLD$@$RESET_FORMATTING"
 }
 
 # Output an warning message.
 function warn()
 {
-  echo "[WARNING] $@" 2>&1
+  echo -e "$BOLD$YELLOW$@$RESET_FORMATTING" 2>&1
 }
 
 # Output an error message.
 function error()
 {
-  echo "[ERROR] $@" 2>&1
+  echo -e "$BOLD$RED$@$RESET_FORMATTING" 2>&1
 }
 
 # Display a title.
 title()
 {
-  echo "╷"
-  echo "│ $@"
-  echo "╰──────────────────────────────"
+  echo -e "$BOLD$BLUE──────────────────────────────$RESET_FORMATTING"
+  echo -e "$BOLD$BLUE $@$RESET_FORMATTING"
+  echo -e "$BOLD$BLUE──────────────────────────────$RESET_FORMATTING"
 }
 
 # Make sure we have root access
@@ -85,11 +92,11 @@ uninstall_flash_player()
   apt-get --assume-yes --purge -qq remove swfdec-mozilla
   apt-get --assume-yes --purge -qq remove mozilla-swfdec
   apt-get --assume-yes --purge -qq remove libflashsupport
-  apt-get --assume-yes --purge -qq remove nspluginwrapper
   apt-get --assume-yes --purge -qq remove iceape-flashplugin
   apt-get --assume-yes --purge -qq remove xulrunner-flashplugin
   apt-get --assume-yes --purge -qq remove midbrowser-flashplugin
   apt-get --assume-yes --purge -qq remove xulrunner-addons-flashplugin
+  apt-get --assume-yes --purge -qq remove nspluginwrapper
   
   info "Cleaning traces from any previous Flash Player installation"
   rm -rvf /home/*/.mozilla/plugins/libflash* \
@@ -148,7 +155,7 @@ if ! is_root; then
   exit $?
 fi
 
-title "Flash Player installer script"
+title "Flash Player setup script"
 
 choices=( 'Install Flash Player' \
 		  'Install Flash Player debug' \
@@ -168,25 +175,25 @@ do
       ;;
     'Install Flash Player debug')
       if is_64bits; then
-        echo "Install 64 bits Flash Player debug: not yet implemented."
+        error "Install 64 bits Flash Player debug: not yet implemented."
       else
-        echo "Install 32 bits Flash Player debug: not yet implemented."
+        error "Install 32 bits Flash Player debug: not yet implemented."
       fi
       exit 0
       ;;
     'Install standalone Flash Player')
       if is_64bits; then
-        echo "Install 64 bits standalone Flash Player: not yet implemented."
+        error "Install 64 bits standalone Flash Player: not yet implemented."
       else
-        echo "Install 32 bits standalone Flash Player: not yet implemented."
+        error "Install 32 bits standalone Flash Player: not yet implemented."
       fi
       exit 0
       ;;
     'Install standalone Flash Player debug')
       if is_64bits; then
-        echo "Install 64 bits standalone Flash Player debug: not yet implemented."
+        error "Install 64 bits standalone Flash Player debug: not yet implemented."
       else
-        echo "Install 32 bits standalone Flash Player debug: not yet implemented."
+        error "Install 32 bits standalone Flash Player debug: not yet implemented."
       fi
       exit 0
       ;;
