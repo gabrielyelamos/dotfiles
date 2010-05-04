@@ -76,8 +76,7 @@ title()
 # Test if the user running the script is root.
 is_root()
 {
-  [[ `id -u` -eq 0 ]] && return 0
-  return 1
+  [[ `id -u` -eq 0 ]] || return 1
 }
 
 # Ask a Yes/No question.
