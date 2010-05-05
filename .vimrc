@@ -116,3 +116,6 @@ set nostartofline
 
 " Show trailing spaces
 set listchars=trail:¤
+
+" Get root privilieges while editing a file
+command W w !sudo tee % >/dev/null
