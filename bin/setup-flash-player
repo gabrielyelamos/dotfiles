@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   This script tries to setup a debug version of the Flash Player on Linux 64bits systems.
-#   Should work on Debian and Ubuntu, at least for Firefox.
-#   Use it at your own risk !
+#   Helper script to install/uninstall stantard/debugger plugin/standalone Flash Player on 32/64
+#   bits systems. Tested on Ubuntu, should work on Debian as well. Use it at your own risk !
+#
+# Usage
+#   $ ./setup-flash-player
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 
@@ -11,6 +13,22 @@
 # Constants
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
+# Flash Player distributions
+FLASH_PLAYER_DOWNLOAD_URL=http://download.macromedia.com/pub/flashplayer/updaters/10/flash_player_10_linux_dev.tar.gz
+FLASH_PLAYER_BETA_DOWNLOAD_URL=http://download.macromedia.com/pub/labs/flashplayer10/flashplayer10_1_rc2_linux_041910.tar.gz
+
+# Installation places
+LIBFLASHPLAYER_LOCATION=/usr/lib/flashplugin-installer/libflashplayer.so
+STANDALONE_FLASH_PLAYER_LOCATION=/usr/local/bin/flashplayer
+STANDALONE_FLASH_PLAYER_DEBUG_LOCATION=/usr/local/bin/flashplayer-debug
+
+# Colors 
+BOLD=`tput bold` 
+RED=`tput setaf 1` 
+GREEN=`tput setaf 2` 
+YELLOW=`tput setaf 3` 
+BLUE=`tput setaf 4` 
+RESET_FORMATTING=`tput sgr0` 
 
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
@@ -18,58 +36,65 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 # Output an info message.
-function info()
+#
+# Arguments
+#   1 (required) The message to log.
+info()
 {
-  echo "[INFO] $@"
+  echo -e "$BOLD$@$RESET_FORMATTING"
 }
 
-# Output an warning message.
-function warn()
+# Output a warning message.
+#
+# Arguments
+#   1 (required) The message to log.
+warn()
 {
-  echo "[WARNING] $@" 2>&1
+  echo -e "$YELLOW$@$RESET_FORMATTING" 2>&1
 }
 
 # Output an error message.
-function error()
+#
+# Arguments
+#   1 (required) The message to log.
+error()
 {
-  echo "[ERROR] $@" 2>&1
+  echo -e "$BOLD$RED$@$RESET_FORMATTING" 2>&1
 }
 
 # Display a title.
+#
+# Arguments
+#   1 (required) The title to show.
 title()
 {
-  echo "╷"
-  echo "│ $@"
-  echo "╰──────────────────────────────"
+  echo -e "$BLUE──────────────────────────────$RESET_FORMATTING"
+  echo -e "$BOLD$BLUE $@$RESET_FORMATTING"
+  echo -e "$BLUE──────────────────────────────$RESET_FORMATTING"
 }
 
-# Make sure we have root access
+# Test if the user running the script is root.
 is_root()
 {
-  [[ `id -u` -eq 0 ]] && return 0
-  return 1
+  [[ `id -u` -eq 0 ]] || return 1
 }
 
+# Ask a Yes/No question.
 #
-is_64bits()
-{
-  [[ `uname -m` == 'x86_64' ]] && return 0
-  return 1
-}
-
-# Ask a Yes/No question
+# Arguments
+#   1 (required) The question to ask.
 ask() {
-  echo -n "$@" '[y/N] ' ; read ans
+  echo -ne "$@" '[y/N] '; read ans
   case "$ans" in
     y*|Y*) return 0 ;;
     *) return 1 ;;
   esac
 }
 
-#
-uninstall_flash_player()
+# Try to clean any trace from a Flash Player installation.
+uninstall_flash_player_plugin()
 {
-  title "Uninstall Flash Player"
+  ask "This will erase any existing installation of the Flash Player plugin. Are you sure you want to continue ?" || return 1
 
   info "Uninstalling packages"
   apt-get --assume-yes --purge -qq remove flashplugin-installer
@@ -85,56 +110,93 @@ uninstall_flash_player()
   apt-get --assume-yes --purge -qq remove swfdec-mozilla
   apt-get --assume-yes --purge -qq remove mozilla-swfdec
   apt-get --assume-yes --purge -qq remove libflashsupport
-  apt-get --assume-yes --purge -qq remove nspluginwrapper
   apt-get --assume-yes --purge -qq remove iceape-flashplugin
   apt-get --assume-yes --purge -qq remove xulrunner-flashplugin
   apt-get --assume-yes --purge -qq remove midbrowser-flashplugin
   apt-get --assume-yes --purge -qq remove xulrunner-addons-flashplugin
+  apt-get --assume-yes --purge -qq remove nspluginwrapper
   
   info "Cleaning traces from any previous Flash Player installation"
   rm -rvf /home/*/.mozilla/plugins/libflash* \
-          /home/*/.mozilla/plugins/ns*flash* \
-          /usr/lib/firefox*/plugins/libflash* \
-          /usr/lib/iceape/plugins/flash*.so \
-          /usr/lib/iceweasel/plugins/flash*.so \
-          /usr/lib/iceweasel/plugins/npwrapper.libflashplayer.so \
-          /usr/lib/midbrowser/plugins/flash*.so \
-          /usr/lib/mozilla/plugins/libflash* \
-          /usr/lib/xulrunner-addons/plugins/flashplugin-alternative.so \
-          /usr/lib/xulrunner/plugins/flash*.so \
-          /usr/lib/nspluginwrapper \
-          /var/lib/flashplugin-nonfree/npwrapper.libflashplayer.so
+      /home/*/.mozilla/plugins/ns*flash* \
+      /usr/lib/firefox*/plugins/libflash* \
+      /usr/lib/iceape/plugins/flash*.so \
+      /usr/lib/iceweasel/plugins/flash*.so \
+      /usr/lib/iceweasel/plugins/npwrapper.libflashplayer.so \
+      /usr/lib/midbrowser/plugins/flash*.so \
+      /usr/lib/mozilla/plugins/libflash* \
+      /usr/lib/xulrunner-addons/plugins/flashplugin-alternative.so \
+      /usr/lib/xulrunner/plugins/flash*.so \
+      /usr/lib/nspluginwrapper \
+      /var/lib/flashplugin-nonfree/npwrapper.libflashplayer.so
 }
 
-#
-warn_and_uninstall_flash_player()
-{
-  if ask "This will erase any existing installation of the Flash Player. Are you sure you want to continue ?"; then
-    uninstall_flash_player
-    return $?
-  fi
-  return 1
-}
-
-#
+# Install the "official" Flash Player package.
 install_flash_player_by_package_manager()
 {
-  title "Install Flash Player"
-
   info "Installing Flash Player with the package manager"
-  apt-get --assume-yes --quiet install flashplugin-installer
-
-  return $?
+  apt-get --assume-yes --quiet install flashplugin-installer || return 1
 }
 
-#
-install_flash_player()
+# Install the standard Flash Player plugin.
+install_flash_player_plugin()
 {
-  if warn_and_uninstall_flash_player; then
-    install_flash_player_by_package_manager
-    return $?
-  fi
-  return 1
+  title "Install Flash player plugin"
+  uninstall_flash_player_plugin || return 1
+  install_flash_player_by_package_manager || return 1
+}
+
+# Install the debugger Flash Player plugin.
+install_flash_player_debug_plugin()
+{
+  title "Install Flash player debug plugin"
+  uninstall_flash_player_plugin || return 1
+  install_flash_player_by_package_manager || return 1
+  
+  info "Downloading, extracting libflashplayer.so and patching it"
+  wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/plugin/debugger/libflashplayer.so.tar.gz \
+                                       | tar xvzO libflashplayer.so \
+                                       > $LIBFLASHPLAYER_LOCATION \
+                                       || return 1
+}
+
+# Install the beta Flash Player plugin.
+install_flash_player_beta_plugin()
+{
+  title "Install Flash player beta plugin"
+  uninstall_flash_player_plugin || return 1
+  install_flash_player_by_package_manager || return 1
+  
+  info "Downloading, extracting libflashplayer.so and patching it"
+  wget -qO- $FLASH_PLAYER_BETA_DOWNLOAD_URL | tar xvzO libflashplayer.so \
+                                            > $LIBFLASHPLAYER_LOCATION \
+                                            || return 1
+}
+
+# Install the standalone Flash Player.
+install_standalone_flash_player()
+{
+  title "Install standalone Flash player"
+  info "Downloading and extracting the standalone Flash Player executable"
+  wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/standalone/release/flashplayer.tar.gz \
+                                       | tar xvzO flashplayer \
+                                       > $STANDALONE_FLASH_PLAYER_LOCATION \
+                                       || return 1
+  chmod +x $STANDALONE_FLASH_PLAYER_LOCATION
+  info "The standalone Flash Player has been installed at '$STANDALONE_FLASH_PLAYER_LOCATION'."
+}
+
+# Install the standalone debug Flash Player.
+install_standalone_flash_player_debug()
+{
+  title "Install standalone Flash player debug"
+  info "Downloading and extracting the standalone Flash Player debug executable"
+  wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/standalone/debugger/flashplayer.tar.gz \
+                                       | tar xvzO flashplayer \
+                                       > $STANDALONE_FLASH_PLAYER_DEBUG_LOCATION \
+                                       || return 1
+  chmod +x $STANDALONE_FLASH_PLAYER_DEBUG_LOCATION
+  info "The standalone Flash Player debug has been installed at '$STANDALONE_FLASH_PLAYER_DEBUG_LOCATION'."
 }
 
 
@@ -142,56 +204,51 @@ install_flash_player()
 # Main
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
+# Enforce root privileges.
 if ! is_root; then
   warn "This script must be run as root. Don't worry, we'll be careful..."
   su --login root --command "$0 $*"
   exit $?
 fi
 
-title "Flash Player installer script"
+# Show a banner.
+title "Flash Player setup script"
 
-choices=( 'Install Flash Player' \
-          'Install Flash Player debug' \
+# Make the user choose in a menu.
+choices=( 'Install Flash Player plugin' \
+          'Install Flash Player beta plugin' \
+          'Install Flash Player debug plugin' \
           'Install standalone Flash Player' \
           'Install standalone Flash Player debug' \
-          'Uninstall Flash Player' \
+          'Uninstall Flash Player plugin' \
           'Exit' )
-
 echo "What do you want to do ?"
 PS3="Choose a number: "
 select choice in "${choices[@]}"
 do
   case $choice in
-    'Install Flash Player')
-      install_flash_player
+    'Install Flash Player plugin')
+      install_flash_player_plugin
       exit $?
       ;;
-    'Install Flash Player debug')
-      if is_64bits; then
-        echo "Install 64 bits Flash Player debug: not yet implemented."
-      else
-        echo "Install 32 bits Flash Player debug: not yet implemented."
-      fi
-      exit 0
+    'Install Flash Player beta plugin')
+      install_flash_player_beta_plugin
+      exit $?
+      ;;
+    'Install Flash Player debug plugin')
+      install_flash_player_debug_plugin
+      exit $?
       ;;
     'Install standalone Flash Player')
-      if is_64bits; then
-        echo "Install 64 bits standalone Flash Player: not yet implemented."
-      else
-        echo "Install 32 bits standalone Flash Player: not yet implemented."
-      fi
-      exit 0
+      install_standalone_flash_player
+      exit $?
       ;;
     'Install standalone Flash Player debug')
-      if is_64bits; then
-        echo "Install 64 bits standalone Flash Player debug: not yet implemented."
-      else
-        echo "Install 32 bits standalone Flash Player debug: not yet implemented."
-      fi
-      exit 0
+      install_standalone_flash_player_debug
+      exit $?
       ;;
-    'Uninstall Flash Player')
-      warn_and_uninstall_flash_player
+    'Uninstall Flash Player plugin')
+      uninstall_flash_player_plugin
       exit $?
       ;;
     'Exit')
