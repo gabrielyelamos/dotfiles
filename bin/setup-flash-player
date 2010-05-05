@@ -200,6 +200,28 @@ install_standalone_flash_player_debug()
 }
 
 
+# Setup a workaround for the "Can't click on Flash" bug on Ubuntu 9.10+.
+fix_no_click_bug()
+{
+  title 'Fix the "Cannot click on Flash" bug'
+	
+  local PATCHED_SCRIPT=/usr/lib/nspluginwrapper/i386/linux/npviewer
+  
+  if [[ ! -e $PATCHED_SCRIPT ]]; then
+    error "The script to patch could not be found."
+    exit 1
+  fi
+
+  if grep -q 'GDK_NATIVE_WINDOWS=1' $PATCHED_SCRIPT; then
+    warn "The fix was already applied."
+    exit 1
+  fi
+
+  info "Patching nspluginwrapper init script"
+  sed '2i\GDK_NATIVE_WINDOWS=1' -i $PATCHED_SCRIPT
+}
+
+
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Main
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
@@ -221,6 +243,7 @@ choices=( 'Install Flash Player plugin' \
           'Install standalone Flash Player' \
           'Install standalone Flash Player debug' \
           'Uninstall Flash Player plugin' \
+          'Fix the "Cannot click on Flash" bug' \
           'Exit' )
 echo "What do you want to do ?"
 PS3="Choose a number: "
@@ -249,6 +272,10 @@ do
       ;;
     'Uninstall Flash Player plugin')
       uninstall_flash_player_plugin
+      exit $?
+      ;;
+    'Fix the "Cannot click on Flash" bug')
+      fix_no_click_bug
       exit $?
       ;;
     'Exit')
