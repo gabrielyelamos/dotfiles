@@ -92,8 +92,20 @@ ask() {
   esac
 }
 
+# Force the user to shutdown its browsers.
+enforce_no_browser_running()
+{
+  info "Checking no browser is currently running"
+
+  while ps -A | egrep -q 'firefox-bin|chrome|opera|iceweasel'
+  do
+    warn "It seems you have web browsers running. Please shut them down before proceeding."
+    read -p "Press any key to continue..."
+  done
+}
+
 # Try to clean any trace from a Flash Player installation.
-uninstall_flash_player_plugin()
+erase_all_flash_player_plugin()
 {
   ask "This will erase any existing installation of the Flash Player plugin. Are you sure you want to continue ?" || return 1
 
@@ -130,6 +142,14 @@ uninstall_flash_player_plugin()
       /usr/lib/xulrunner/plugins/flash*.so \
       /usr/lib/nspluginwrapper \
       /var/lib/flashplugin-nonfree/npwrapper.libflashplayer.so
+  
+}
+
+# Totally uninstall the Flash player plugin.
+uninstall_flash_player_plugin()
+{
+  enforce_no_browser_running
+  erase_all_flash_player_plugin || return 1
 }
 
 # Install the "official" Flash Player package.
@@ -143,7 +163,8 @@ install_flash_player_by_package_manager()
 install_flash_player_plugin()
 {
   title "Install Flash player plugin"
-  uninstall_flash_player_plugin || return 1
+  enforce_no_browser_running
+  erase_all_flash_player_plugin || return 1
   install_flash_player_by_package_manager || return 1
 }
 
@@ -151,7 +172,8 @@ install_flash_player_plugin()
 install_flash_player_debug_plugin()
 {
   title "Install Flash player debug plugin"
-  uninstall_flash_player_plugin || return 1
+  enforce_no_browser_running
+  erase_all_flash_player_plugin || return 1
   install_flash_player_by_package_manager || return 1
   
   info "Downloading, extracting libflashplayer.so and patching it"
@@ -165,7 +187,8 @@ install_flash_player_debug_plugin()
 install_flash_player_beta_plugin()
 {
   title "Install Flash player beta plugin"
-  uninstall_flash_player_plugin || return 1
+  enforce_no_browser_running
+  erase_all_flash_player_plugin || return 1
   install_flash_player_by_package_manager || return 1
   
   info "Downloading, extracting libflashplayer.so and patching it"
@@ -178,7 +201,8 @@ install_flash_player_beta_plugin()
 install_flash_player_debug_beta_plugin()
 {
   title "Install Flash player debug beta plugin"
-  uninstall_flash_player_plugin || return 1
+  enforce_no_browser_running
+  erase_all_flash_player_plugin || return 1
   install_flash_player_by_package_manager || return 1
   
   info "Downloading, extracting libflashplayer.so and patching it"
@@ -191,6 +215,9 @@ install_flash_player_debug_beta_plugin()
 install_standalone_flash_player()
 {
   title "Install standalone Flash player"
+  
+  enforce_no_browser_running
+  
   info "Downloading and extracting the standalone Flash Player executable"
   wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/standalone/release/flashplayer.tar.gz \
                                        | tar xvzO flashplayer \
@@ -204,6 +231,9 @@ install_standalone_flash_player()
 install_standalone_flash_player_debug()
 {
   title "Install standalone Flash player debug"
+  
+  enforce_no_browser_running
+  
   info "Downloading and extracting the standalone Flash Player debug executable"
   wget -qO- $FLASH_PLAYER_DOWNLOAD_URL | tar xvzO flash_player_10_linux_dev/standalone/debugger/flashplayer.tar.gz \
                                        | tar xvzO flashplayer \
@@ -213,26 +243,30 @@ install_standalone_flash_player_debug()
   info "The standalone Flash Player debug has been installed at '$STANDALONE_FLASH_PLAYER_DEBUG_LOCATION'."
 }
 
-
 # Setup a workaround for the "Can't click on Flash" bug on Ubuntu 9.10+.
 fix_no_click_bug()
 {
   title 'Fix the "Cannot click on Flash" bug'
-	
+
   local PATCHED_SCRIPT=/usr/lib/nspluginwrapper/i386/linux/npviewer
-  
+
   if [[ ! -e $PATCHED_SCRIPT ]]; then
     error "The script to patch could not be found."
-    exit 1
+    return 1
   fi
 
   if grep -q 'GDK_NATIVE_WINDOWS=1' $PATCHED_SCRIPT; then
     warn "The fix was already applied."
-    exit 1
+    return 1
   fi
+
+  enforce_no_browser_running || return 1
 
   info "Patching nspluginwrapper init script"
   sed '2i\GDK_NATIVE_WINDOWS=1' -i $PATCHED_SCRIPT
+
+  info "Killing all instances of nspluginwrapper"
+  killall npviewer.bin
 }
 
 
