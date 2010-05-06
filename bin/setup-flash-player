@@ -15,7 +15,8 @@
 
 # Flash Player distributions
 FLASH_PLAYER_DOWNLOAD_URL=http://download.macromedia.com/pub/flashplayer/updaters/10/flash_player_10_linux_dev.tar.gz
-FLASH_PLAYER_BETA_DOWNLOAD_URL=http://download.macromedia.com/pub/labs/flashplayer10/flashplayer10_1_rc2_linux_041910.tar.gz
+FLASH_PLAYER_BETA_DOWNLOAD_URL=http://download.macromedia.com/pub/labs/flashplayer10/flashplayer10_1_rc4_linux_050510.tar.gz
+FLASH_PLAYER_DEBUG_BETA_DOWNLOAD_URL=http://download.macromedia.com/pub/labs/flashplayer10/flashplayer10_1_rc4_debug_linux_050510.tar.gz
 
 # Installation places
 LIBFLASHPLAYER_LOCATION=/usr/lib/flashplugin-installer/libflashplayer.so
@@ -173,6 +174,19 @@ install_flash_player_beta_plugin()
                                             || return 1
 }
 
+# Install the debugger beta Flash Player plugin.
+install_flash_player_debug_beta_plugin()
+{
+  title "Install Flash player debug beta plugin"
+  uninstall_flash_player_plugin || return 1
+  install_flash_player_by_package_manager || return 1
+  
+  info "Downloading, extracting libflashplayer.so and patching it"
+  wget -qO- $FLASH_PLAYER_DEBUG_BETA_DOWNLOAD_URL | tar xvzO libflashplayer.so \
+                                                  > $LIBFLASHPLAYER_LOCATION \
+                                                  || return 1
+}
+
 # Install the standalone Flash Player.
 install_standalone_flash_player()
 {
@@ -240,6 +254,7 @@ title "Flash Player setup script"
 choices=( 'Install Flash Player plugin' \
           'Install Flash Player beta plugin' \
           'Install Flash Player debug plugin' \
+          'Install Flash Player debug beta plugin' \
           'Install standalone Flash Player' \
           'Install standalone Flash Player debug' \
           'Uninstall Flash Player plugin' \
@@ -260,6 +275,10 @@ do
       ;;
     'Install Flash Player debug plugin')
       install_flash_player_debug_plugin
+      exit $?
+      ;;
+    'Install Flash Player debug beta plugin')
+      install_flash_player_debug_beta_plugin
       exit $?
       ;;
     'Install standalone Flash Player')
