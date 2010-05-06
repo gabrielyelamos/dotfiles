@@ -255,7 +255,7 @@ fix_no_click_bug()
     return 1
   fi
 
-  if grep -q 'GDK_NATIVE_WINDOWS=1' $PATCHED_SCRIPT; then
+  if grep -q 'export GDK_NATIVE_WINDOWS=1' $PATCHED_SCRIPT; then
     warn "The fix was already applied."
     return 1
   fi
@@ -263,7 +263,7 @@ fix_no_click_bug()
   enforce_no_browser_running || return 1
 
   info "Patching nspluginwrapper init script"
-  sed '2i\GDK_NATIVE_WINDOWS=1' -i $PATCHED_SCRIPT
+  sed '2i\export GDK_NATIVE_WINDOWS=1' -i $PATCHED_SCRIPT
 
   info "Killing all instances of nspluginwrapper"
   killall npviewer.bin
