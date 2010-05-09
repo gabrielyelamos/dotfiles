@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
-#
-# Arguments
-#   1 (optional) The file containing the svn:ignore rules.
-#
-# Dependencies
-#   * Commands: svn.
+#   Display the top ten biggest folders/files in the current directory.
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-svn propset -R svn:ignore -F $1 .
+du -sk `/bin/ls -A` | sort -rn | head -10

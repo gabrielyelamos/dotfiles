@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
+#   Swap 2 filenames.
 #
 # Arguments
-#   1 (optional) The file containing the svn:ignore rules.
-#
-# Dependencies
-#   * Commands: svn.
+#   1 (required) the first file.
+#   2 (required) the second file.
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-svn propset -R svn:ignore -F $1 .
+local TMPFILE=tmp.$$
+mv "$1" $TMPFILE
+mv "$2" "$1"
+mv $TMPFILE "$2"

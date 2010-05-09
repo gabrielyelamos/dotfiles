@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
+#   Repeat a command every x seconds.
 #
 # Arguments
-#   1 (optional) The file containing the svn:ignore rules.
+#   1 (required) the period.
+#   2 (required) the command to run.
 #
-# Dependencies
-#   * Commands: svn.
+# Usage
+#   $ repeat <PERIOD> <COMMAND>
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-svn propset -R svn:ignore -F $1 .
+local period=$1
+shift
+while (true); do
+  eval "$@"
+  sleep $period
+done

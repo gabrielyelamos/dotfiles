@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
+#   Go to the documentation of the command.
 #
 # Arguments
-#   1 (optional) The file containing the svn:ignore rules.
-#
-# Dependencies
-#   * Commands: svn.
+#   1 (required) the command to lookup.
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-svn propset -R svn:ignore -F $1 .
+if [ -d "/usr/share/doc/$1" ]; then
+  pushd "/usr/share/doc/$1" && ls
+else
+  echo "No doc found for '$1'."
+  return 1
+fi

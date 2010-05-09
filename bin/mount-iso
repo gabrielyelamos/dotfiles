@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
+#   Mount the given ISO file.
 #
 # Arguments
-#   1 (optional) The file containing the svn:ignore rules.
-#
-# Dependencies
-#   * Commands: svn.
+#   1 (required) the file to mount.
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-svn propset -R svn:ignore -F $1 .
+[[ ! -d /media/iso ]] && sudo mkdir /media/iso
+sudo mount -o loop -t iso9660 $1 /media/iso

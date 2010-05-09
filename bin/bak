@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
+#   Create a backup copy of the file with a timestamp.
 #
 # Arguments
-#   1 (optional) The file containing the svn:ignore rules.
-#
-# Dependencies
-#   * Commands: svn.
+#   1 (required) the file to backup.
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-svn propset -R svn:ignore -F $1 .
+cp $1 $1_`date +%H:%M:%S_%d-%m-%Y`

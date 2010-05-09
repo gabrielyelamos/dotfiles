@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
 #   "Repairs" damaged Eclipse workspace that prevents Eclipse from booting
 #   by destroying metadata informations.
@@ -11,7 +11,7 @@
 #
 # Dependencies
 #   * Commands: ps, awk, rm.
-# ------------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 
 # First make sure Eclipse is not running
