@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
+#   Import and install the GPG key.
 #
 # Arguments
-#   1 (optional) The file containing the svn:ignore rules.
+#   1 (required) the key to import.
 #
-# Dependencies
-#   * Commands: svn.
+# Example
+#   $ import-gpg-key 2EE5793634EF4A35
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-svn propset -R svn:ignore -F $1 .
+gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-key $1 &&
+gpg -a --export $1 | sudo apt-key add -

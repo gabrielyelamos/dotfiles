@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
+#   Insert a flag (a visual marker) with the specified content. If no content passed, insert the
+#   date.
 #
 # Arguments
-#   1 (optional) The file containing the svn:ignore rules.
-#
-# Dependencies
-#   * Commands: svn.
+#   1 (optional) the message to print.
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-svn propset -R svn:ignore -F $1 .
+echo -ne "`set_color white -o -b blue` "
+if [ -z $1 ]; then
+  echo -ne  "`date +"%A %e %B %Y"`, `date +"%H"`h`date +"%M"`"
+else
+  echo -ne  "$@"
+fi
+echo -e " `set_color normal`"

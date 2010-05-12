@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
+#   Ask the user a "yes/no" question. Defaults to "no".
 #
 # Arguments
-#   1 (optional) The file containing the svn:ignore rules.
-#
-# Dependencies
-#   * Commands: svn.
+#   1 (optional) the question to ask.
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-svn propset -R svn:ignore -F $1 .
+read -p "$@ [y/N] " ans
+case "$ans" in
+  y*|Y*)
+    return 0
+    ;;
+  *)
+    return 1
+    ;;
+esac

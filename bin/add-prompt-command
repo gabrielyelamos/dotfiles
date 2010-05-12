@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
+#   Add the given instructions to the prompt command.
 #
 # Arguments
-#   1 (optional) The file containing the svn:ignore rules.
-#
-# Dependencies
-#   * Commands: svn.
+#   1 (required) the instructions to add.
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-svn propset -R svn:ignore -F $1 .
+[[ -n $PROMPT_COMMAND ]] && PROMPT_COMMAND="$PROMPT_COMMAND; "
+PROMPT_COMMAND="$PROMPT_COMMAND$@"
