@@ -29,30 +29,30 @@ test -f $DAEMON || exit 0
 set -e
 
 case "$1" in
-	start)
-		echo "Starting $NAME."
-		start-stop-daemon --start \
-											--background \
-		                  --quiet \
-		                  --pidfile /var/run/tircd/$NAME.pid \
-		                  --exec $DAEMON
-		;;
-	stop)
-		echo "Stopping $NAME."
-		start-stop-daemon --stop \
-		                  --quiet \
-		                  --pidfile /var/run/tircd/$NAME.pid \
-		                  --oknodo \
-		                  --exec /usr/bin/python
-		;;
-	restart)
-		$0 stop
-		$0 start
-		;;
-	*)
-		echo "Usage: $0 {start|stop|restart}" >&2
-		exit 1
-	;;
+    start)
+        echo "Starting $NAME."
+        start-stop-daemon --start \
+                          --background \
+                          --quiet \
+                          --pidfile /var/run/tircd/$NAME.pid \
+                          --exec $DAEMON
+        ;;
+    stop)
+        echo "Stopping $NAME."
+        start-stop-daemon --stop \
+                          --quiet \
+                          --pidfile /var/run/tircd/$NAME.pid \
+                          --oknodo \
+                          --exec /usr/bin/python
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}" >&2
+        exit 1
+    ;;
 esac
 
 exit 0
