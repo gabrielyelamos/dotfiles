@@ -1,14 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 # Description
-#   Utilitary functions.
+#   Shortcuts for common commands.
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
-
-
-# ──────────────────────────────────────────────────────────────────────────────────────────────────
-# Command overrides / shortcuts
-# ──────────────────────────────────────────────────────────────────────────────────────────────────
-
 
 # ls
 alias ls='ls -F --color=auto'
@@ -51,12 +45,6 @@ alias o='gnome-open'
 alias so='gksudo gnome-open'
 
 
-# Aptitude
-alias apt-upgrade='flag-command sudo aptitude update && flag-command sudo aptitude safe-upgrade && flag-command sudo aptitude autoclean && flag-command sudo aptitude clean'
-alias apt-search='flag-command apt-cache search'
-alias apt-install='flag-command sudo aptitude install'
-
-
 # Colorize some commands with grc
 if [ -n `which grc` ]; then
   alias configure='grc -es --colour=auto ./configure'
@@ -74,16 +62,3 @@ fi
 #if [ -n `which colordiff` ]; then
 #  alias diff='colordiff'
 #fi
-
-
-# Set displayed directories when running '$ cd <TAB>'.
-_update_cdpath()
-{
-  # Add the current and previous directory to the 'cd' path.
-  export CDPATH='.:$OLDPWD'
-
-  # Add the projects directory too
-  if [[ $OLDPWD != '$HOME/projects' ]] && [[ $PWD != '$HOME/projects' ]]; then
-    export CDPATH='.:$OLDPWD:$HOME/projects'
-  fi
-}

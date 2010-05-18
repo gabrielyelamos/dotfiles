@@ -1,34 +1,7 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
 # Description
-#   "Modular" bash_profile/bash_rc/zshrc.
-#     - First executes every script in header/enabled to output a
-#       custom terminal header or welcome screen.
-#     - Then sources the configs in configs/
-#       * configs/active/: sources every file found recursively.
-#       * configs/prompt/: prompts the user to source every file
-#         found recursively.
-#
-# Usage
-#   The directory structure must be as follows:
-#       $HOME
-#       └─ .shell.d
-#          ├─ configs
-#          │  ├─ enabled
-#          │  ├─ disabled
-#          │  └─ prompt
-#          └─ header
-#             ├─ enabled
-#             └─ disabled
-#
-#   Then make sure shellrc is sourced at bash startup, for example by
-#   setting a symbolic link this way:
-#     $ ln -s /path/to/this/file $HOME/.bash_profile
-#     $ ln -s /path/to/this/file $HOME/.bashrc
-#     $ ln -s /path/to/this/file $HOME/.zshrc
-#
-# Dependencies
-#   * Commands: awk, tput, read, source, test.
+#   Initialization file for ZSH.
 # ------------------------------------------------------------------------------
 
 
@@ -78,14 +51,8 @@ shellrc_print-line ()
 # Print the top line.
 shellrc_print-top-line()
 {
-  local host_name
-  if [[ $SHELL_TYPE == 'bash' ]]; then
-    host_name=$HOSTNAME
-  elif [[ $SHELL_TYPE == 'zsh' ]]; then
-    host_name=$HOST
-  fi
-  echo -ne "──❮ ${SHELL_TYPE} ❯──❮ `set_color brown`$USER@$host_name`set_color normal` ❯"
-  shellrc_print-line "─" "─" "─" "$(( `tput cols` - ${#USER} - ${#host_name} - ${#SHELL_TYPE} - 13 ))"
+  echo -ne "──❮ `set_color brown`$USER@$HOST`set_color normal` ❯"
+  shellrc_print-line "─" "─" "─" "$(( `tput cols` - ${#USER} - ${#HOST} - ${#SHELL_TYPE} - 7 ))"
 }
 
 
@@ -96,7 +63,7 @@ shellrc_exec-headers ()
 
   # Loop through files in the header folder
   # (Trick: replace spaces in filenames with '&' to enter the for loop)
-  for file in `find $SHELL_INIT_DIR/header/enabled/* ! -name '.*' -xtype f | sort | sed -e "s/ /\\&/g"`
+  for file in `find $HOME/zsh/header.d/* ! -name '.*' -xtype f | sort | sed -e "s/ /\\&/g"`
   do
 
 	# Restore spaces
@@ -120,49 +87,24 @@ shellrc_exec-headers ()
 #           To be put before first argument.
 shellrc_load-config ()
 {
-  # Handle the --ask option
-  local ask=false
-  if [ $1 = "--ask" ]; then
-    shift
-    ask=true
-  fi
-
   # Extract a readable name from the file name
   # Example: "/home/user/folder/010_Aliases and functions.sh" => "Aliases and functions"
   local config_name="$(expr match "`echo $@`" '.*[/_]\([^\.]*\)')"
-  
-  # Determine wether we're going to laod this config
-  local load=true
-  if $ask; then
-    if ! shellrc_ask "Load $config_name ?"; then
-      load=false
-    fi
+
+  # Source the file
+  source "`echo $@`" &> /tmp/SHELLRC_config_out.log
+
+  # Append the output to the report if needed
+  if [ -s /tmp/SHELLRC_config_out.log ]; then
+    echo "`set_color -o blue`$config_name`set_color normal` > " >> /tmp/shellrc_configs_out
+    (cat /tmp/SHELLRC_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/SHELLRC_configs_out
   fi
 
-  # Let's go
-  if $load; then
-
-    # Source the file
-    source "`echo $@`" &> /tmp/SHELLRC_config_out.log
-
-    # Append the output to the report if needed
-    if [ -s /tmp/SHELLRC_config_out.log ]; then
-      echo "`set_color -o blue`$config_name`set_color normal` > " >> /tmp/SHELLRC_configs_out
-      (cat /tmp/SHELLRC_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/SHELLRC_configs_out
-    fi
-
-    # Update the configurations line
-    if [ -z "${SHELLRC_CONFIGS_LINE}" ]; then
-      export SHELLRC_CONFIGS_LINE="`set_color -o blue`Configs▸`set_color normal` $config_name"
-    else
-      export SHELLRC_CONFIGS_LINE=${SHELLRC_CONFIGS_LINE}" `set_color blue`▪`set_color normal` $config_name"
-    fi
-  fi
-  
-  # If we have asked, redraw now
-  if $ask; then
-    tput rc; tput ed
-    echo -e "$SHELLRC_CONFIGS_LINE"
+  # Update the configurations line
+  if [ -z "${SHELLRC_CONFIGS_LINE}" ]; then
+    export SHELLRC_CONFIGS_LINE="`set_color -o blue`Configs▸`set_color normal` $config_name"
+  else
+    export SHELLRC_CONFIGS_LINE=${SHELLRC_CONFIGS_LINE}" `set_color blue`▪`set_color normal` $config_name"
   fi
 }
 
@@ -178,13 +120,6 @@ shellrc_load-config ()
 shellrc_load-folder-configs ()
 {
   local file
-  local load_opts=""
-	
-  # Handle the --ask option
-  if [ $1 = "--ask" ]; then
-    shift
-    load_opts="--ask"
-  fi
   
   # Declare a boolean to determine the success of the operation
   local success=true
@@ -207,7 +142,7 @@ shellrc_load-folder-configs ()
         file=`echo $file | sed -e "s/\\&/ /g"`
 
         # Try loading the config
-        shellrc_load-config $load_opts $file
+        shellrc_load-config $file
         
       done
       
@@ -229,15 +164,9 @@ shellrc_load-folder-configs ()
 # Load the configurations
 shellrc_load-configs ()
 {
-  # Save the current cursor position
-  tput sc
-
-  # Source scripts in active/
-  shellrc_load-folder-configs "$SHELL_INIT_DIR/configs/enabled"
+  # Source confs
+  shellrc_load-folder-configs "$HOME/zsh/conf.d"
   [[ -n $SHELLRC_CONFIGS_LINE ]] && echo -e "$SHELLRC_CONFIGS_LINE"
-
-  # Source scripts in prompt/ (ask first)
-  shellrc_load-folder-configs --ask "$SHELL_INIT_DIR/configs/prompt"
 }
 
 
@@ -252,30 +181,12 @@ shellrc_print-configs-output ()
 }
 
 
-# Resolve the shell used (Bash or Zsh) and set
-# the $SHELL_TYPE variable.
-shellrc_resolve-shell()
-{
-	if [[ -n $ZSH_VERSION ]]; then
-	  export SHELL_TYPE='zsh'
-	else
-	  export SHELL_TYPE='bash'
-	fi
-}
-
-
 # ------------------------------------------------------------------------------
 # Main
 # ------------------------------------------------------------------------------
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
-
-# Resolve the shell type
-shellrc_resolve-shell
-
-# Declare the location of the initialization directory
-export SHELL_INIT_DIR=$HOME/.shell.d
 
 # Local variables declarations
 SHELLRC_CONFIGS_LINE=""
@@ -317,4 +228,3 @@ unset -f shellrc_load-config
 unset -f shellrc_load-folder-configs
 unset -f shellrc_load-configs
 unset -f shellrc_print-configs-output
-unset -f shellrc_resolve-shell

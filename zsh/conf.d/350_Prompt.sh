@@ -1,11 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # ------------------------------------------------------------------------------
 # Description
 #   Prompt for the Zsh shell.
 # ------------------------------------------------------------------------------
 
-if [[ $SHELL_TYPE == 'zsh' ]]; then
-
-  export PROMPT="%2~%b%#%b "
-
-fi
+export PROMPT="%2~%b%#%b "
