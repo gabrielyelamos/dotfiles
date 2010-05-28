@@ -49,7 +49,6 @@
     cursor_color = "#FFFFFF"
     foreground_color = "#ffffff"
     scroll_on_output = False
-    show_titlebar = False
     cursor_shape = underline
     scrollback_lines = 10000
 [layouts]
