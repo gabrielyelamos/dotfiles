@@ -70,7 +70,7 @@ shellrc_exec-headers ()
 	file=`echo $file | sed -e "s/\\&/ /g"`
         
     # If this is a file, execute it
-    if [ -f "$file" ]; then
+    if [[ -f "$file" ]]; then
       eval "$file"
     fi
   done
@@ -92,16 +92,16 @@ shellrc_load-config ()
   local config_name="$(expr match "`echo $@`" '.*[/_]\([^\.]*\)')"
 
   # Source the file
-  source "`echo $@`" &> /tmp/SHELLRC_config_out.log
+  source "`echo $@`" &> /tmp/shellrc_config_out.log
 
   # Append the output to the report if needed
-  if [ -s /tmp/SHELLRC_config_out.log ]; then
+  if [[ -s /tmp/shellrc_config_out.log ]]; then
     echo "`set_color -o blue`$config_name`set_color normal` > " >> /tmp/shellrc_configs_out
-    (cat /tmp/SHELLRC_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/SHELLRC_configs_out
+    (cat /tmp/shellrc_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/shellrc_configs_out
   fi
 
   # Update the configurations line
-  if [ -z "${SHELLRC_CONFIGS_LINE}" ]; then
+  if [[ -z "${SHELLRC_CONFIGS_LINE}" ]]; then
     export SHELLRC_CONFIGS_LINE="`set_color -o blue`Configs▸`set_color normal` $config_name"
   else
     export SHELLRC_CONFIGS_LINE=${SHELLRC_CONFIGS_LINE}" `set_color blue`▪`set_color normal` $config_name"
@@ -128,7 +128,7 @@ shellrc_load-folder-configs ()
   local folder=`echo $1 | sed -e "s/ /\\ /g"`
   
   # Check that a valid folder was given
-  if [ -d "$folder" ]; then
+  if [[ -d "$folder" ]]; then
     
     # Check the folder is not empty
     if [ `ls "$folder" | wc -l` -ne 0 ]; then
@@ -173,9 +173,9 @@ shellrc_load-configs ()
 # Print the configurations output report.
 shellrc_print-configs-output ()
 {
-  if [ -s /tmp/SHELLRC_configs_out ]; then
+  if [[ -s /tmp/shellrc_configs_out ]]; then
     shellrc_print-line "`set_color red`─" "─" "─`set_color normal`"
-    cat /tmp/SHELLRC_configs_out | head --lines=-1
+    cat /tmp/shellrc_configs_out | head --lines=-1
     shellrc_print-line "`set_color red`─" "─" "─`set_color normal`"
   fi
 }
@@ -186,7 +186,7 @@ shellrc_print-configs-output ()
 # ------------------------------------------------------------------------------
 
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+[[ -z "$PS1" ]] && return
 
 # Local variables declarations
 SHELLRC_CONFIGS_LINE=""
@@ -195,7 +195,7 @@ SHELLRC_CONFIGS_LINE=""
 clear
 
 # Clean traces from a previous execution
-rm -f /tmp/SHELLRC_configs_out
+rm -f /tmp/shellrc_configs_out
 
 # Blank line
 echo
