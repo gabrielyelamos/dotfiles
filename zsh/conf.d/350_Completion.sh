@@ -37,14 +37,23 @@ bashcompinit
 autoload -Uz compinit
 compinit
 
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh_completion_cache
 zstyle ':completion:*' file-sort name
-zstyle ':completion:*' use-cache true
 zstyle ':completion:*' list-colors ${(s.:.)ZLS_COLORS}
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu select=2
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' squeeze-slashes true
 
 zstyle ':completion:*:*:kill:*' command 'ps -a -w -w -u $USER -o pid,cmd --sort=-pid'
 zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:*:kill:*' force-list always
+zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=39=32"
+
+zstyle ':completion:*:rm:*' ignore-line yes
+zstyle ':completion:*:mv:*' ignore-line yes
+zstyle ':completion:*:cp:*' ignore-line yes 
+
+zstyle ':completion:*:*:cd:*' tag-order local-directories path-directories
+
