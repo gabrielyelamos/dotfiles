@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+# Description
+#   Send the selected files/folders to the Ubuntu One folder.
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+# FIXME Do not declare Ubuntu One home here.
+UBUNTUONE_HOME=~/Ubuntu\ One
+
+# Check $UBUNTUONE_HOME is set.
+if [[ ! -d $UBUNTUONE_HOME ]]; then
+  zenity --error --text="The \$UBUNTUONE_HOME variable is not set to a valid folder."
+  exit 1
+fi
+
+# Copy the stuff to the Ubuntu One folder.
+cp -r $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS $UBUNTUONE_HOME/
+
+# Show a notification.
+notify-send --icon=/usr/share/icons/hicolor/48x48/apps/ubuntuone.png "File sent to Ubuntu One."
