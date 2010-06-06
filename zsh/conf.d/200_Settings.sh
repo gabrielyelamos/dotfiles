@@ -5,7 +5,6 @@
 # ------------------------------------------------------------------------------
 
 
-
 # Settings for less
 export LESS="-MWi -x2 --shift 5"
 export LESSCHARSET=utf-8

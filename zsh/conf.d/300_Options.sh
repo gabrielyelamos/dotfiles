@@ -6,23 +6,8 @@
 
 
 # ----------------------------------------------------------------------------
-# Initializations
-# ----------------------------------------------------------------------------
-
-# Activate auto-completion
-autoload -Uz compinit
-compinit
-
-# Activate Bash auto-completion
-autoload -U bashcompinit
-bashcompinit
-
-
-# ----------------------------------------------------------------------------
-# Options
-# ----------------------------------------------------------------------------
-
 # Changing Directories
+# ----------------------------------------------------------------------------
 
 # If a command is issued that can't be executed as a normal command, and the
 # command is the name of a directory, perform the cd command to that directory.
@@ -66,7 +51,9 @@ unsetopt PUSHD_SILENT
 setopt PUSHD_TO_HOME
 
 
+# ----------------------------------------------------------------------------
 # Completion
+# ----------------------------------------------------------------------------
 
 # If unset, key functions that list completions try to return to the last prompt if
 # given a numeric argument. If set these functions try to return to the last prompt
@@ -178,7 +165,9 @@ unsetopt MENU_COMPLETE
 unsetopt REC_EXACT
 
 
+# ----------------------------------------------------------------------------
 # Expansion and Globbing
+# ----------------------------------------------------------------------------
 
 # If a pattern for filename generation is badly formed, print an error message. (If this
 # option is unset, the pattern will be left unchanged.)
@@ -318,7 +307,9 @@ setopt UNSET
 setopt WARN_CREATE_GLOBAL
 
 
+# ----------------------------------------------------------------------------
 # History
+# ----------------------------------------------------------------------------
 
 # If this is set, zsh sessions will append their history list to the history file, rather than
 # replace it. Thus, multiple parallel zsh sessions will all have the new entries from their
@@ -424,7 +415,9 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 
+# ----------------------------------------------------------------------------
 # Initialisation
+# ----------------------------------------------------------------------------
 
 # All parameters subsequently defined are automatically exported.
 unsetopt ALL_EXPORT
@@ -451,7 +444,9 @@ setopt GLOBAL_RCS
 setopt RCS
 
 
+# ----------------------------------------------------------------------------
 # Input/Output
+# ----------------------------------------------------------------------------
 
 # Expand aliases.
 setopt ALIASES 
@@ -541,7 +536,9 @@ setopt SHORT_LOOPS
 unsetopt SUN_KEYBOARD_HACK
 
 
+# ----------------------------------------------------------------------------
 # Job Control
+# ----------------------------------------------------------------------------
 
 # With this option set, stopped jobs that are removed from the job table with the disown builtin
 # command are automatically sent a CONT signal to make them running.
@@ -577,7 +574,9 @@ setopt MONITOR
 setopt NOTIFY
 
 
+# ----------------------------------------------------------------------------
 # Prompting
+# ----------------------------------------------------------------------------
 
 # If set, `!' is treated specially in prompt expansion. See Prompt Expansion.
 setopt PROMPT_BANG
@@ -610,7 +609,9 @@ setopt PROMPT_SUBST
 unsetopt TRANSIENT_RPROMPT
 
 
+# ----------------------------------------------------------------------------
 # Scripts and Functions
+# ----------------------------------------------------------------------------
 
 # Output hexadecimal numbers in the standard C format, for example `0xFF' instead of the usual
 # `16#FF'. If the option OCTAL_ZEROES is also set (it is not by default), octal numbers will be
@@ -704,7 +705,9 @@ unsetopt VERBOSE
 unsetopt XTRACE
 
 
+# ----------------------------------------------------------------------------
 # Shell Emulation
+# ----------------------------------------------------------------------------
 
 # When set, matches performed with the =~ operator will set the BASH_REMATCH array variable, instead
 # of the default MATCH and match variables. The first element of the BASH_REMATCH array will contain
@@ -823,7 +826,9 @@ unsetopt SH_WORD_SPLIT
 unsetopt TRAPS_ASYNC
 
 
+# ----------------------------------------------------------------------------
 # Zle
+# ----------------------------------------------------------------------------
 
 # Beep on error in ZLE.
 unsetopt BEEP
