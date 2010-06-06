@@ -12,6 +12,6 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' squeeze-slashes true
 
-zstyle ':completion:*:*:kill:*' command 'ps -u$USER -o pid,%cpu,tty,cputime,cmd'
+zstyle ':completion:*:*:kill:*' command 'ps -a -w -w -u $USER -o pid,cmd'
 zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ':completion:*:*:kill:*' force-list always
