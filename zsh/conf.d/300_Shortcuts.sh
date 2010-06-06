@@ -5,10 +5,10 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 # ls
-alias ls='ls -F --color=auto'
-alias ll='ls -alh --color=auto'
-alias la='ls -AF --color=auto'
-alias l.='ls -Fd --color=auto .[[:alnum:]]* 2> /dev/null || echo "No hidden file here..."'
+alias ls='ls -F --group-directories-first --color=auto'
+alias ll='ls -alh --group-directories-first --color=auto'
+alias la='ls -AF --group-directories-first --color=auto'
+alias l.='ls -Fd --group-directories-first --color=auto .[[:alnum:]]* 2> /dev/null || echo "No hidden file here..."'
 
 
 # dir
