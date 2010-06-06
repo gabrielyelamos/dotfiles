@@ -354,7 +354,7 @@ setopt HIST_FIND_NO_DUPS
 
 # If a new command line being added to the history list duplicates an older one, the older
 # command is removed from the list (even if it is not the previous event).
-setopt HIST_IGNORE_ALL_DUPS
+unsetopt HIST_IGNORE_ALL_DUPS
 
 # Do not enter command lines into the history list if they are duplicates of the previous event.
 setopt HIST_IGNORE_DUPS
@@ -364,7 +364,7 @@ setopt HIST_IGNORE_DUPS
 # in the internal history until the next command is entered before it vanishes, allowing you
 # to briefly reuse or edit the line. If you want to make it vanish right away without entering
 # another command, type a space and press return.
-setopt HIST_IGNORE_SPACE
+unsetopt HIST_IGNORE_SPACE
 
 # Remove function definitions from the history list. Note that the function lingers in the
 # internal history until the next command is entered before it vanishes, allowing you to briefly
@@ -374,7 +374,7 @@ unsetopt HIST_NO_FUNCTIONS
 # Remove the history (fc -l) command from the history list when invoked. Note that the command
 # lingers in the internal history until the next command is entered before it vanishes, allowing
 # you to briefly reuse or edit the line.
-setopt HIST_NO_STORE
+unsetopt HIST_NO_STORE
 
 # Remove superfluous blanks from each command line being added to the history list.
 setopt HIST_REDUCE_BLANKS
@@ -413,6 +413,13 @@ setopt INC_APPEND_HISTORY
 # SHARE_HISTORY off, INC_APPEND_HISTORY on, and then manually import commands whenever you need them
 # using `fc -RI'.
 setopt SHARE_HISTORY
+
+# File where history is saved.
+export HISTFILE="$HOME/.zsh_history"
+
+# Size of the history.
+export HISTSIZE=5000
+export SAVEHIST=$HISTSIZE
 
 
 # ----------------------------------------------------------------------------
