@@ -1,0 +1,29 @@
+[DOCS]
+spreadsheet_format = xls
+format = txt
+spreadsheet_editor = openoffice.org
+presentation_format = ppt
+presentation_editor = openoffice.org
+document_format = txt
+user = primo411
+
+[PICASA]
+access = public
+
+[CONTACTS]
+list_style = title,email
+user = primo411
+
+[CALENDAR]
+user = primo411
+
+[GENERAL]
+regex = True
+date_print_format = %b %d %H:%M
+delete_by_default = False
+missing_field_value = N/A
+tags_prompt = False
+list_style = title,url-site
+delete_prompt = True
+url_style = site
+
