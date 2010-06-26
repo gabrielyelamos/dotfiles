@@ -29,5 +29,5 @@ export SVN_EDITOR=${SVN_EDITOR:-vim}
 # Web browser: elinks/Firefox.
 export BROWSER="elinks"
 if [ "$DISPLAY" ]; then
-  export BROWSER="firefox"
+  export BROWSER="google-chrome"
 fi
