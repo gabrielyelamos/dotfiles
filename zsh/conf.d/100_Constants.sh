@@ -7,6 +7,10 @@
 # Add some directories to $PATH.
 export PATH=$HOME/bin:$PATH
 
+# Add some directories to $fpath. 
+fpath=(~/zsh/comp.d $fpath)
+#autoload -U ~/zsh/comp.d/*
+
 # Constants used for Debian packaging.
 export DEBFULLNAME='Julien Nicoulaud'
 export DEBEMAIL='julien.nicoulaud@gmail.com'
@@ -29,5 +33,5 @@ export SVN_EDITOR=${SVN_EDITOR:-vim}
 # Web browser: elinks/Firefox.
 export BROWSER="elinks"
 if [ "$DISPLAY" ]; then
-  export BROWSER="firefox"
+  export BROWSER="google-chrome"
 fi
