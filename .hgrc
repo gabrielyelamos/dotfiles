@@ -1,0 +1,19 @@
+# User Interface settings
+[ui]
+username=Julien Nicoulaud <julien.nicoulaud@gmail.com>
+editor=vim
+merge=meld
+
+# Enabled extensions
+[extensions]
+hgext.gpg=
+hgext.convert=
+hgext.color=
+hgext.extdiff=
+hgext.fetch=
+hgext.graphlog=
+hgext.pager=
+
+# GPG extension settings
+[gpg]
+key=A20BF77D
