@@ -5,17 +5,17 @@ spreadsheet_editor = openoffice.org
 presentation_format = ppt
 presentation_editor = openoffice.org
 document_format = txt
-user = primo411
+user = julien.nicoulaud
 
 [PICASA]
 access = public
 
 [CONTACTS]
 list_style = title,email
-user = primo411
+user = julien.nicoulaud
 
 [CALENDAR]
-user = primo411
+user = julien.nicoulaud
 
 [GENERAL]
 regex = True
