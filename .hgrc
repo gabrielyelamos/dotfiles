@@ -17,3 +17,8 @@ hgext.pager=
 # GPG extension settings
 [gpg]
 key=A20BF77D
+
+
+[tortoisehg]
+vdiff = meld
+editor = geany
