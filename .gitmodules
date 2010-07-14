@@ -1,0 +1,3 @@
+[submodule "gist"]
+  path = projects/gist
+  url = git://github.com/defunkt/gist.git
