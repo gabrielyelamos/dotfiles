@@ -48,8 +48,17 @@
     background_type = transparent
     cursor_color = "#FFFFFF"
     foreground_color = "#ffffff"
-    scroll_on_output = False
     cursor_shape = underline
+    scrollback_lines = 10000
+  [[black on white]]
+    palette = "#000000:#cc0000:#4e9a06:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:#ad7fa8:#34e2e2:#eeeeec"
+    login_shell = True
+    background_darkness = 0.92
+    urgent_bell = True
+    background_type = transparent
+    foreground_color = "#000000"
+    cursor_shape = underline
+    background_color = "#ffffff"
     scrollback_lines = 10000
 [layouts]
   [[default]]
@@ -60,4 +69,16 @@
     [[[window0]]]
       type = Window
       parent = ""
+  [[white]]
+    [[[child0]]]
+      position = 0:0
+      type = Window
+      order = 0
+      parent = ""
+      size = 1920, 1152
+    [[[terminal1]]]
+      profile = black on white
+      type = Terminal
+      order = 0
+      parent = child0
 [plugins]

@@ -37,6 +37,7 @@ bashcompinit
 autoload -Uz compinit
 compinit
 
+zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh_completion_cache
 zstyle ':completion:*' file-sort name
