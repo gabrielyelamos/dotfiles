@@ -1,0 +1,25 @@
+{
+  "name": "Google Wave",
+  "description": "Communicate and collaborate in real time",
+  "version": "1",
+  "app": {
+    "urls": [
+      "*://wave.google.com/",
+      "*://google.com/wave"
+    ],
+    "browse_urls": [
+      "https://www.google.com/accounts/"
+    ],
+    "launch": {
+      "web_url": "http://wave.google.com"
+    }
+  },
+  "icons": {
+    "24": "24.png",
+    "128": "128.png"
+  },
+  "permissions": [
+    "unlimited_storage",
+    "notifications"
+  ]
+}
