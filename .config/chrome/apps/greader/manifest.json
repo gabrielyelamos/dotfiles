@@ -1,0 +1,23 @@
+{
+  "name": "Google Reader",
+  "description": "Read your RSS subscriptions",
+  "version": "1",
+  "app": {
+    "urls": [
+      "*://www.google.com/reader/view/"
+    ],
+    "browse_urls": [
+      "https://www.google.com/accounts/"
+    ],
+    "launch": {
+      "web_url": "http://www.google.com/reader/view/"
+    }
+  },
+  "icons": {
+    "24": "24.png",
+    "128": "128.png"
+  },
+  "permissions": [
+    "unlimited_storage"
+  ]
+}
