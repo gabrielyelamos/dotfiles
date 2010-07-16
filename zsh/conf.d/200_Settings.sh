@@ -21,3 +21,10 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # Colors in ls
 [ -x /usr/bin/dircolors ] && eval $(dircolors)
 export ZLS_COLORS=$LS_COLORS
+
+# Pipe some commands to colorex
+mvn(){ `which -a mvn | grep '^\/' | head -1` $@ 2>&1 | colorex --config=maven3 }
+diff(){ `which -a diff | grep '^\/' | head -1` $@ 2>&1 | colorex --config=diff }
+ping(){ `which -a ping | grep '^\/' | head -1` $@ | colorex --config=ping}
+top(){ `which -a top | grep '^\/' | head -1` $@ 2>&1 | colorex --config=top }
+traceroute(){ `which -a traceroute | grep '^\/' | head -1` $@ 2>&1 | colorex --config=traceroute }
