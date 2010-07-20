@@ -24,6 +24,9 @@ export ZLS_COLORS=$LS_COLORS
 
 # Pipe some commands to colorex
 mvn(){ `which -a mvn | grep '^\/' | head -1` $@ 2>&1 | colorex --config=maven3 }
+omvn(){ `which -a mvn | grep '^\/' | head -1` $@ }
+mvn2(){ `which -a mvn2 | grep '^\/' | head -1` $@ 2>&1 | colorex --config=maven2 }
+omvn2(){ `which -a mvn2 | grep '^\/' | head -1` $@ }
 diff(){ `which -a diff | grep '^\/' | head -1` $@ 2>&1 | colorex --config=diff }
 ping(){ `which -a ping | grep '^\/' | head -1` $@ | colorex --config=ping}
 top(){ `which -a top | grep '^\/' | head -1` $@ 2>&1 | colorex --config=top }
