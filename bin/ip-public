@@ -4,4 +4,4 @@
 #   Display public IP.
 # ──────────────────────────────────────────────────────────────────────────────────────────────────
 
-curl --silent icanhazip.com
+dig +short @resolver1.opendns.com myip.opendns.com
