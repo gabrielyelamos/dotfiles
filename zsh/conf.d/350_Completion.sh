@@ -58,3 +58,11 @@ zstyle ':completion:*:cp:*' ignore-line yes
 
 zstyle ':completion:*:*:cd:*' tag-order local-directories path-directories
 
+
+# ------------------------------------------------------------------------------
+# Package auto-suggestion on "command not found"
+# ------------------------------------------------------------------------------
+
+if [ -e /etc/zsh_command_not_found ]; then
+  . /etc/zsh_command_not_found
+fi
