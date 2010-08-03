@@ -28,6 +28,6 @@ omvn(){ `which -a mvn | grep '^\/' | head -1` $@ }
 mvn2(){ `which -a mvn2 | grep '^\/' | head -1` $@ 2>&1 | colorex --config=maven2 }
 omvn2(){ `which -a mvn2 | grep '^\/' | head -1` $@ }
 diff(){ `which -a diff | grep '^\/' | head -1` $@ 2>&1 | colorex --config=diff }
-ping(){ `which -a ping | grep '^\/' | head -1` $@ | colorex --config=ping}
+ping(){ `which -a ping | grep '^\/' | head -1` $@ 2>&1 | colorex --config=ping}
 top(){ `which -a top | grep '^\/' | head -1` $@ 2>&1 | colorex --config=top }
 traceroute(){ `which -a traceroute | grep '^\/' | head -1` $@ 2>&1 | colorex --config=traceroute }
