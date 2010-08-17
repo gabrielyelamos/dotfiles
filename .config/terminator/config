@@ -1,5 +1,5 @@
 [global_config]
-  enabled_plugins = ActivityWatch, TerminalShot, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+  enabled_plugins = ActivityWatch, TerminalShot, LaunchpadCodeURLHandler, APTURLHandler, MavenPluginURLHandler, LaunchpadBugURLHandler
   title_transmit_fg_color = "#FFFFFF"
   title_inactive_fg_color = "#ffffff"
   title_receive_bg_color = "#a31100"
