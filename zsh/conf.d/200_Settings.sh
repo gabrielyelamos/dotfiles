@@ -22,12 +22,16 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 [ -x /usr/bin/dircolors ] && eval $(dircolors)
 export ZLS_COLORS=$LS_COLORS
 
-# Pipe some commands to colorex
-mvn(){ `which -a mvn | grep '^\/' | head -1` $@ 2>&1 | colorex --config=maven3 }
-omvn(){ `which -a mvn | grep '^\/' | head -1` $@ }
-mvn2(){ `which -a mvn2 | grep '^\/' | head -1` $@ 2>&1 | colorex --config=maven2 }
-omvn2(){ `which -a mvn2 | grep '^\/' | head -1` $@ }
-diff(){ `which -a diff | grep '^\/' | head -1` $@ 2>&1 | colorex --config=diff }
-ping(){ `which -a ping | grep '^\/' | head -1` $@ 2>&1 | colorex --config=ping}
-top(){ `which -a top | grep '^\/' | head -1` $@ 2>&1 | colorex --config=top }
-traceroute(){ `which -a traceroute | grep '^\/' | head -1` $@ 2>&1 | colorex --config=traceroute }
+# Colorize some commands with colorex
+[[ -z `alias mvn` ]] && alias @mvn=`which mvn` && alias mvn='colorex --config mvn3 -- mvn'
+[[ -z `alias mvn2` ]] && alias @mvn2=`which mvn2` && alias mvn2='colorex --config mvn2 -- mvn2'
+[[ -z `alias diff` ]] && alias @diff=`which diff` && alias diff='colorex -- diff'
+[[ -z `alias df` ]] && alias @df=`which df` && alias df='colorex -- df'
+[[ -z `alias host` ]] && alias @host=`which host` && alias host='colorex -- host'
+[[ -z `alias ifconfig` ]] && alias @ifconfig=`which ifconfig` && alias ifconfig='colorex -- ifconfig'
+[[ -z `alias md5sum` ]] && alias @md5sum=`which md5sum` && alias md5sum='colorex -- md5sum'
+[[ -z `alias env` ]] && alias @env=`which env` && alias env='colorex -- env'
+[[ -z `alias ping` ]] && alias @ping=`which ping` && alias ping='colorex -- ping'
+[[ -z `alias top` ]] && alias @top=`which top` && alias top='colorex -- top'
+[[ -z `alias traceroute` ]] && alias @traceroute=`which traceroute` && alias traceroute='colorex -- traceroute'
+[[ -z `alias jonas` ]] && alias @jonas=`which jonas` && alias jonas='colorex -- jonas'
