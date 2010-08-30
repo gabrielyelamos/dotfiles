@@ -31,3 +31,10 @@ diff(){ `which -a diff | grep '^\/' | head -1` $@ 2>&1 | colorex --config=diff }
 ping(){ `which -a ping | grep '^\/' | head -1` $@ 2>&1 | colorex --config=ping}
 top(){ `which -a top | grep '^\/' | head -1` $@ 2>&1 | colorex --config=top }
 traceroute(){ `which -a traceroute | grep '^\/' | head -1` $@ 2>&1 | colorex --config=traceroute }
+
+# Force refresh the terminal title before each command.
+case $TERM in
+  xterm*)
+    precmd () {print -Pn "\e]0;%~\a"}
+    ;;
+esac
