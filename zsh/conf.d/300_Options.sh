@@ -304,7 +304,7 @@ setopt UNSET
 # Parameters explicitly declared global from within a function using typeset -g do not cause
 # a warning. Note that there is no warning when a local parameter is assigned to in a nested
 # function, which may also indicate an error.
-setopt WARN_CREATE_GLOBAL
+unsetopt WARN_CREATE_GLOBAL
 
 
 # ----------------------------------------------------------------------------
@@ -494,11 +494,11 @@ unsetopt INTERACTIVE_COMMENTS
 # will use the saved location, avoiding a path search. If this option is unset, no path hashing is done at all.
 # However, when CORRECT is set, commands whose names do not appear in the functions or aliases hash tables are
 # hashed in order to avoid reporting them as spelling errors.
-setopt HASH_CMDS
+unsetopt HASH_CMDS
 
 # Whenever a command name is hashed, hash the directory containing it, as well as all directories that occur
 # earlier in the path. Has no effect if neither HASH_CMDS nor CORRECT is set.
-setopt HASH_DIRS
+unsetopt HASH_DIRS
 
 # Print a warning message if a mail file has been accessed since the shell last checked.
 unsetopt MAIL_WARNING
@@ -586,7 +586,7 @@ setopt NOTIFY
 # ----------------------------------------------------------------------------
 
 # If set, `!' is treated specially in prompt expansion. See Prompt Expansion.
-setopt PROMPT_BANG
+unsetopt PROMPT_BANG
 
 # Print a carriage return just before printing a prompt in the line editor. This is on by default
 # as multi-line editing is only possible if the editor knows where the start of the line appears.
@@ -879,6 +879,6 @@ setopt ZLE
 # ----------------------------------------------------------------------------
 
 # Hooks initialization
-typeset -a precmd_functions
-typeset -a preexec_functions
+typeset -ga precmd_functions
+typeset -ga preexec_functions
 
