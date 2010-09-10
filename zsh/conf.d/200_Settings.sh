@@ -37,7 +37,6 @@ esac
 [[ -z `alias host` ]] && alias @host=`which host` && alias host='colorex -- host'
 [[ -z `alias ifconfig` ]] && alias @ifconfig=`which ifconfig` && alias ifconfig='colorex -- ifconfig'
 [[ -z `alias md5sum` ]] && alias @md5sum=`which md5sum` && alias md5sum='colorex -- md5sum'
-[[ -z `alias env` ]] && alias @env=`which env` && alias env='colorex -- env'
 [[ -z `alias ping` ]] && alias @ping=`which ping` && alias ping='colorex -- ping'
 [[ -z `alias top` ]] && alias @top=`which top` && alias top='colorex -- top'
 [[ -z `alias traceroute` ]] && alias @traceroute=`which traceroute` && alias traceroute='colorex -- traceroute'
