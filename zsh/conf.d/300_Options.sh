@@ -881,4 +881,4 @@ setopt ZLE
 # Hooks initialization
 typeset -ga precmd_functions
 typeset -ga preexec_functions
-
+typeset -ga chpwd_functions

@@ -5,6 +5,9 @@
 # ------------------------------------------------------------------------------
 
 
+# Set the locale to english
+export LC_ALL=C
+
 # Settings for less
 export LESS="-MWi -x2 --shift 5"
 export LESSCHARSET=utf-8
