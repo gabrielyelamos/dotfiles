@@ -3,24 +3,40 @@
 # Fish style live command coloring.
 # ------------------------------------------------------------------------------
 
-recolor-cmd() {
-   args=(${(z)BUFFER})
-   cmd=$args[1]
-   res=$(builtin type $cmd 2>/dev/null)
-   [[ -z $res ]]  && return
-   case $res in
-     *'reserved word'*)  color="magenta";;
-     *'an alias'*)       color="cyan";;
-     *'shell builtin'*)  color="yellow";;
-     *'shell function'*) color='green';;
-     *"$cmd is"*)        color="blue";;
-     *)                  color="red";;
-   esac
-   region_highlight=("0 ${#cmd} fg=${color},bold")
+ZLE_RESERVED_WORD_STYLE='fg=white,bold'
+ZLE_ALIAS_STYLE='fg=white,bold'
+ZLE_BUILTIN_STYLE='fg=white,bold'
+ZLE_FUNCTION_STYLE='fg=white,bold'
+ZLE_COMMAND_STYLE='fg=white,bold'
+ZLE_COMMAND_UNKNOWN_TOKEN_STYLE='fg=red,bold'
+
+colorize-zle-buffer() {
+  colorize=true
+  start_pos=0
+  for arg in ${(z)BUFFER}; do
+    ((end_pos=$start_pos+${#arg}+1))
+    if $colorize; then
+      colorize=false
+      res=$(LC_ALL=C builtin type $arg 2>/dev/null)
+      case $res in
+        *'reserved word'*)  style=$ZLE_RESERVED_WORD_STYLE;;
+        *'an alias'*)       style=$ZLE_ALIAS_STYLE;;
+        *'shell builtin'*)  style=$ZLE_BUILTIN_STYLE;;
+        *'shell function'*) style=$ZLE_FUNCTION_STYLE;;
+        *"$cmd is"*)        style=$ZLE_COMMAND_STYLE;;
+        *)                  style=$ZLE_COMMAND_UNKNOWN_TOKEN_STYLE;;
+      esac
+      region_highlight+=("$start_pos $end_pos $style")
+    fi
+    if [[ $arg = '|' ]] || [[ $arg = 'sudo' ]]; then
+      colorize=true
+    fi
+    start_pos=$end_pos
+  done
 }
 
-check-cmd-self-insert() { zle .self-insert && recolor-cmd }
-check-cmd-backward-delete-char() { zle .backward-delete-char && recolor-cmd }
+colorize-hook-self-insert() { builtin zle .self-insert && colorize-zle-buffer }
+colorize-hook-backward-delete-char() { builtin zle .backward-delete-char && colorize-zle-buffer }
 
-zle -N self-insert check-cmd-self-insert
-zle -N backward-delete-char check-cmd-backward-delete-char
+zle -N self-insert colorize-hook-self-insert
+zle -N backward-delete-char colorize-hook-backward-delete-char
