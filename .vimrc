@@ -1,6 +1,5 @@
 " ------------------------------------------------------------------------------
-" Description
-"   Configuration file for VIM.
+" Configuration file for VIM.
 " ------------------------------------------------------------------------------
 
 " Do not use vi compatibility mode

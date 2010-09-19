@@ -1,4 +1,8 @@
-# User Interface settings
+# ------------------------------------------------------------------------------
+# Configuration file for Mercurial.
+# ------------------------------------------------------------------------------
+
+# User interface settings
 [ui]
 username=Julien Nicoulaud <julien.nicoulaud@gmail.com>
 editor=vim

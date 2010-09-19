@@ -1,7 +1,6 @@
 # ------------------------------------------------------------------------------
-# Description
-#   Configuration file for woof.
-#   See http://www.home.unix-ag.org/simon/woof.html.
+# Configuration file for woof.
+# See http://www.home.unix-ag.org/simon/woof.html.
 # ------------------------------------------------------------------------------
 
 [main]

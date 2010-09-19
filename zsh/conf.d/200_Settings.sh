@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 # ------------------------------------------------------------------------------
-# Description
-#   General settings for the shell environnement.
+# General settings for the shell environnement.
 # ------------------------------------------------------------------------------
 
 

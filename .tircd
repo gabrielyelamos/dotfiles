@@ -1,10 +1,6 @@
 # ------------------------------------------------------------------------------
-# Description
-#   Configuration file for tircd.
-#   See http://code.google.com/p/tircd/.
-#
-# Usage
-#   Drop it in $HOME/.tircd.
+# Configuration file for tircd.
+# See http://code.google.com/p/tircd/.
 # ------------------------------------------------------------------------------
 
 # This controls what address / port the server listens on

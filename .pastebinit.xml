@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--<![CDATA[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  - Description
-  -   Configuration file for PastebinIt.
+  - Configuration file for PastebinIt.
   -
   -   Pastebin services available:
   -     * http://paste.ubuntu.com

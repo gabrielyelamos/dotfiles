@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # ------------------------------------------------------------------------------
-# Description
-#   Initialization file for Python interactive interpreter.
-#
-# Usage
-#   This file goes to $HOME/.pythonrc
+# Initialization file for Python interactive interpreter.
 # ------------------------------------------------------------------------------
 
 

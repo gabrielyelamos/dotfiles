@@ -1,7 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # ------------------------------------------------------------------------------
-# Description
-#   Initialization file for ZSH.
+# Initialization file for ZSH.
 # ------------------------------------------------------------------------------
 
 
