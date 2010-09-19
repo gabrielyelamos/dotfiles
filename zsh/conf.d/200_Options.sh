@@ -871,13 +871,3 @@ unsetopt VI
 
 # Use the zsh line editor. Set by default in interactive shells connected to a terminal.
 setopt ZLE
-
-
-# ----------------------------------------------------------------------------
-# Initializations
-# ----------------------------------------------------------------------------
-
-# Hooks initialization
-typeset -ga precmd_functions
-typeset -ga preexec_functions
-typeset -ga chpwd_functions
