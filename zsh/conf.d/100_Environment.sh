@@ -4,33 +4,34 @@
 # ------------------------------------------------------------------------------
 
 # Add some directories to $PATH.
-export PATH=$HOME/bin:$PATH
+PATH=$HOME/bin:$PATH
 
 # Add some directories to $fpath. 
 fpath=(~/zsh/comp.d $fpath)
 #autoload -U ~/zsh/comp.d/*
 
+# Some personal info.
+NAME='Julien Nicoulaud'
+MAIL='julien.nicoulaud@gmail.com'
+GPGKEY='A20BF77D'
+
 # Constants used for Debian packaging.
-export DEBFULLNAME='Julien Nicoulaud'
-export DEBEMAIL='julien.nicoulaud@gmail.com'
-export GPGKEY='A20BF77D'
+DEBFULLNAME=$NAME
+DEBEMAIL=$MAIL
 
 # Pager: less
-export PAGER="less"
-export MANPAGER="less"
+PAGER="less"
+MANPAGER="less"
 
 # Editor: Geany, default to vim if not available.
-export EDITOR=`which geany`
-export EDITOR=${EDITOR:-vim}
-export VISUAL=`which geany`
-export VISUAL=${VISUAL:-vim}
-export CVSEDITOR=`which geany`
-export CVSEDITOR=${CVSEDITOR:-vim}
-export SVN_EDITOR=`which geany`
-export SVN_EDITOR=${SVN_EDITOR:-vim}
+EDITOR=`which geany`
+EDITOR=${EDITOR:-vim}
+VISUAL=`which geany`
+VISUAL=${VISUAL:-vim}
+CVSEDITOR=`which geany`
+CVSEDITOR=${CVSEDITOR:-vim}
+SVN_EDITOR=`which geany`
+SVN_EDITOR=${SVN_EDITOR:-vim}
 
-# Web browser: elinks/Firefox.
-export BROWSER="elinks"
-if [ "$DISPLAY" ]; then
-  export BROWSER="google-chrome"
-fi
+# Web browser: ELinks/Google Chrome.
+[[ -n "$DISPLAY" ]] && BROWSER="google-chrome" || BROWSER="elinks"
