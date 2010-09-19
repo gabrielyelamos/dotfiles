@@ -15,7 +15,7 @@ PR_RESET="%{${reset_color}%}";
 
 FMT_BRANCH="${PR_GREEN}%s/%b ${PR_BRIGHT_GREEN}%u%c${PR_RESET}"
 FMT_ACTION="${PR_CYAN}(%a)${PR_RESET}%"
-zstyle ':vcs_info:*' enable svn hg bzr git
+zstyle ':vcs_info:*' enable hg bzr git
 zstyle ':vcs_info:*:*' check-for-changes true
 zstyle ':vcs_info:*:*' unstagedstr '!'
 zstyle ':vcs_info:*:*' stagedstr '+'
