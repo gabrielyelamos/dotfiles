@@ -228,7 +228,7 @@ unsetopt GLOB_SUBST
 # Substitutions using the :s and :& history modifiers are performed with pattern matching
 # instead of string matching. This occurs wherever history modifiers are valid, including
 # glob qualifiers and parameters. See Modifiers.
-unsetopt HIST_SUBST_PATTERN
+setopt HIST_SUBST_PATTERN
 
 # Do not perform brace expansion.
 unsetopt IGNORE_BRACES
