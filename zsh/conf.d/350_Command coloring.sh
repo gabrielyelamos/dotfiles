@@ -3,18 +3,23 @@
 # Fish style live command coloring.
 # ------------------------------------------------------------------------------
 
-ZLE_RESERVED_WORD_STYLE='fg=white,bold'
-ZLE_ALIAS_STYLE='fg=white,bold'
-ZLE_BUILTIN_STYLE='fg=white,bold'
-ZLE_FUNCTION_STYLE='fg=white,bold'
-ZLE_COMMAND_STYLE='fg=white,bold'
+# Token types styles.
+ZLE_RESERVED_WORD_STYLE='fg=none,bold'
+ZLE_ALIAS_STYLE='fg=none,bold'
+ZLE_BUILTIN_STYLE='fg=none,bold'
+ZLE_FUNCTION_STYLE='fg=none,bold'
+ZLE_COMMAND_STYLE='fg=none,bold'
 ZLE_COMMAND_UNKNOWN_TOKEN_STYLE='fg=red,bold'
+ZLE_TOKENS_FOLLOWED_BY_COMMANDS=('|' '||' ';' '&' '&&' 'sudo' 'start' 'time' 'strace')
 
+# Recolorize the current ZLE buffer.
 colorize-zle-buffer() {
+  region_highlight=()
   colorize=true
   start_pos=0
   for arg in ${(z)BUFFER}; do
-    ((end_pos=$start_pos+${#arg}+1))
+    ((start_pos+=${#BUFFER[$start_pos+1,-1]}-${#${BUFFER[$start_pos+1,-1]## #}}))
+    ((end_pos=$start_pos+${#arg}))
     if $colorize; then
       colorize=false
       res=$(LC_ALL=C builtin type $arg 2>/dev/null)
@@ -28,13 +33,12 @@ colorize-zle-buffer() {
       esac
       region_highlight+=("$start_pos $end_pos $style")
     fi
-    if [[ $arg = '|' ]] || [[ $arg = 'sudo' ]]; then
-      colorize=true
-    fi
+    [[ ${${ZLE_TOKENS_FOLLOWED_BY_COMMANDS[(r)${arg//|/\|}]}:+yes} = 'yes' ]] && colorize=true
     start_pos=$end_pos
   done
 }
 
+# Bind the function to ZLE events.
 colorize-hook-self-insert() { builtin zle .self-insert && colorize-zle-buffer }
 colorize-hook-backward-delete-char() { builtin zle .backward-delete-char && colorize-zle-buffer }
 
