@@ -16,10 +16,10 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'                                 
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
-[ -x /usr/bin/lesspipe ] && eval $(lesspipe)
+[[ -x /usr/bin/lesspipe ]] && eval $(lesspipe)
 
 # Colors in ls
-[ -x /usr/bin/dircolors ] && eval $(dircolors)
+[[ -x /usr/bin/dircolors ]] && eval $(dircolors ~/.dir_colors)
 export ZLS_COLORS=$LS_COLORS
 
 # Force refresh the terminal title before each command.
