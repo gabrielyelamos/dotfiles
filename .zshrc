@@ -9,41 +9,20 @@
 # ------------------------------------------------------------------------------
 
 
-# Ask the user a "yes/no" question. Defaults to "no".
-#
-# Arguments
-#     1 (optional) the question to ask.
-shellrc_ask ()
-{
-  read -s -n1 -p "$@ [y/N] " ans
-  case "$ans" in
-    y*|Y*)
-      return 0
-      ;;
-    *)
-      return 1
-      ;;
-  esac
-}
-
-
 # Print a line.
 #
 # Arguments
-#     1 (required) the first character.
-#     2 (required) the character repeated to draw the line.
-#     3 (required) the last character.
-#     4 (optional) the length of the line to print.
+#     1 (required) the character repeated to draw the line.
+#     2 (optional) the length of the line to print.
 shellrc_print-line ()
 {
-  local line_length=${4:-$(tput cols)}
-  echo -ne "$1"
+  local line_length=${2:-$(tput cols)}
   echo -ne `echo ""|awk '
   {
     _SPACES = '${line_length}'
-    while (_SPACES-- > 2) printf ("'$2'")
+    while (_SPACES-- > 0) printf ("'$1'")
   }'`
-  echo -e "$3"
+  echo
 }
 
 
@@ -51,7 +30,7 @@ shellrc_print-line ()
 shellrc_print-top-line()
 {
   echo -ne "──❮ `set_color brown`$USER@$HOST`set_color normal` ❯"
-  shellrc_print-line "─" "─" "─" "$(( `tput cols` - ${#USER} - ${#HOST} - ${#SHELL_TYPE} - 7 ))"
+  shellrc_print-line '─' $(( `tput cols` - ${#USER} - ${#HOST} - ${#SHELL_TYPE} - 7 ))
 }
 
 
@@ -80,10 +59,6 @@ shellrc_exec-headers ()
 #
 # Arguments
 #     1 (required) the file to source.
-#
-# Options
-#     --ask Prompt the user before.
-#           To be put before first argument.
 shellrc_load-config ()
 {
   # Extract a readable name from the file name
@@ -173,9 +148,9 @@ shellrc_load-configs ()
 shellrc_print-configs-output ()
 {
   if [[ -s /tmp/shellrc_configs_out ]]; then
-    shellrc_print-line "`set_color red`─" "─" "─`set_color normal`"
+    shellrc_print-line "`set_color red`─"
     cat /tmp/shellrc_configs_out | head --lines=-1
-    shellrc_print-line "`set_color red`─" "─" "─`set_color normal`"
+    shellrc_print-line "`set_color red`─"
   fi
 }
 
@@ -183,9 +158,6 @@ shellrc_print-configs-output ()
 # ------------------------------------------------------------------------------
 # Main
 # ------------------------------------------------------------------------------
-
-# If not running interactively, don't do anything
-[[ -z "$PS1" ]] && return
 
 # Local variables declarations
 SHELLRC_CONFIGS_LINE=""
@@ -202,14 +174,11 @@ echo
 # Print the top line
 shellrc_print-top-line
 
-# Execute the header scripts
-shellrc_exec-headers
-
 # Load the configurations
 shellrc_load-configs
 
 # Print the footer line
-shellrc_print-line "─" "─" "─"
+shellrc_print-line "─"
 
 # Print the configurations output
 shellrc_print-configs-output
@@ -219,7 +188,6 @@ echo
 
 # Unset all variables and functions to ensure their visibility stay local
 unset SHELLRC_CONFIGS_LINE
-unset -f shellrc_ask
 unset -f shellrc_print-line
 unset -f shellrc_print-top-line
 unset -f shellrc_exec-headers
