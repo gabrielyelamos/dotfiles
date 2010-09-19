@@ -4,11 +4,12 @@
 # ------------------------------------------------------------------------------
 
 # Token types styles.
-ZLE_RESERVED_WORD_STYLE='fg=none,bold'
-ZLE_ALIAS_STYLE='fg=none,bold'
-ZLE_BUILTIN_STYLE='fg=none,bold'
-ZLE_FUNCTION_STYLE='fg=none,bold'
-ZLE_COMMAND_STYLE='fg=none,bold'
+# See http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#SEC135
+ZLE_RESERVED_WORD_STYLE='bold'
+ZLE_ALIAS_STYLE='bold'
+ZLE_BUILTIN_STYLE='bold'
+ZLE_FUNCTION_STYLE='bold'
+ZLE_COMMAND_STYLE='bold'
 ZLE_COMMAND_UNKNOWN_TOKEN_STYLE='fg=red,bold'
 ZLE_TOKENS_FOLLOWED_BY_COMMANDS=('|' '||' ';' '&' '&&' 'sudo' 'start' 'time' 'strace')
 
