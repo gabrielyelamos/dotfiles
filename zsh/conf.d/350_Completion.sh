@@ -1,32 +1,16 @@
 #!/usr/bin/env zsh
 # ------------------------------------------------------------------------------
-# Description
-#   Shell completion settings.
+# Shell completion settings.
 # ------------------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------------------
-# Bash completion compatibility
+# Other shells completion compatibility
 # ------------------------------------------------------------------------------
 
 # Activate Bash auto-completion
 autoload -U bashcompinit
 bashcompinit
-#bash_source() {
-#  alias shopt=':'
-#  alias _expand=_bash_expand
-#  alias _complete=_bash_comp
-#  emulate -L sh
-#  setopt kshglob noshglob braceexpand
-#  source "$@"
-#}
-#have() {
-#  unset have
-#  (( ${+commands[$1]} )) && have=yes
-#}
-#for conf in /etc/bash_completion.d/*; do
-#  bash_source "$conf"
-#done
 
 
 # ------------------------------------------------------------------------------
@@ -34,8 +18,7 @@ bashcompinit
 # ------------------------------------------------------------------------------
 
 # Activate auto-completion
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && compinit
 
 # Use cache
 zstyle ':completion:*' use-cache on

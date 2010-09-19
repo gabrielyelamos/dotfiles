@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 # ------------------------------------------------------------------------------
-# Description
-#   Shell MIME types handling settings.
+# Shell MIME types handling settings.
 # ------------------------------------------------------------------------------
 
 autoload -U zsh-mime-setup

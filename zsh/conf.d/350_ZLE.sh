@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 # ------------------------------------------------------------------------------
-# Description
-#   Key bindings for the Zsh shell.
+# Key bindings for the Zsh shell.
 # ------------------------------------------------------------------------------
 
 # Use Emacs line editing mode

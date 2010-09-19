@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 # ------------------------------------------------------------------------------
-# Description
-#   Prompt for the Zsh shell.
+# Prompt for the Zsh shell.
 # ------------------------------------------------------------------------------
 
 autoload -Uz colors && colors
