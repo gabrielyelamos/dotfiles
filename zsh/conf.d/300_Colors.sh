@@ -4,8 +4,6 @@
 # ------------------------------------------------------------------------------
 
 
-autoload -Uz colors && colors
-
 # ------------------------------------------------------------------------------
 # Commands output coloring.
 # ------------------------------------------------------------------------------
@@ -19,16 +17,15 @@ ZLS_COLORS=$LS_COLORS
 
 # Colorizing with grc.
 if [[ -n `which grc` ]]; then
-  alias @configure='command configure' && alias configure='grc -es --colour=auto ./configure'
-  alias @diff='command diff' && alias diff='grc -es --colour=auto diff'
-  alias @make='command make' && alias make='grc -es --colour=auto make'
-  alias @gcc='command gcc' && alias gcc='grc -es --colour=auto gcc'
-  alias @g++='command g++' && alias g++='grc -es --colour=auto g++'
-  alias @ld='command ld' && alias ld='grc -es --colour=auto ld'
-  alias @netstat='command netstat' && alias netstat='grc -es --colour=auto netstat'
-  alias @ping='command ping' && alias ping='grc -es --colour=auto ping'
-  alias @cvs='command cvs' && alias cvs='grc -es --colour=auto cvs'
-  alias @traceroute='command traceroute' && alias traceroute='grc -es --colour=auto traceroute'
+  alias @diff='command diff' && alias diff='grc diff'
+  alias @make='command make' && alias make='grc make'
+  alias @gcc='command gcc' && alias gcc='grc gcc'
+  alias @g++='command g++' && alias g++='grc g++'
+  alias @ld='command ld' && alias ld='grc ld'
+  alias @netstat='command netstat' && alias netstat='grc netstat'
+  alias @ping='command ping' && alias ping='grc ping'
+  alias @cvs='command cvs' && alias cvs='grc cvs'
+  alias @traceroute='command traceroute' && alias traceroute='grc traceroute'
 fi
 
 # Colorizing with colorex.

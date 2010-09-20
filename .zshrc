@@ -24,8 +24,8 @@ else
     source $file &> /tmp/zshrc_config_out.log
     local config_name=${${file:t:r}##[0-9]##_}
     if [[ -s /tmp/zshrc_config_out.log ]]; then
-      conf_color=$fg_bold[red]
-      echo "$fg_bold[blue]$config_name$reset_color > "        >> /tmp/zshrc_configs_out.log
+      locale conf_color=$fg_bold[red]
+      echo "$fg_bold[red]$config_name$reset_color > " >> /tmp/zshrc_configs_out.log
       (cat /tmp/zshrc_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/zshrc_configs_out.log
     fi
     echo -n " $fg[blue]▪$reset_color $conf_color$config_name$reset_color"
