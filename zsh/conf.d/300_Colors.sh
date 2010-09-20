@@ -3,6 +3,7 @@
 # Shell coloring.
 # ------------------------------------------------------------------------------
 
+
 autoload -Uz colors && colors
 
 # ------------------------------------------------------------------------------
@@ -16,35 +17,39 @@ if [[ -x /usr/bin/dircolors ]]; then
 fi
 ZLS_COLORS=$LS_COLORS
 
-# Colorizing with colorex.
-[[ -z `alias mvn` ]] && alias @mvn=`which mvn` && alias mvn='colorex --config mvn3 -- mvn'
-[[ -z `alias mvn2` ]] && alias @mvn2=`which mvn2` && alias mvn2='colorex --config mvn2 -- mvn2'
-[[ -z `alias diff` ]] && alias @diff=`which diff` && alias diff='colorex -- diff'
-[[ -z `alias df` ]] && alias @df=`which df` && alias df='colorex -- df'
-[[ -z `alias host` ]] && alias @host=`which host` && alias host='colorex -- host'
-[[ -z `alias ifconfig` ]] && alias @ifconfig=`which ifconfig` && alias ifconfig='colorex -- ifconfig'
-[[ -z `alias md5sum` ]] && alias @md5sum=`which md5sum` && alias md5sum='colorex -- md5sum'
-[[ -z `alias ping` ]] && alias @ping=`which ping` && alias ping='colorex -- ping'
-[[ -z `alias top` ]] && alias @top=`which top` && alias top='colorex -- top'
-[[ -z `alias traceroute` ]] && alias @traceroute=`which traceroute` && alias traceroute='colorex -- traceroute'
-[[ -z `alias jonas` ]] && alias @jonas=`which jonas` && alias jonas='colorex -- jonas'
-
 # Colorizing with grc.
-# if [ -n `which grc` ]; then
-#   alias configure='grc -es --colour=auto ./configure'
-#   alias diff='grc -es --colour=auto diff'
-#   alias make='grc -es --colour=auto make'
-#   alias gcc='grc -es --colour=auto gcc'
-#   alias g++='grc -es --colour=auto g++'
-#   alias ld='grc -es --colour=auto ld'
-#   alias netstat='grc -es --colour=auto netstat'
-#   alias ping='grc -es --colour=auto ping'
-# fi
+if [[ -n `which grc` ]]; then
+  alias @configure='command configure' && alias configure='grc -es --colour=auto ./configure'
+  alias @diff='command diff' && alias diff='grc -es --colour=auto diff'
+  alias @make='command make' && alias make='grc -es --colour=auto make'
+  alias @gcc='command gcc' && alias gcc='grc -es --colour=auto gcc'
+  alias @g++='command g++' && alias g++='grc -es --colour=auto g++'
+  alias @ld='command ld' && alias ld='grc -es --colour=auto ld'
+  alias @netstat='command netstat' && alias netstat='grc -es --colour=auto netstat'
+  alias @ping='command ping' && alias ping='grc -es --colour=auto ping'
+  alias @cvs='command cvs' && alias cvs='grc -es --colour=auto cvs'
+  alias @traceroute='command traceroute' && alias traceroute='grc -es --colour=auto traceroute'
+fi
 
-# diff colorizing with colordiff.
-# if [ -n `which colordiff` ]; then
-#   alias diff='colordiff'
-# fi
+# Colorizing with colorex.
+if [[ -n `which colorex` ]]; then
+  alias @mvn='command mvn' && alias mvn='colorex --config mvn3 -- mvn'
+  alias @mvn2='command mvn2' && alias mvn2='colorex --config mvn2 -- mvn2'
+  alias @diff='command diff' && alias diff='colorex -- diff'
+  alias @df='command df' && alias df='colorex -- df'
+  alias @host='command host' && alias host='colorex -- host'
+  alias @ifconfig='command ifconfig' && alias ifconfig='colorex -- ifconfig'
+  alias @md5sum='command md5sum' && alias md5sum='colorex -- md5sum'
+  alias @ping='command ping' && alias ping='colorex -- ping'
+  alias @top='command top' && alias top='colorex -- top'
+  alias @traceroute='command traceroute' && alias traceroute='colorex -- traceroute'
+  alias @jonas='command jonas' && alias jonas='colorex -- jonas'
+fi
+
+# Colorizing with colordiff.
+if [[ -n `which colordiff` ]]; then
+  alias @diff='command diff' && alias diff='colordiff'
+fi
 
 
 # ------------------------------------------------------------------------------
