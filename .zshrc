@@ -14,6 +14,11 @@ echo
 echo -ne "──❮ $fg[yellow]$USER@$HOST$reset_color ❯"
 repeat $(( $COLUMNS - ${#USER} - ${#HOST} - ${#SHELL_TYPE} - 7 )) printf '─'
 echo
+if [[ ! -d $ZSH_COMPS_DIR ]]; then
+  echo -e "$fg_bold[red]Components directory '$ZSH_COMPS_DIR' could not be found.$reset_color"
+else
+  fpath=($ZSH_COMPS_DIR $fpath)
+fi
 if [[ ! -d $ZSH_CONFS_DIR ]]; then
   echo -e "$fg_bold[red]Confs directory '$ZSH_CONFS_DIR' could not be found.$reset_color"
 else

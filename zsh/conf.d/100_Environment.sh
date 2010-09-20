@@ -6,10 +6,6 @@
 # Add some directories to $PATH.
 PATH=$HOME/bin:$PATH
 
-# Add some directories to $fpath. 
-fpath=(~/zsh/comp.d $fpath)
-#autoload -U ~/zsh/comp.d/*
-
 # Some personal info.
 NAME='Julien Nicoulaud'
 MAIL='julien.nicoulaud@gmail.com'
