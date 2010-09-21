@@ -13,7 +13,7 @@ zstyle ':vcs_info:*:*' actionformats "%S" "%r/%s/%b %u%c (%a)"
 zstyle ':vcs_info:*:*' formats "%S" "%r/%s/%b %u%c"
 zstyle ':vcs_info:*:*' nvcsformats "%30<..<%~%<<" ""
 
-PROMPT="${SSH_TTY:+%{$fg[green]%\}[%n@%m]}%{$reset_color%}%(0?.%{$fg_bold[green]%}.%{$fg[red]%})%30<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.❯❯❯.❯)%{$reset_color%} "
-RPROMPT="%{$fg_bold[grey]%}"'$vcs_info_msg_1_'"%{$reset_color%}"
+PROMPT="%(0?.%{$FG[71]%}.%{$FG[124]%})${SSH_TTY:+[%n@%m]}%{$FX[bold]%}%30<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.❯❯❯.❯)%{$FX[no-bold]%}%{$reset_color%} "
+RPROMPT="%{$FG[darkgrey]%}"'$vcs_info_msg_1_'"%{$reset_color%}"
 
 precmd_functions+=vcs_info

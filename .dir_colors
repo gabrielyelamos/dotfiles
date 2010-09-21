@@ -70,7 +70,7 @@ NORMAL 00
 FILE 00
 
 # Directory
-DIR 01;38;05;111
+DIR 00;38;05;012
 
 # Symbolic link
 # (If set to 'target' instead of a numerical value, the color is as for the file pointed to.)
@@ -305,8 +305,23 @@ EXEC 01;38;05;46
 *pom.xml        00;38;05;172
 *build.xml      00;38;05;172
 
+# VCS files
+*.svn           00;38;05;245
+*.git           00;38;05;245
+*.gitignore     00;38;05;245
+
+# Eclipse files
+*.settings      00;38;05;245
+*.project       00;38;05;245
+*.classpath     00;38;05;245
+
+# Intellij IDEA files
+.iml            00;38;05;245
+.iws            00;38;05;245
+.ipr            00;38;05;245
+
 # Backup files
-*~              00;38;05;100
+*~              00;38;05;008
 
 # Other OS stuff
 .exe            00;38;05;26
