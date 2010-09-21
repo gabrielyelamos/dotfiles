@@ -45,12 +45,12 @@ echo -ne "$FG[darkgrey]──❮ $FG[blue]$USER@$HOST$FG[darkgrey] ❯"
 repeat $(( $COLUMNS - ${#USER} - ${#HOST} - ${#SHELL_TYPE} - 7 )) printf '─'
 echo
 if [[ ! -d $ZSH_COMPS_DIR ]]; then
-  echo -e "$FG[red]Components directory '$ZSH_COMPS_DIR' could not be found.$FG[none]"
+  echo -e "$FG[red]Components directory '$ZSH_COMPS_DIR' could not be found.$reset_color"
 else
   fpath=($ZSH_COMPS_DIR $fpath)
 fi
 if [[ ! -d $ZSH_CONFS_DIR ]]; then
-  echo -e "$FG[red]Confs directory '$ZSH_CONFS_DIR' could not be found.$FG[none]"
+  echo -e "$FG[red]Confs directory '$ZSH_CONFS_DIR' could not be found.$reset_color"
 else
   : > /tmp/zshrc_configs_out.log
   for file in $ZSH_CONFS_DIR/*
@@ -60,20 +60,20 @@ else
     local config_name=${${file:t:r}##[0-9]##_}
     local conf_color=$FG[grey]
     if [[ -s /tmp/zshrc_config_out.log ]]; then
-      conf_color=$FG[196]
-      echo "$FG[red]$config_name$FG[none] > " >> /tmp/zshrc_configs_out.log
+      conf_color=$FG[160]
+      echo "$FG[red]$config_name$reset_color > " >> /tmp/zshrc_configs_out.log
       (cat /tmp/zshrc_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/zshrc_configs_out.log
     fi
-    echo -n " $FG[darkgrey]▪$FG[none] $conf_color$config_name$FG[none]"
+    echo -n " $FG[darkgrey]▪$reset_color $conf_color$config_name$reset_color"
   done
   echo
 fi
 repeat $COLUMNS printf "$FG[darkgrey]─"
 echo
 if [[ -s /tmp/zshrc_configs_out.log ]]; then
-  repeat $COLUMNS printf "$FG[196]─$FG[none]"
+  repeat $COLUMNS printf "$FG[160]─$reset_color"
   cat /tmp/zshrc_configs_out.log | head --lines=-1
-  repeat $COLUMNS printf "$FG[196]─$FG[none]"
+  repeat $COLUMNS printf "$FG[160]─$reset_color"
   echo
 fi
 echo
