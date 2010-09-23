@@ -13,9 +13,6 @@ bindkey '^[[1;5D' emacs-backward-word
 bindkey '^[[1;5C' emacs-forward-word
 
 # Custom ZLE Widget to bind F5 => 'source ~/.zshrc'
-_refresh()
-{
-  source ~/.zshrc
-}
+_refresh() { source ~/.zshrc }
 zle -N _refresh
 bindkey '^[[15~' _refresh
