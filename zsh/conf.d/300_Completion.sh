@@ -18,7 +18,7 @@ bashcompinit
 # ------------------------------------------------------------------------------
 
 # Activate auto-completion
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -u
 
 # Use cache
 zstyle ':completion:*' use-cache on

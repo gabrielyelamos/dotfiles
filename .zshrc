@@ -3,8 +3,9 @@
 # Initialization file for Zsh.
 # ------------------------------------------------------------------------------
 
-ZSH_CONFS_DIR=~/zsh/conf.d
-ZSH_COMPS_DIR=~/zsh/comp.d
+MAIN_USER=nicoulaj
+ZSH_CONFS_DIR=/home/$MAIN_USER/zsh/conf.d
+ZSH_COMPS_DIR=/home/$MAIN_USER/zsh/comp.d
 
 autoload colors && colors
 setopt EXTENDED_GLOB
