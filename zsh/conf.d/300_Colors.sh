@@ -25,7 +25,7 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
 # Colorizing with grc.
-if [[ -n `which grc` ]]; then
+if [[ -x `which grc` ]]; then
   alias @diff='command diff' && alias diff='grc diff'
   alias @make='command make' && alias make='grc make'
   alias @gcc='command gcc' && alias gcc='grc gcc'
@@ -38,7 +38,7 @@ if [[ -n `which grc` ]]; then
 fi
 
 # Colorizing with colorex.
-if [[ -n `which colorex` ]]; then
+if [[ -x `which colorex` ]]; then
   alias @mvn='command mvn' && alias mvn='colorex --config mvn3 -- mvn'
   alias @mvn2='command mvn2' && alias mvn2='colorex --config mvn2 -- mvn2'
   alias @diff='command diff' && alias diff='colorex -- diff'
@@ -53,7 +53,7 @@ if [[ -n `which colorex` ]]; then
 fi
 
 # Colorizing with colordiff.
-if [[ -n `which colordiff` ]]; then
+if [[ -x `which colordiff` ]]; then
   alias @diff='command diff' && alias diff='colordiff'
 fi
 
