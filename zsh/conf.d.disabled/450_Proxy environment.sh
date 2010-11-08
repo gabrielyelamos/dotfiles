@@ -17,6 +17,7 @@
 function proxy-check ()
 {
   echo "`set_color -o blue`\$http_proxy`set_color normal` $http_proxy"
+  echo "`set_color -o blue`\$https_proxy`set_color normal` $https_proxy"
   echo "`set_color -o blue`\$PROXY_HOST`set_color normal` $PROXY_HOST"
   echo "`set_color -o blue`\$PROXY_PORT`set_color normal` $PROXY_PORT"
   echo "`set_color -o blue`\$NON_PROXY_HOSTS`set_color normal` $NON_PROXY_HOSTS"
@@ -33,6 +34,7 @@ if [[ -n $PROXY_HOST ]]; then
   
   # Default proxy variable
   http_proxy="http://${PROXY_HOST}:${PROXY_PORT}"
+  https_proxy=$http_proxy
 
   # Execution options
   JAVA_OPTS="${JAVA_OPTS} -Dhttp.proxyHost=${PROXY_HOST} -Dhttp.proxyPort=${PROXY_PORT} -Dhttp.proxySet=true -Dhttp.nonProxyHosts=\"${NON_PROXY_HOSTS}\""
