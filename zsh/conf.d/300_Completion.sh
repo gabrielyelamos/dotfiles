@@ -25,8 +25,8 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh_completion_cache
 
 # Ignore VCS directories
-zstyle ':completion:*:(all-|)files' ignored-patterns '(|*/).svn'
-zstyle ':completion:*:cd:*' ignored-patterns '(*/).svn'
+zstyle ':completion:*:(all-|)files' ignored-patterns '(|*/)(.svn|.git|.hg)'
+zstyle ':completion:*:cd:*' ignored-patterns '(*/)(.svn|.git|.hg)'
 
 # Ignore completion functions for commands I don’t have
 zstyle ':completion:*:functions' ignored-patterns '_*'
