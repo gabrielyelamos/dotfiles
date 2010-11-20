@@ -42,7 +42,7 @@ zstyle ':completion:*:*:*:users' ignored-patterns \
         rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs www-data \
         avahi-autoipd
 
-# Show ignored patterns if needed.
+# Show ignored patterns if needed
 zstyle '*' single-ignored show
 
 # cd style
@@ -67,6 +67,12 @@ zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=39=32"
 zstyle ':completion:*:rm:*' ignore-line yes
 zstyle ':completion:*:mv:*' ignore-line yes
 zstyle ':completion:*:cp:*' ignore-line yes
+
+# Hostnames completion, using /etc/hosts and known_hosts
+[ -r ~/.ssh/known_hosts ] && _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}) || _ssh_hosts=()
+[ -r /etc/hosts ] && : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}} || _etc_hosts=()
+hosts=( "$_ssh_hosts[@]" "$_etc_hosts[@]" `hostname` localhost )
+zstyle ':completion:*:hosts' hosts $hosts
 
 # Rationalize dots (allows to cd ...../)
 rationalise-dot() {
