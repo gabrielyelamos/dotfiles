@@ -11,9 +11,7 @@ PROMPT_VCS_INFO_COLOR=$FG[darkgrey]
 PROMPT_VCS_CHANGES_COLOR=$FG[172]
 
 # Load required modules and register hook.
-autoload -Uz vcs_info
-autoload -U add-zsh-hook
-add-zsh-hook precmd vcs_info
+autoload vcs_info add-zsh-hook && add-zsh-hook precmd vcs_info
 
 # Set vcs_info parameters.
 zstyle ':vcs_info:*' enable hg bzr svn git
