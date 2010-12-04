@@ -1,12 +1,3 @@
-# ------------------------------------------------------------------------------
-# Description
-#   Configuration file for Subversion.
-#
-# Usage
-#   This file goes to ~/.subversion/config
-# ------------------------------------------------------------------------------
-
-
 ### Section for authentication and authorization customizations.
 [auth]
 ### Set password stores used by Subversion. They should be
@@ -140,10 +131,12 @@ enable-auto-props = yes
 *.cmd        = svn:eol-style=native; svn:keywords=Id; svn-mine-type=text/plain
 *.js         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/javascript
 *.php        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-php
-*.pl         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-perl; svn:executable
 *.pm         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-perl
+*.pl         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-perl; svn:executable
 *.py         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-python; svn:executable
 *.sh         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-sh; svn:executable
+*.zsh        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-sh; svn:executable
+*.bash       = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-sh; svn:executable
 
 # Image formats
 *.bmp        = svn:mime-type=image/bmp

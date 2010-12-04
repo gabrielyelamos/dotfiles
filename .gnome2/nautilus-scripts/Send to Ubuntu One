@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# ──────────────────────────────────────────────────────────────────────────────────────────────────
-# Description
-#   Send the selected files/folders to the Ubuntu One folder.
-# ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 # FIXME Do not declare Ubuntu One home here.
 UBUNTUONE_HOME=~/Ubuntu\ One
