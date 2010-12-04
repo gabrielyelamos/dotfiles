@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+# Description
+#   Share the current directory with a web server.
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+# Resolve host IPs
+private_ip=`ip-private`
+public_ip=`ip-public`
+
+# Displays the server IPs
+echo "Setting up a web server at the following adresses:"
+echo "Local: http://${private_ip}:8000"
+echo "Public: http://${public_ip}:8000"
+
+# Copy the IPs in the clipboard
+echo "http://${private_ip}:8000 /// http://${public_ip}:8000" | xclip -sel clip
+
+# Start the web server
+python -m SimpleHTTPServer

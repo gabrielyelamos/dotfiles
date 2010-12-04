@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+# Description
+#   Try to unarchive a file.
+#
+# Arguments
+#   1 (required) the file to extract.
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+local filename="${1}"
+local extension=`echo ${1} | cut -d. -f2-`
+case "$extension" in
+  tar)
+    tar xvf "$filename";;
+  tar.gz)
+    tar xzvf "$filename";;
+  tgz)
+    tar xzvf "$filename";;
+  gz)
+    gunzip "$filename";;
+  tbz)
+    tar xjvf "$filename";;
+  tbz2)
+    tar xjvf "$filename";;
+  tar.bz2)
+    tar xjvf "$filename";;
+  tar.bz)
+    tar xjvf "$filename";;
+  bz2)
+    bunzip2 "$filename";;
+  tar.Z)
+    tar xZvf "$filename";;
+  Z)
+    uncompress "$filename";;
+  zip)
+    unzip "$filename";;
+  rar)
+    unrar x "$filename";;
+esac

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+# Description
+#   Add the given instructions to the prompt command.
+#
+# Arguments
+#   1 (required) the instructions to add.
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+[[ -n $PROMPT_COMMAND ]] && PROMPT_COMMAND="$PROMPT_COMMAND; "
+PROMPT_COMMAND="$PROMPT_COMMAND$@"

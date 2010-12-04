@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+# Description
+#   Preview a file in Markdown syntax.
+#
+# Arguments
+#   1 (required) The markdown file.
+#
+# Dependencies
+#   * Ruby, rubygems, markdown.
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+raise "You must pass a file." unless ARGV[0]
+
+require 'rubygems'
+require 'markdown' 
+
+text = Markdown.new(File.read(ARGV[0])).to_html
+File.open('/tmp/markdown.html','w'){|f| f.puts text}
+
+exec "gnome-open /tmp/markdown.html"

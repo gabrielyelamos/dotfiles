@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+# Description
+#   Search an image on Tineye.
+#
+# Arguments
+#   1 (required) the image to search for.
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+xdg-open `curl -s --form image=@$1 http://www.tineye.com/search | grep -m 1 'href=\"http://www.tineye.com/search/' | sed 's/.*\(http:.*\)\".*/\1/'`

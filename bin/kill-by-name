@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+# Description
+#   Kill a process by name.
+#
+# Arguments
+#   0 (optional) the signal to send.
+#   1 (required) a string to look for.
+#
+# Example
+#   $ kill-by-name fire
+#   Kill process 10161 </usr/lib/firefox-3.5.7/firefox> with signal -TERM ?  [y/N] y
+# ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+local pid pname sig="-TERM"
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+  echo "Usage: ps-kill [-SIGNAL] pattern"
+  return;
+fi
+if [ $# = 2 ]; then
+  sig=$1
+fi
+for pid in $(ps-u | nawk '!/nawk/ && $0~pat { print $2 }' pat=${!#}); do
+  pname=$(ps-u | nawk '$2~var { print $6 }' var=$pid )
+  if ask "Kill process $pid <$pname> with signal $sig ? "; then
+    kill $sig $pid
+  fi
+done
