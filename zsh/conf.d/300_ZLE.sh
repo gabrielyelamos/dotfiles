@@ -16,3 +16,6 @@ bindkey '^[[1;5C' emacs-forward-word
 _refresh() { source ~/.zshrc }
 zle -N _refresh
 bindkey '^[[15~' _refresh
+
+# Perform history expansion on space
+bindkey ' ' magic-space
