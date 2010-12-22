@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Load the given configuration for Gnome-panel.
+#
+# Arguments
+#   1 (required) the name of the config to load. The file will be looked
+#                up at $HOME/.config/dotfiles/gnome/apps/panel/<name>
+#
+# Dependencies
+#   * Commands: gconftool.
+# ----------------------------------------------------------------------
+
+gconftool --load $HOME/.gnome-panel-confs/$@

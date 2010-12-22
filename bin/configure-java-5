@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Setup a Sun Java 5 JDK with the alternatives system.
+#
+# Usage
+#   To setup the alternatives system:
+#     $ sudo ./configure-java-5.sh
+#
+#   To set the configured JDK as the system default one, you can then run:
+#     $ sudo update-java-alternatives -s java-5-sun
+#
+# Prerequisites
+#   /usr/lib/jvm/java-5-sun must point to the JDK to setup.
+#
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Constants
+# ----------------------------------------------------------------------
+
+JDK_ALIAS=java-5-sun
+JDK_DIRECTORY=/usr/lib/jvm/$JDK_ALIAS
+JDK_ALTERNATIVE_PRORITY=1
+JINFO_FILE=/usr/lib/jvm/.$JDK_ALIAS.jinfo
+
+
+# ----------------------------------------------------------------------
+# Functions
+# ----------------------------------------------------------------------
+
+# Check the execution rights.
+check_rights()
+{
+  if [[ $USER != 'root' ]]; then
+    echo "Error: You must run this script as root."
+    exit 1
+  fi
+}
+
+# Check that $JDK_DIRECTORY contains a Sun Java JDK 5.
+check_jdk()
+{
+  if [[ ! -e $JDK_DIRECTORY ]] && [[ ! -e $JDK_DIRECTORY/jre/bin/java ]] && [[ ! -e $JDK_DIRECTORY/bin/java ]] ; then
+    echo "Error: '$JDK_DIRECTORY' must point to a valid Sun Java 5 JDK home."
+    exit 1
+  fi
+}
+
+# Register the JRE executable.
+setup_jre_alternative()
+{
+  update-alternatives --verbose --install /usr/bin/$1 $1 $JDK_DIRECTORY/jre/bin/$1 $JDK_ALTERNATIVE_PRORITY
+  echo "jre $1 $JDK_DIRECTORY/jre/bin/$1" >> $JINFO_FILE
+}
+
+# Register the JDK executable.
+setup_jdk_alternative()
+{
+  update-alternatives --verbose --install /usr/bin/$1 $1 $JDK_DIRECTORY/bin/$1 $JDK_ALTERNATIVE_PRORITY
+  echo "jdk $1 $JDK_DIRECTORY/bin/$1" >> $JINFO_FILE
+}
+
+# Start the .jinfo file.
+generate_jinfo_header()
+{
+  echo "name=$JDK_ALIAS"                   >  $JINFO_FILE
+  echo "alias=$JDK_ALIAS"                  >> $JINFO_FILE
+  echo "priority=$JDK_ALTERNATIVE_PRORITY" >> $JINFO_FILE
+  echo "section=non-free"                  >> $JINFO_FILE
+}
+
+
+# ----------------------------------------------------------------------
+# Main
+# ----------------------------------------------------------------------
+
+# Check execution rights.
+check_rights
+
+# Check that there is a JDK at the right place.
+check_jdk
+
+# Generate a .jinfo file for the update-java-alternatives command.
+generate_jinfo_header
+
+# Register the executables with the alternatives system.
+setup_jre_alternative java
+setup_jre_alternative keytool
+setup_jre_alternative kinit
+setup_jre_alternative klist
+setup_jre_alternative ktab
+setup_jre_alternative orbd
+setup_jre_alternative pack200
+setup_jre_alternative policytool
+setup_jre_alternative rmid
+setup_jre_alternative rmiregistry
+setup_jre_alternative servertool
+setup_jre_alternative tnameserv
+setup_jre_alternative unpack200
+setup_jdk_alternative appletviewer
+setup_jdk_alternative apt
+setup_jdk_alternative extcheck
+setup_jdk_alternative idlj
+setup_jdk_alternative jar
+setup_jdk_alternative jarsigner
+setup_jdk_alternative javac
+setup_jdk_alternative javadoc
+setup_jdk_alternative javah
+setup_jdk_alternative javap
+setup_jdk_alternative jconsole
+setup_jdk_alternative jdb
+setup_jdk_alternative jinfo
+setup_jdk_alternative jmap
+setup_jdk_alternative jps
+setup_jdk_alternative jsadebugd
+setup_jdk_alternative jstack
+setup_jdk_alternative jstat
+setup_jdk_alternative jstatd
+setup_jdk_alternative native2ascii
+setup_jdk_alternative rmic
+setup_jdk_alternative serialver
+
+# Log a message about the jinfo file.
+echo "The file '$JINFO_FILE' containing metadatas used by the 'update-java-alternatives' command has been generated."

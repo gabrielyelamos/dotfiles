@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Go to the documentation of the command.
+#
+# Arguments
+#   1 (required) the command to lookup.
+# ----------------------------------------------------------------------
+
+if [ -d "/usr/share/doc/$1" ]; then
+  pushd "/usr/share/doc/$1" && ls
+else
+  echo "No doc found for '$1'."
+  return 1
+fi

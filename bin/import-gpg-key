@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Import and install the GPG key.
+#
+# Arguments
+#   1 (required) the key to import.
+#
+# Example
+#   $ import-gpg-key 2EE5793634EF4A35
+# ----------------------------------------------------------------------
+
+gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-key $1 &&
+gpg -a --export $1 | sudo apt-key add -

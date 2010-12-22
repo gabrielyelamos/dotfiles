@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+# ----------------------------------------------------------------------
+# Description
+#   Send an image to imgfave.com.
+#
+# Arguments
+#   1 (required) the path to the image.
+# ----------------------------------------------------------------------
+
+require 'net/http'
+
+# 3 parameters passed.
+# i: Absolute URL to the image
+# u: URL of the page the image is on
+# t: The title of the page.
+#   - Normal pages: Substitute all '|' for '/'
+#   - If the page is an image, use just the file name
+# n: 1 if the image contains nudity. Otherwise, don't include it.
+#
+# API Endpoint: http://imgfave.com/add
+# GET the above parameters to the endpoint
+
+ENDPOINT="http://imgfave.com/add?"
+file = ARGV[0]
+if !ARGV[0] || !file =~ /\.(png|jpe?g|gif)/
+  warn "Need an absolute URL to a picture."
+  exit 1
+end
+
+parameters = {"i" => file, "t" => File.basename(file)}
+foo = parameters.map do |param, value|
+  ["#{URI.escape(param.to_s)}=#{URI.escape(value.to_s)}"]
+end
+ENDPOINT << foo.flatten.join('&')
+system("open #{ENDPOINT}")

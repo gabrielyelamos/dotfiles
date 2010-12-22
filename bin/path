@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Display the PATH variable with one line per entry.
+# ----------------------------------------------------------------------
+
+echo -e ${PATH//:/\\n} | ${PAGER:-less}
