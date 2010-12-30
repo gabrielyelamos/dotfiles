@@ -105,3 +105,6 @@
 
   # Send the given commit to Pastebin
   pastebinit = !sh -c 'git format-patch -1 --stdout $1 | pastebinit -f diff' -
+
+  # See ~/bin/git-pushcurrent
+  push-current = !sh -c 'git-pushcurrent'
