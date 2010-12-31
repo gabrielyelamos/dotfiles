@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Display the total memory used by the current user.
+# ----------------------------------------------------------------------
+
+ps -u $(whoami) -o pid,rss,command | awk '{sum+=$2} END {print "Total " sum / 1024 " MB"}'
