@@ -57,6 +57,16 @@ if [[ -x `which colordiff` ]]; then
   alias @diff='command diff' && alias diff='colordiff'
 fi
 
+# Colorizing with colorsvn.
+if [[ -x `which colorsvn` ]]; then
+  alias @svn='command svn' && alias svn='colorsvn'
+fi
+
+# Colorizing with colorgcc.
+if [[ -x `which colorgcc` ]]; then
+  alias @gcc='command gcc' && alias gcc='colorgcc'
+fi
+
 # ------------------------------------------------------------------------------
 # Syntax highlighting configuration
 # ------------------------------------------------------------------------------
