@@ -414,11 +414,12 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 # File where history is saved.
-export HISTFILE="$HOME/.zsh_history"
+HISTFILE="$HOME/.zsh_history"
 
 # Size of the history.
-export HISTSIZE=5000
-export SAVEHIST=$HISTSIZE
+HISTFILESIZE=65536
+HISTSIZE=4096
+SAVEHIST=$HISTSIZE
 
 
 # ----------------------------------------------------------------------------
