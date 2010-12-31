@@ -488,7 +488,7 @@ setopt FLOW_CONTROL
 unsetopt IGNORE_EOF
 
 # Allow comments even in interactive shells.
-unsetopt INTERACTIVE_COMMENTS
+setopt INTERACTIVE_COMMENTS
 
 # Note the location of each command the first time it is executed. Subsequent invocations of the same command
 # will use the saved location, avoiding a path search. If this option is unset, no path hashing is done at all.
