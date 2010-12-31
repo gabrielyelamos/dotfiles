@@ -1,45 +1,77 @@
 #!/usr/bin/env zsh
 
-# FIXME Auto "guess" main user
-MAIN_USER=nicoulaj
-ZSH_CONFS_DIR=/home/$MAIN_USER/zsh/conf.d
-ZSH_COMPS_DIR=/home/$MAIN_USER/zsh/comp.d
+# Zshrc style.
+typeset -A ZSHRC_STYLES
+ZSHRC_STYLES=(
+  reset    '[00m'
+  border   '[38;5;008m'
+  hostname '[38;5;012m'
+  conf     '[38;5;007m'
+  error    '[38;5;160m'
+)
 
+# Find main user home.
+ZSH_MAIN_USER_HOME=$HOME
+[[ $ZSH_MAIN_USER_HOME = '/root' ]] && ZSH_MAIN_USER_HOME=${$(command ls /home/*/.zshrc)%\/.zshrc}
+
+# Zsh directories.
+ZSH_HOME=$ZSH_MAIN_USER_HOME/zsh
+ZSH_CONFS_DIR=$ZSH_HOME/conf.d
+ZSH_COMPS_DIR=$ZSH_HOME/comp.d
+
+# Zshrc temporary files.
+ZSHRC_ERROR_LOG=/tmp/zshrc_error.log
+ZSHRC_CONF_ERROR_LOG=/tmp/zshrc_conf_error.log
+: > $ZSHRC_ERROR_LOG
+
+# Print header.
 clear
 echo
-echo -ne "[38;5;008m──❮ [38;5;012m$USER@$HOST[38;5;008m ❯"
+echo -n "$ZSHRC_STYLES[border]──❮ $ZSHRC_STYLES[hostname]$USER@$HOST$ZSHRC_STYLES[border] ❯"
 repeat $(( $COLUMNS - ${#USER} - ${#HOST} - ${#SHELL_TYPE} - 7 )) printf '─'
 echo
+
+# Update fpath with ZSH_COMPS_DIR.
 if [[ ! -d $ZSH_COMPS_DIR ]]; then
-  echo -e "[38;5;009mComponents directory '$ZSH_COMPS_DIR' could not be found.[00m"
+  echo "$ZSHRC_STYLES[error]Invalid ZSH_COMPS_DIR$ZSHRC_STYLES[reset] > " >> $ZSHRC_ERROR_LOG
+  echo "  Components directory '$ZSH_COMPS_DIR' could not be found."      >> $ZSHRC_ERROR_LOG
+  echo                                                                    >> $ZSHRC_ERROR_LOG
 else
   fpath=($ZSH_COMPS_DIR $fpath)
 fi
+
+# Load configs in ZSH_CONFS_DIR.
 if [[ ! -d $ZSH_CONFS_DIR ]]; then
-  echo -e "[38;5;009mConfs directory '$ZSH_CONFS_DIR' could not be found.[00m"
+  echo "$ZSHRC_STYLES[error]Invalid ZSH_CONFS_DIR$ZSHRC_STYLES[reset] > " >> $ZSHRC_ERROR_LOG
+  echo "  Configs directory '$ZSH_CONFS_DIR' could not be found."         >> $ZSHRC_ERROR_LOG
+  echo                                                                    >> $ZSHRC_ERROR_LOG
 else
-  : > /tmp/zshrc_configs_out.log
   for file in $ZSH_CONFS_DIR/*
   do
-    : > /tmp/zshrc_config_out.log
-    source $file &> /tmp/zshrc_config_out.log
+    : > $ZSHRC_CONF_ERROR_LOG
+    source $file &> $ZSHRC_CONF_ERROR_LOG
     local config_name=${${file:t:r}##[0-9]##_}
-    local conf_color="[38;5;007m"
-    if [[ -s /tmp/zshrc_config_out.log ]]; then
-      conf_color="[38;5;160m"
-      echo "[38;5;009m$config_name[00m > " >> /tmp/zshrc_configs_out.log
-      (cat /tmp/zshrc_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/zshrc_configs_out.log
+    local conf_color=$ZSHRC_STYLES[conf]
+    if [[ -s $ZSHRC_CONF_ERROR_LOG ]]; then
+      conf_color=$ZSHRC_STYLES[error]
+      echo "$conf_color$config_name$ZSHRC_STYLES[reset] > " >> $ZSHRC_ERROR_LOG
+      cat $ZSHRC_CONF_ERROR_LOG | sed 's/\(.*\)/\ \ \1/g'   >> $ZSHRC_ERROR_LOG
+      echo                                                  >> $ZSHRC_ERROR_LOG
     fi
-    echo -n " [38;5;008m▪[00m $conf_color$config_name[00m"
+    echo -n " $ZSHRC_STYLES[border]▪$ZSHRC_STYLES[reset] $conf_color$config_name$ZSHRC_STYLES[reset]"
   done
   echo
 fi
-repeat $COLUMNS printf "[38;5;008m─"
+
+# Print footer.
+repeat $COLUMNS printf "$ZSHRC_STYLES[border]─"
 echo
-if [[ -s /tmp/zshrc_configs_out.log ]]; then
-  repeat $COLUMNS printf "[38;5;160m─[00m"
-  cat /tmp/zshrc_configs_out.log | head --lines=-1
-  repeat $COLUMNS printf "[38;5;160m─[00m"
+
+# Print error log if not empty.
+if [[ -s $ZSHRC_ERROR_LOG ]]; then
+  repeat $COLUMNS printf "$ZSHRC_STYLES[error]─$ZSHRC_STYLES[reset]"
+  cat $ZSHRC_ERROR_LOG | head --lines=-1
+  repeat $COLUMNS printf "$ZSHRC_STYLES[error]─$ZSHRC_STYLES[reset]"
   echo
 fi
 echo
