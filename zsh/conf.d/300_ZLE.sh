@@ -22,3 +22,8 @@ bindkey $terminfo[kf5] _refresh
 
 # Perform history expansion on space
 bindkey ' ' magic-space
+
+# Open current line in editor on <Ctrl><x> <e>
+autoload edit-command-line
+zle -N edit-command-line
+bindkey '^Xe' edit-command-line
