@@ -11,8 +11,7 @@ kill -s WINCH $$
 lim=$(( $COLUMNS - 10 ))
 strace -e write mv -a -- "$@" 2>&1 |
 awk '{
-    count += $NF	# rajoute la valeur du dernier champs
-    # 10 représente la fréquence d affichage
+    count += $NF
     if (count % 10 == 0)
     {
       percent = count / total_size * 100
