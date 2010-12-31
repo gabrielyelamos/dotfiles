@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+# ----------------------------------------------------------------------
+# Description
+#   'mv' with a progress bar.
+# ----------------------------------------------------------------------
+
+set -A params $(echo "$@")
+params[$(( ${#params[@]} ))]=()
+kill -s WINCH $$
+[ $COLUMNS -lt 20 ] && (mv -a -- "$@"; return $?)
+lim=$(( $COLUMNS - 10 ))
+strace -e write mv -a -- "$@" 2>&1 |
+awk '{
+    count += $NF	# rajoute la valeur du dernier champs
+    # 10 représente la fréquence d affichage
+    if (count % 10 == 0)
+    {
+      percent = count / total_size * 100
+      printf "%3d%% [", percent
+      for (i=0;i<=percent*'$lim'/100;i++)
+        printf "="
+      if (percent<100)
+        printf ">"
+      for (j=i;j< '$lim';j++)
+        printf " "
+      printf "]\r"
+    }
+  }
+  END { printf "100\n" }' \
+  total_size=$(du -bc "${params[@]}" | awk 'END {print $1}') \
+  count=0
