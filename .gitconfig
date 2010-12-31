@@ -45,6 +45,6 @@
   ll = log --graph --pretty=format:\"%C(yellow)%h %C(green)%d%Creset %s  %C(black bold)%an, %ar%Creset\"
   lll = log --stat --decorate --graph
   rl = reflog  --date=relative
-  po = pushcurrent
-  pu = pullcurrent
+  po = push-current
+  pu = pull-current
   pastebinit = !sh -c 'git format-patch -1 --stdout $1 | pastebinit -f diff' -
