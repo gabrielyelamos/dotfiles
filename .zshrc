@@ -49,6 +49,7 @@
     echo "  Configs directory '$ZSH_CONFS_DIR' could not be found."         >> $ZSHRC_ERROR_LOG
     echo                                                                    >> $ZSHRC_ERROR_LOG
   else
+    setopt localoptions extendedglob
     local conf_name conf_color
     for file in $ZSH_CONFS_DIR/*
     do
