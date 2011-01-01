@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Print a summary of the proxy-related environment variables.
+# ----------------------------------------------------------------------
+
+echo "\$http_proxy=$http_proxy"
+echo "\$https_proxy=$https_proxy"
+echo "\$PROXY_HOST=$PROXY_HOST"
+echo "\$PROXY_PORT=$PROXY_PORT"
+echo "\$NON_PROXY_HOSTS=$NON_PROXY_HOSTS"
