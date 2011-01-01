@@ -3,6 +3,9 @@
 # Use an anonymous function to avoid variables bleeding in the environment.
 () {
 
+  # Options required for zshrc.
+  setopt localoptions extendedglob
+
   # Zshrc style.
   typeset -A ZSHRC_STYLES
   ZSHRC_STYLES=(
@@ -13,12 +16,8 @@
     error    '[38;5;160m'
   )
 
-  # Find main user home.
-  ZSH_MAIN_USER_HOME=$HOME
-  [[ $ZSH_MAIN_USER_HOME = '/root' ]] && ZSH_MAIN_USER_HOME=${$(command ls /home/*/.zshrc)%\/.zshrc}
-
   # Zsh directories.
-  ZSH_HOME=$ZSH_MAIN_USER_HOME/zsh
+  ZSH_HOME=${${HOME:#\/root}:-${$(command ls /home/*/.zshrc)%\/.zshrc}}/zsh
   ZSH_CONFS_DIR=$ZSH_HOME/conf.d
   ZSH_COMPS_DIR=$ZSH_HOME/comp.d
 
@@ -49,7 +48,6 @@
     echo "  Configs directory '$ZSH_CONFS_DIR' could not be found."         >> $ZSHRC_ERROR_LOG
     echo                                                                    >> $ZSHRC_ERROR_LOG
   else
-    setopt localoptions extendedglob
     local conf_name conf_color
     for file in $ZSH_CONFS_DIR/*
     do
@@ -81,5 +79,4 @@
     echo
   fi
   echo
-
 }
