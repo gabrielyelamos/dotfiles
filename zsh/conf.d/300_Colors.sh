@@ -9,8 +9,9 @@
 # ------------------------------------------------------------------------------
 
 autoload colors && colors
-
 typeset -Ag FX FG BG
+
+# Effects.
 FX=(
   reset     "[00m"
   bold      "[01m" no-bold      "[22m"
@@ -19,10 +20,14 @@ FX=(
   blink     "[05m" no-blink     "[25m"
   reverse   "[07m" no-reverse   "[27m"
 )
+
+# 256 colors array (foreground and background).
 for color in {0..255}; do
   FG[$color]="[38;5;${color}m"
   BG[$color]="[48;5;${color}m"
 done
+
+# Add 16 named colors.
 FG[none]=$FG[0];        BG[none]=$BG[0]
 FG[darkred]=$FG[1];     BG[darkred]=$BG[1]
 FG[darkgreen]=$FG[2];   BG[darkgreen]=$BG[2]
@@ -106,24 +111,9 @@ fi
 
 
 # ------------------------------------------------------------------------------
-# Syntax highlighting configuration
+# Command line syntax highlighting.
 # ------------------------------------------------------------------------------
 
-ZSH_SYNTAX_HIGHLIGHTING_STYLES=(
-  default                       'none'
-  unknown-token                 'fg=red,bold'
-  reserved-word                 'bold'
-  alias                         'bold'
-  builtin                       'bold'
-  function                      'bold'
-  command                       'bold'
-  path                          'underline'
-  globbing                      'fg=blue'
-  single-hyphen-option          'none'
-  double-hyphen-option          'none'
-  single-quoted-argument        'fg=yellow'
-  double-quoted-argument        'fg=yellow'
-  dollar-double-quoted-argument 'fg=cyan'
-  back-quoted-argument          'fg=magenta'
-  back-double-quoted-argument   'fg=magenta'
-)
+if [ -e ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  . ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
