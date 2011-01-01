@@ -22,9 +22,9 @@ alias egrep='egrep --color=auto'
 alias shred='shred --iterations 30 --zero --remove --verbose'
 
 # Force interactive commands
-alias cp='cp -i'
-alias mv='mv -i'
-alias rm='rm -i'
+alias cp='nocorrect cp -i'
+alias mv='nocorrect mv -i'
+alias rm='nocorrect rm -i'
 
 # cd
 alias ..='cd ..'
