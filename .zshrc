@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+# vim: ft=zsh sw=2 ts=2 et
 
 # Use an anonymous function to avoid variables bleeding in the environment.
 () {

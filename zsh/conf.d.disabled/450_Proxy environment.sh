@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# vim: ft=zsh sw=2 ts=2 et
 # ------------------------------------------------------------------------------
 # Description
 #   Propagate the proxy settings to the system and applications. The proxy
