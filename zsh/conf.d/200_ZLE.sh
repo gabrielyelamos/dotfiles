@@ -6,11 +6,17 @@
 # Use Emacs line editing mode
 bindkey -e
 
-# <CTRL><LEFT> => previous word
+# <ctrl><left> => previous word
 bindkey '^[[1;5D' emacs-backward-word
 
-# <CTRL><RIGHT> => next word
+# <ctrl><right> => next word
 bindkey '^[[1;5C' emacs-forward-word
+
+# <up> => Backward history search
+bindkey "^[[A" up-line-or-search
+
+# <down> => Forward history search
+bindkey "^[[B" down-line-or-search
 
 # Default: '*?_-.[]~=/&;!#$%^(){}<>'
 export WORDCHARS=''
@@ -23,7 +29,7 @@ bindkey $terminfo[kf5] _refresh
 # Perform history expansion on space
 bindkey ' ' magic-space
 
-# Open current line in editor on <Ctrl><x> <e>
+# Open current line in editor on <ctrl><x> <e>
 autoload edit-command-line
 zle -N edit-command-line
 bindkey '^Xe' edit-command-line
