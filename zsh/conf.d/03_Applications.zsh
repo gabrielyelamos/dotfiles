@@ -116,3 +116,12 @@ if [[ -n `which todo.sh` ]]; then
   alias t='todo.sh'
   compdef t=todo.sh
 fi
+
+
+# ------------------------------------------------------------------------------
+# Package auto-suggestion on "command not found"
+# ------------------------------------------------------------------------------
+
+if [ -e /etc/zsh_command_not_found ]; then
+  . /etc/zsh_command_not_found
+fi

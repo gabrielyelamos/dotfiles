@@ -81,23 +81,3 @@ zstyle ':completion:*:cp:*' ignore-line yes
 [ -r /etc/hosts ] && : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}} || _etc_hosts=()
 hosts=( "$_ssh_hosts[@]" "$_etc_hosts[@]" `hostname` localhost )
 zstyle ':completion:*:hosts' hosts $hosts
-
-# Rationalize dots (allows to cd ...../)
-rationalise-dot() {
-  if [[ $LBUFFER = *.. ]]; then
-    LBUFFER+=/..
-  else
-    LBUFFER+=.
-  fi
-}
-zle -N rationalise-dot
-bindkey . rationalise-dot
-
-
-# ------------------------------------------------------------------------------
-# Package auto-suggestion on "command not found"
-# ------------------------------------------------------------------------------
-
-if [ -e /etc/zsh_command_not_found ]; then
-  . /etc/zsh_command_not_found
-fi
