@@ -52,6 +52,7 @@
     local conf_name conf_color
     for file in $ZSH_CONFS_DIR/*
     do
+      conf_name=${${file:t:r}##[0-9]##_}
       : > $ZSHRC_CONF_ERROR_LOG
       source $file &> $ZSHRC_CONF_ERROR_LOG
       if [[ -s $ZSHRC_CONF_ERROR_LOG ]]; then
@@ -62,7 +63,6 @@
       else
         conf_color=$ZSHRC_STYLES[conf]
       fi
-      conf_name=${${file:t:r}##[0-9]##_}
       echo -n " $ZSHRC_STYLES[border]▪$ZSHRC_STYLES[reset] $conf_color$conf_name$ZSHRC_STYLES[reset]"
     done
     echo
