@@ -13,7 +13,7 @@
 # ----------------------------------------------------------------------
 
 
-if [ -z "$( truecrypt --text --list 2>/dev/null | grep -e "$2" )" ]; then
+if [[ -z "$( truecrypt --text --list 2>/dev/null | grep -e "$2" )" ]]; then
   flag Mounting $2
   truecrypt --text --protect-hidden=no --keyfiles='' $1 $2
 else

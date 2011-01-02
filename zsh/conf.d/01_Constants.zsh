@@ -19,3 +19,10 @@ TODO_STORAGE_HOME=$DROPBOX_HOME/todo
 # Constants used for Debian packaging.
 DEBFULLNAME=$NAME
 DEBEMAIL=$MAIL
+
+# Truecrypt encrypted folder.
+PRIVATE_FOLDER_VOLUME_FILE=$HOME/documents/private.tc
+PRIVATE_FOLDER_MOUNT_POINT=$HOME/documents/private
+
+# Gnome-panel configurations storage folder.
+GNOME_PANEL_CONFS_HOME=$HOME/.gnome-panel-confs
