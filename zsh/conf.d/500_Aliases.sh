@@ -14,11 +14,6 @@ alias la='ls -l --almost-all --human-readable --classify --group-directories-fir
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 
-# grep
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-
 # shred
 alias shred='shred --iterations 30 --zero --remove --verbose'
 

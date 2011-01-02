@@ -1,13 +1,22 @@
 #!/usr/bin/env zsh
 # vim: ft=zsh sw=2 ts=2 et
 # ------------------------------------------------------------------------------
-# General settings for the Zsh shell.
+# Shell base environment and settings.
 # ------------------------------------------------------------------------------
 
 
 # ----------------------------------------------------------------------------
-# Changing Directories
+# Zsh options
 # ----------------------------------------------------------------------------
+
+PATH=$HOME/bin:$PATH
+
+
+# ----------------------------------------------------------------------------
+# Zsh options
+# ----------------------------------------------------------------------------
+
+# Changing Directories
 
 # If a command is issued that can't be executed as a normal command, and the
 # command is the name of a directory, perform the cd command to that directory.
@@ -51,9 +60,7 @@ unsetopt PUSHD_SILENT
 setopt PUSHD_TO_HOME
 
 
-# ----------------------------------------------------------------------------
 # Completion
-# ----------------------------------------------------------------------------
 
 # If unset, key functions that list completions try to return to the last prompt if
 # given a numeric argument. If set these functions try to return to the last prompt
@@ -165,9 +172,7 @@ unsetopt MENU_COMPLETE
 unsetopt REC_EXACT
 
 
-# ----------------------------------------------------------------------------
 # Expansion and Globbing
-# ----------------------------------------------------------------------------
 
 # If a pattern for filename generation is badly formed, print an error message. (If this
 # option is unset, the pattern will be left unchanged.)
@@ -307,9 +312,7 @@ setopt UNSET
 unsetopt WARN_CREATE_GLOBAL
 
 
-# ----------------------------------------------------------------------------
 # History
-# ----------------------------------------------------------------------------
 
 # If this is set, zsh sessions will append their history list to the history file, rather than
 # replace it. Thus, multiple parallel zsh sessions will all have the new entries from their
@@ -423,9 +426,7 @@ HISTSIZE=4096
 SAVEHIST=$HISTSIZE
 
 
-# ----------------------------------------------------------------------------
 # Initialisation
-# ----------------------------------------------------------------------------
 
 # All parameters subsequently defined are automatically exported.
 unsetopt ALL_EXPORT
@@ -452,9 +453,7 @@ setopt GLOBAL_RCS
 setopt RCS
 
 
-# ----------------------------------------------------------------------------
 # Input/Output
-# ----------------------------------------------------------------------------
 
 # Expand aliases.
 setopt ALIASES 
@@ -544,9 +543,7 @@ setopt SHORT_LOOPS
 unsetopt SUN_KEYBOARD_HACK
 
 
-# ----------------------------------------------------------------------------
 # Job Control
-# ----------------------------------------------------------------------------
 
 # With this option set, stopped jobs that are removed from the job table with the disown builtin
 # command are automatically sent a CONT signal to make them running.
@@ -582,9 +579,7 @@ setopt MONITOR
 setopt NOTIFY
 
 
-# ----------------------------------------------------------------------------
 # Prompting
-# ----------------------------------------------------------------------------
 
 # If set, `!' is treated specially in prompt expansion. See Prompt Expansion.
 unsetopt PROMPT_BANG
@@ -617,9 +612,7 @@ setopt PROMPT_SUBST
 unsetopt TRANSIENT_RPROMPT
 
 
-# ----------------------------------------------------------------------------
 # Scripts and Functions
-# ----------------------------------------------------------------------------
 
 # Output hexadecimal numbers in the standard C format, for example `0xFF' instead of the usual
 # `16#FF'. If the option OCTAL_ZEROES is also set (it is not by default), octal numbers will be
@@ -713,9 +706,7 @@ unsetopt VERBOSE
 unsetopt XTRACE
 
 
-# ----------------------------------------------------------------------------
 # Shell Emulation
-# ----------------------------------------------------------------------------
 
 # When set, matches performed with the =~ operator will set the BASH_REMATCH array variable, instead
 # of the default MATCH and match variables. The first element of the BASH_REMATCH array will contain
@@ -764,7 +755,9 @@ unsetopt KSH_AUTOLOAD
 unsetopt KSH_OPTION_PRINT
 
 # Alters the way arguments to the typeset family of commands, including declare, export, float,
-# integer, local and readonly, are processed. Without this option, zsh will perform normal word splitting after command and parameter expansion in arguments of an assignment; with it, word splitting does not take place in those cases.
+# integer, local and readonly, are processed. Without this option, zsh will perform normal word
+# splitting after command and parameter expansion in arguments of an assignment; with it, word
+# splitting does not take place in those cases.
 unsetopt KSH_TYPESET
 
 # Treat use of a subscript of value zero in array or string expressions as a reference to the first
@@ -834,9 +827,7 @@ unsetopt SH_WORD_SPLIT
 unsetopt TRAPS_ASYNC
 
 
-# ----------------------------------------------------------------------------
 # Zle
-# ----------------------------------------------------------------------------
 
 # Beep on error in ZLE.
 unsetopt BEEP
@@ -873,3 +864,17 @@ unsetopt VI
 
 # Use the zsh line editor. Set by default in interactive shells connected to a terminal.
 setopt ZLE
+
+
+# ------------------------------------------------------------------------------
+# Shell events hooks.
+# ------------------------------------------------------------------------------
+
+# Hooks initialization
+typeset -ga precmd_functions
+typeset -ga preexec_functions
+typeset -ga chpwd_functions
+
+# Force refresh the terminal title before each command.
+update_terminal_title () {print -Pn "\e]0;%~\a"}
+precmd_functions+=update_terminal_title
