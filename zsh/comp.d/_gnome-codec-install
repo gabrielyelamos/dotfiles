@@ -1,0 +1,3 @@
+#compdef gnome-codec-install
+
+_arguments --

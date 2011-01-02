@@ -1,0 +1,3 @@
+#compdef gnome-power-backlight-helper
+
+_arguments --
