@@ -32,3 +32,10 @@ alias ......='cd ../../../../..'
 # Shortcuts to open and edit files
 alias o='gnome-open'
 alias so='gksudo gnome-open'
+
+# Todo.sh
+if [[ -n `which todo.sh` ]]; then
+  alias todo.sh='env TODO_STORAGE_HOME=$TODO_STORAGE_HOME todo.sh'
+  alias t='todo.sh'
+  compdef t=todo.sh
+fi
