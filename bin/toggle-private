@@ -8,6 +8,5 @@
 # ----------------------------------------------------------------------
 
 
-[[ -n $PRIVATE_FOLDER_VOLUME_FILE ]] || "\$PRIVATE_FOLDER_VOLUME_FILE is not defined."
-[[ -n $PRIVATE_FOLDER_MOUNT_POINT ]] || "\$PRIVATE_FOLDER_MOUNT_POINT is not defined."
-toggle-truecrypt-folder "$PRIVATE_FOLDER_VOLUME_FILE" "$PRIVATE_FOLDER_MOUNT_POINT"
+[[ -n $PRIVATE_DIR ]] || "\$PRIVATE_DIR is not defined."
+toggle-truecrypt-folder "$PRIVATE_DIR.tc" "$PRIVATE_DIR"

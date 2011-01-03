@@ -5,12 +5,12 @@
 #
 # Arguments
 #   1 (required) the name of the config to load. The file will be looked
-#                up at $GNOME_PANEL_CONFS_HOME/<name>
+#                up at $GNOME_PANEL_CONFS_DIR/<name>
 #
 # Dependencies
 #   * Commands: gconftool.
 # ----------------------------------------------------------------------
 
 
-[[ -n $GNOME_PANEL_CONFS_HOME ]] || "\$GNOME_PANEL_CONFS_HOME is not defined."
-gconftool --load $GNOME_PANEL_CONFS_HOME/$@
+[[ -n $GNOME_PANEL_CONFS_DIR ]] || "\$GNOME_PANEL_CONFS_DIR is not defined."
+gconftool --load $GNOME_PANEL_CONFS_DIR/$@

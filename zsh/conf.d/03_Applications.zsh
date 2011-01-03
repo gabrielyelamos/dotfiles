@@ -122,7 +122,7 @@ fi
 
 # todo.sh
 if [[ -n `which todo.sh` ]]; then
-  alias todo.sh='env TODO_STORAGE_HOME=$TODO_STORAGE_HOME todo.sh'
+  alias todo.sh='env TODO_STORAGE_DIR=$TODO_STORAGE_DIR todo.sh'
   alias t='todo.sh'
   compdef t=todo.sh
 fi

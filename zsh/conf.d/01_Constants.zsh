@@ -10,19 +10,14 @@ NAME='Julien Nicoulaud'
 MAIL='julien.nicoulaud@gmail.com'
 GPGKEY='A20BF77D'
 
-# Dropbox folder.
-DROPBOX_HOME=~/Dropbox
-
-# Todo.sh storage location.
-TODO_STORAGE_HOME=$DROPBOX_HOME/todo
-
 # Constants used for Debian packaging.
 DEBFULLNAME=$NAME
 DEBEMAIL=$MAIL
 
-# Truecrypt encrypted folder.
-PRIVATE_FOLDER_VOLUME_FILE=$HOME/documents/private.tc
-PRIVATE_FOLDER_MOUNT_POINT=$HOME/documents/private
-
-# Gnome-panel configurations storage folder.
-GNOME_PANEL_CONFS_HOME=$HOME/.gnome-panel-confs
+# Folders.
+GNOME_PANEL_CONFS_DIR=$HOME/.gnome-panel-confs
+DROPBOX_DIR=$HOME/Dropbox
+TODO_STORAGE_DIR=$DROPBOX_DIR/todo
+DOCUMENTS_DIR=$HOME/documents
+PRIVATE_DIR=$DOCUMENTS_DIR/private
+DOWNLOADS_DIR=$DOCUMENTS_DIR/downloads

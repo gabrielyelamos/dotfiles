@@ -1,11 +1,11 @@
 # === EDIT FILE LOCATIONS BELOW ===
 
 # Your todo.txt directory
-if [[ -z $TODO_STORAGE_HOME ]]; then
-  echo "\$TODO_STORAGE_HOME is not set."
+if [[ -z $TODO_STORAGE_DIR ]]; then
+  echo "\$TODO_STORAGE_DIR is not set."
   exit 1
 fi
-export TODO_DIR=$TODO_STORAGE_HOME
+export TODO_DIR=$TODO_STORAGE_DIR
 
 # Your todo/done/report.txt locations
 export TODO_FILE="$TODO_DIR/todo.txt"
