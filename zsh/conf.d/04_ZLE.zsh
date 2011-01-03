@@ -7,6 +7,9 @@
 # Use Emacs line editing mode
 bindkey -e
 
+# Word separators (default '*?_-.[]~=/&;!#$%^(){}<>')
+export WORDCHARS=''
+
 # <ctrl><left> => previous word
 bindkey '^[[1;5D' emacs-backward-word
 
@@ -19,29 +22,20 @@ bindkey "^[[A" up-line-or-search
 # <down> => Forward history search
 bindkey "^[[B" down-line-or-search
 
-# Default: '*?_-.[]~=/&;!#$%^(){}<>'
-export WORDCHARS=''
+# F5 => 'source ~/.zshrc'
+autoload source-zshrc
+zle -N source-zshrc
+bindkey $terminfo[kf5] source-zshrc
 
-# Custom ZLE Widget to bind F5 => 'source ~/.zshrc'
-_refresh() { source ~/.zshrc }
-zle -N _refresh
-bindkey $terminfo[kf5] _refresh
-
-# Perform history expansion on space
+# <space> => perform history expansion
 bindkey ' ' magic-space
 
-# Open current line in editor on <ctrl><x> <e>
+# <ctrl><x> <e> => open current line in editor
 autoload edit-command-line
 zle -N edit-command-line
 bindkey '^Xe' edit-command-line
 
-# Rationalize dots (allows to cd ...../)
-rationalise-dot() {
-  if [[ $LBUFFER = *.. ]]; then
-    LBUFFER+=/..
-  else
-    LBUFFER+=.
-  fi
-}
-zle -N rationalise-dot
-bindkey . rationalise-dot
+# ..../ => ../../../
+autoload rationalize-dots
+zle -N rationalize-dots
+bindkey . rationalize-dots
