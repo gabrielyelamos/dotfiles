@@ -40,7 +40,7 @@
     echo "  Components directory '$ZSH_COMPS_DIR' could not be found."      >> $ZSHRC_ERROR_LOG
     echo                                                                    >> $ZSHRC_ERROR_LOG
   else
-    fpath=($ZSH_COMPS_DIR $fpath)
+    fpath=($ZSH_COMPS_DIR/**/ $fpath)
   fi
 
   # Load configs in ZSH_CONFS_DIR.
