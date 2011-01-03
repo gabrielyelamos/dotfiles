@@ -31,9 +31,9 @@ bindkey $terminfo[kf5] source-zshrc
 bindkey ' ' magic-space
 
 # <ctrl><x> <e> => open current line in editor
-autoload edit-command-line
-zle -N edit-command-line
-bindkey '^Xe' edit-command-line
+autoload edit-command-line-in-geany
+zle -N edit-command-line-in-geany
+bindkey '^Xe' edit-command-line-in-geany
 
 # ..../ => ../../../
 autoload rationalize-dots

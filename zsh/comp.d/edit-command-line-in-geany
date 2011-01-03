@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+# ------------------------------------------------------------------------------------------
+# Description
+#   ZLE widget that edits the current command line in Geany.
+#   Forked from Zsh's standard distribution edit-command-line.
+#
+# Usage
+#   Bind it to <ctrl><x> <e>:
+#     autoload edit-command-line-in-geany
+#     zle -N edit-command-line-in-geany
+#     bindkey '^Xe' edit-command-line-in-geany
+# ------------------------------------------------------------------------------------------
+
+local tmpfile=${TMPPREFIX:-/tmp/zsh}ecl$$.sh
+
+print -R - "$PREBUFFER$BUFFER" >$tmpfile
+exec </dev/tty
+geany -i $tmpfile
+print -Rz - "$(<$tmpfile)" 
+
+command rm -f $tmpfile
+zle send-break		# Force reload from the buffer stack
