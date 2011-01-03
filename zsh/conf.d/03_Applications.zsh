@@ -108,20 +108,33 @@ alias so='gksudo gnome-open'
 
 
 # ------------------------------------------------------------------------------
-# todo.sh
+# Package auto-suggestion on "command not found"
 # ------------------------------------------------------------------------------
 
+if [ -e /etc/zsh_command_not_found ]; then
+  . /etc/zsh_command_not_found
+fi
+
+
+# ------------------------------------------------------------------------------
+# Misc
+# ------------------------------------------------------------------------------
+
+# todo.sh
 if [[ -n `which todo.sh` ]]; then
   alias todo.sh='env TODO_STORAGE_HOME=$TODO_STORAGE_HOME todo.sh'
   alias t='todo.sh'
   compdef t=todo.sh
 fi
 
-
-# ------------------------------------------------------------------------------
-# Package auto-suggestion on "command not found"
-# ------------------------------------------------------------------------------
-
-if [ -e /etc/zsh_command_not_found ]; then
-  . /etc/zsh_command_not_found
+# plowshare
+if [[ -n `which plowdown` ]]; then
+  alias plowdel='noglob plowdel'
+  alias plowdown='noglob plowdown'
+  alias plowlist='noglob plowlist'
+  alias plowup='noglob plowup'
+  compdef _gnu_generic plowdel
+  compdef _gnu_generic plowdown
+  compdef _gnu_generic plowlist
+  compdef _gnu_generic plowup
 fi
