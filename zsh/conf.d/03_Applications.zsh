@@ -93,9 +93,9 @@ fi
 
 # Ignore SCM directories.
 if ! $(grep --exclude-dir 2> /dev/null); then
-    export GREP_OPTIONS="--color=auto --exclude-dir=.svn --exclude=\*.pyc --exclude-dir=.hg --exclude-dir=.bzr --exclude-dir=.git"
+  export GREP_OPTIONS="--color=auto --exclude-dir=.svn --exclude=\*.pyc --exclude-dir=.hg --exclude-dir=.bzr --exclude-dir=.git"
 else
-    export GREP_OPTIONS="--color=auto --exclude=\*.svn\* --exclude=\*.pyc --exclude=\*.hg\* --exclude=\*.bzr\* --exclude=\*.git\*"
+  export GREP_OPTIONS="--color=auto --exclude=\*.svn\* --exclude=\*.pyc --exclude=\*.hg\* --exclude=\*.bzr\* --exclude=\*.git\*"
 fi
 
 
@@ -133,8 +133,4 @@ if [[ -n `which plowdown` ]]; then
   alias plowdown='noglob plowdown'
   alias plowlist='noglob plowlist'
   alias plowup='noglob plowup'
-  compdef _gnu_generic plowdel
-  compdef _gnu_generic plowdown
-  compdef _gnu_generic plowlist
-  compdef _gnu_generic plowup
 fi
