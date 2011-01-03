@@ -115,6 +115,6 @@ fi
 # Command line syntax highlighting.
 # ------------------------------------------------------------------------------
 
-if [ -e ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+if [[ -e ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
   . ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
