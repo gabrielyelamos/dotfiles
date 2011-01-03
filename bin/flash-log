@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Tail the Flash Player log.
+# ----------------------------------------------------------------------
+
+tail $@ -f $HOME/.macromedia/Flash_Player/Logs/flashlog.txt

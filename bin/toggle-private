@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Mount/unmount the default private folder.
+#
+# Dependencies
+#   * Scripts: toggle-truecrypt-folder
+# ----------------------------------------------------------------------
+
+
+[[ -n $PRIVATE_FOLDER_VOLUME_FILE ]] || "\$PRIVATE_FOLDER_VOLUME_FILE is not defined."
+[[ -n $PRIVATE_FOLDER_MOUNT_POINT ]] || "\$PRIVATE_FOLDER_MOUNT_POINT is not defined."
+toggle-truecrypt-folder "$PRIVATE_FOLDER_VOLUME_FILE" "$PRIVATE_FOLDER_MOUNT_POINT"

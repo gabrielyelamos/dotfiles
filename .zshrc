@@ -1,80 +1,83 @@
 #!/usr/bin/env zsh
-# ------------------------------------------------------------------------------
-# Initialization file for Zsh.
-# ------------------------------------------------------------------------------
+# vim: ft=zsh sw=2 ts=2 et
 
-MAIN_USER=nicoulaj
-ZSH_CONFS_DIR=/home/$MAIN_USER/zsh/conf.d
-ZSH_COMPS_DIR=/home/$MAIN_USER/zsh/comp.d
+# Use an anonymous function to avoid variables bleeding in the environment.
+() {
 
-autoload colors && colors
-setopt EXTENDED_GLOB
+  # Options required for zshrc.
+  setopt localoptions extendedglob
 
-typeset -Ag FX FG BG
-FX=(
-  reset     "[00m"
-  bold      "[01m" no-bold      "[22m"
-  italic    "[03m" no-italic    "[23m"
-  underline "[04m" no-underline "[24m"
-  blink     "[05m" no-blink     "[25m"
-  reverse   "[07m" no-reverse   "[27m"
-)
-for color in {0..255}; do
-  FG[$color]="[38;5;${color}m"
-  BG[$color]="[48;5;${color}m"
-done
-FG[none]=$FG[0];        BG[none]=$BG[0]
-FG[darkred]=$FG[1];     BG[darkred]=$BG[1]
-FG[darkgreen]=$FG[2];   BG[darkgreen]=$BG[2]
-FG[darkyellow]=$FG[3];  BG[darkyellow]=$BG[3]
-FG[darkblue]=$FG[4];    BG[darkblue]=$BG[4]
-FG[darkmagenta]=$FG[5]; BG[darkmagenta]=$BG[5]
-FG[darkcyan]=$FG[6];    BG[darkcyan]=$BG[6]
-FG[grey]=$FG[7];        BG[grey]=$BG[7]
-FG[darkgrey]=$FG[8];    BG[darkgrey]=$BG[8]
-FG[red]=$FG[9];         BG[red]=$BG[9]
-FG[green]=$FG[10];      BG[green]=$BG[10]
-FG[yellow]=$FG[11];     BG[yellow]=$BG[11]
-FG[blue]=$FG[12];       BG[blue]=$BG[12]
-FG[magenta]=$FG[13];    BG[magenta]=$BG[13]
-FG[cyan]=$FG[14];       BG[cyan]=$BG[14]
-FG[lightgrey]=$FG[15];  BG[lightgrey]=$BG[15]
+  # Zshrc style.
+  typeset -A ZSHRC_STYLES
+  ZSHRC_STYLES=(
+    reset    '[00m'
+    border   '[38;5;008m'
+    hostname '[38;5;012m'
+    conf     '[38;5;007m'
+    error    '[38;5;160m'
+  )
 
-clear
-echo
-echo -ne "$FG[darkgrey]──❮ $FG[blue]$USER@$HOST$FG[darkgrey] ❯"
-repeat $(( $COLUMNS - ${#USER} - ${#HOST} - ${#SHELL_TYPE} - 7 )) printf '─'
-echo
-if [[ ! -d $ZSH_COMPS_DIR ]]; then
-  echo -e "$FG[red]Components directory '$ZSH_COMPS_DIR' could not be found.$reset_color"
-else
-  fpath=($ZSH_COMPS_DIR $fpath)
-fi
-if [[ ! -d $ZSH_CONFS_DIR ]]; then
-  echo -e "$FG[red]Confs directory '$ZSH_CONFS_DIR' could not be found.$reset_color"
-else
-  : > /tmp/zshrc_configs_out.log
-  for file in $ZSH_CONFS_DIR/*
-  do
-    : > /tmp/zshrc_config_out.log
-    source $file &> /tmp/zshrc_config_out.log
-    local config_name=${${file:t:r}##[0-9]##_}
-    local conf_color=$FG[grey]
-    if [[ -s /tmp/zshrc_config_out.log ]]; then
-      conf_color=$FG[160]
-      echo "$FG[red]$config_name$reset_color > " >> /tmp/zshrc_configs_out.log
-      (cat /tmp/zshrc_config_out.log | sed -e "s/\(.*\)/\ \ \1/g"; echo) >> /tmp/zshrc_configs_out.log
-    fi
-    echo -n " $FG[darkgrey]▪$reset_color $conf_color$config_name$reset_color"
-  done
+  # Zsh directories.
+  ZSH_HOME=${${HOME:#\/root}:-${$(command ls /home/*/.zshrc)%\/.zshrc}}/zsh
+  ZSH_CONFS_DIR=$ZSH_HOME/conf.d
+  ZSH_COMPS_DIR=$ZSH_HOME/comp.d
+
+  # Zshrc temporary files.
+  ZSHRC_ERROR_LOG=/tmp/zshrc_error.log
+  ZSHRC_CONF_ERROR_LOG=/tmp/zshrc_conf_error.log
+  : > $ZSHRC_ERROR_LOG
+
+  # Print header.
+  clear
   echo
-fi
-repeat $COLUMNS printf "$FG[darkgrey]─"
-echo
-if [[ -s /tmp/zshrc_configs_out.log ]]; then
-  repeat $COLUMNS printf "$FG[160]─$reset_color"
-  cat /tmp/zshrc_configs_out.log | head --lines=-1
-  repeat $COLUMNS printf "$FG[160]─$reset_color"
+  echo -n "$ZSHRC_STYLES[border]──❮ $ZSHRC_STYLES[hostname]$USER@$HOST$ZSHRC_STYLES[border] ❯"
+  repeat $(( $COLUMNS - ${#USER} - ${#HOST} - ${#SHELL_TYPE} - 7 )) printf '─'
   echo
-fi
-echo
+
+  # Update fpath with ZSH_COMPS_DIR.
+  if [[ ! -d $ZSH_COMPS_DIR ]]; then
+    echo "$ZSHRC_STYLES[error]Invalid ZSH_COMPS_DIR$ZSHRC_STYLES[reset] > " >> $ZSHRC_ERROR_LOG
+    echo "  Components directory '$ZSH_COMPS_DIR' could not be found."      >> $ZSHRC_ERROR_LOG
+    echo                                                                    >> $ZSHRC_ERROR_LOG
+  else
+    fpath=($ZSH_COMPS_DIR $fpath)
+  fi
+
+  # Load configs in ZSH_CONFS_DIR.
+  if [[ ! -d $ZSH_CONFS_DIR ]]; then
+    echo "$ZSHRC_STYLES[error]Invalid ZSH_CONFS_DIR$ZSHRC_STYLES[reset] > " >> $ZSHRC_ERROR_LOG
+    echo "  Configs directory '$ZSH_CONFS_DIR' could not be found."         >> $ZSHRC_ERROR_LOG
+    echo                                                                    >> $ZSHRC_ERROR_LOG
+  else
+    local conf_name conf_color
+    for file in $ZSH_CONFS_DIR/*
+    do
+      conf_name=${${file:t:r}##[0-9]##_}
+      : > $ZSHRC_CONF_ERROR_LOG
+      source $file &> $ZSHRC_CONF_ERROR_LOG
+      if [[ -s $ZSHRC_CONF_ERROR_LOG ]]; then
+        echo "$conf_color$conf_name$ZSHRC_STYLES[reset] > "   >> $ZSHRC_ERROR_LOG
+        cat $ZSHRC_CONF_ERROR_LOG | sed 's/\(.*\)/\ \ \1/g'   >> $ZSHRC_ERROR_LOG
+        echo                                                  >> $ZSHRC_ERROR_LOG
+        conf_color=$ZSHRC_STYLES[error]
+      else
+        conf_color=$ZSHRC_STYLES[conf]
+      fi
+      echo -n " $ZSHRC_STYLES[border]▪$ZSHRC_STYLES[reset] $conf_color$conf_name$ZSHRC_STYLES[reset]"
+    done
+    echo
+  fi
+
+  # Print footer.
+  repeat $COLUMNS printf "$ZSHRC_STYLES[border]─"
+  echo
+
+  # Print error log if not empty.
+  if [[ -s $ZSHRC_ERROR_LOG ]]; then
+    repeat $COLUMNS printf "$ZSHRC_STYLES[error]─$ZSHRC_STYLES[reset]"
+    cat $ZSHRC_ERROR_LOG | head --lines=-1
+    repeat $COLUMNS printf "$ZSHRC_STYLES[error]─$ZSHRC_STYLES[reset]"
+    echo
+  fi
+  echo
+}

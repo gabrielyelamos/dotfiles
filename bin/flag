@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Insert a flag (a visual marker) with the specified content. If no content passed, insert the
+#   date.
+#
+# Arguments
+#   1 (optional) the message to print.
+# ----------------------------------------------------------------------
+
+echo -ne "`set_color white -o -b blue` "
+if [ -z $1 ]; then
+  echo -ne  "`date +"%A %e %B %Y"`, `date +"%H"`h`date +"%M"`"
+else
+  echo -ne  "$@"
+fi
+echo -e " `set_color normal`"

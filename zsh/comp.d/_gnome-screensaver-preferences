@@ -1,0 +1,3 @@
+#compdef gnome-screensaver-preferences
+
+_arguments --

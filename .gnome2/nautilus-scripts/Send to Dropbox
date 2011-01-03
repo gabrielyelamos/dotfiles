@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# ──────────────────────────────────────────────────────────────────────────────────────────────────
-# Description
-#   Send the selected files/folders to the Dropbox folder.
-# ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 # FIXME Do not declare Dropbox home here.
 DROPBOX_HOME=~/documents/Dropbox

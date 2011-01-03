@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Save the current configuration for Gnome-panel.
+#
+# Arguments
+#   1 (required) the name of the config to save. The file will be saved
+#                at $GNOME_PANEL_CONFS_HOME/<name>
+#
+# Dependencies
+#   * Commands: gconftool.
+# ----------------------------------------------------------------------
+
+
+[[ -n $GNOME_PANEL_CONFS_HOME ]] || "\$GNOME_PANEL_CONFS_HOME is not defined."
+gconftool --dump /apps/panel > $GNOME_PANEL_CONFS_HOME/$@

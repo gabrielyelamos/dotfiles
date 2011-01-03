@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--<![CDATA[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  - Configuration file for PastebinIt.
-  -
-  -   Pastebin services available:
-  -     * http://paste.ubuntu.com
-  -     * http://pastebin.mozilla.org
-  -     * http://yourpaste.net
-  -     * http://paste2.org
-  -     * http://pastebin.ca
-  -     * http://slexy.org
-  -     * http://yourpaste.net
-  -     * http://pastey.net
-  -     * http://stikked.com
-  -
-  - Usage
-  -   The file goes to $HOME/pastebinit.xml.
-  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-]]>-->
 <pastebinit>
   <pastebin>http://paste2.org</pastebin>
   <author>Julien Nicoulaud</author>

@@ -1,7 +1,3 @@
-# ------------------------------------------------------------------------------
-# Configuration file for Git.
-# ------------------------------------------------------------------------------
-
 [user]
   name = Julien Nicoulaud
   email = julien.nicoulaud@gmail.com
@@ -39,73 +35,16 @@
   color = auto
 
 [alias]
-
-  # SVN style shortcuts
-  co = "checkout"
-  ci = "commit"
-  cia = "commit -a -v"
-  w = "whatchanged"
-  st = "status"
-
-  # List all branches, even remote ones
-  lsbr = "branch -a"
-
-  # Create a branch (usage: 'git mkbr branch_name')
-  mkbr = "branch"
-
-  # Remove a branch (usage: 'git rmbr branch_name')
-  rmbr = "branch -d"
-
-  # Rename a branch (usage: 'git mvbr branch_name new_branch_name')
-  mvbr = "branch -m"
-
-  # List all tags
-  lstag = "tag -l"
-
-  # Create a new tag based on specified commit
-  mktag = "tag -a"
-
-  # Remove existing tag by name
-  rmtag = "tag -d"
-
-  # Rename tag from one name to another
-  mvtag = "tag -m"
-
-  # Create new remote repository for project
-  mkrem = "remote add"
-
-  # List remote repositories
-  lsrem = "remote"
-
-  # Fetch and rebase from SVN repository
-  spull = !git svn fetch && git svn rebase
-
-  # Push keeping each local commit as atomic.
-  spush = !git svn dcommit
-
-  # Initialize all submodules
-  modinit = "submodule init"
-
-  # Update all submodules
-  modup = "submodule update"
-
-  # Show status of all submodules
-  modst = "submodule status"
-
-  # Add a new submodule (usage: 'git modadd module-name url')
-  modadd = "submodule add"
-
-  # Show last 15 log entries
-  recentlog = "log -n 15"
-
-  # Push local committed changes to origin (usually GitHub)
-  opush = !git push origin master
-
-  # Pull changes from origin (usually GitHub)
-  opull = !git pull origin master
-
-  # Sync (pull then push) from origin (usually GitHub)
-  osync = !git opull && git opush
-
-  # Send the given commit to Pastebin
+  co = checkout
+  ci = commit
+  cia = commit -a -v
+  d = diff
+  b = branch -v
+  w = whatchanged
+  st = status -s
+  ll = log --graph --pretty=format:\"%C(yellow)%h %C(green)%d%Creset %s  %C(black bold)%an, %ar%Creset\"
+  lll = log --stat --decorate --graph
+  rl = reflog  --date=relative
+  po = push-current
+  pu = pull-current
   pastebinit = !sh -c 'git format-patch -1 --stdout $1 | pastebinit -f diff' -
