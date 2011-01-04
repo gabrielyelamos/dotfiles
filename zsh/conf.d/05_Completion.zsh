@@ -22,10 +22,7 @@ bashcompinit
 autoload -Uz compinit && compinit -u
 
 # Force rehash to have completion picking up new commands in $path.
-_force_rehash() {
-  (( CURRENT == 1 )) && rehash
-  return 1
-}
+autoload _force_rehash
 zstyle ':completion:::::' completer _force_rehash _complete _approximate
 
 # Use cache
