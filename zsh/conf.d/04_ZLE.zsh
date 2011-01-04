@@ -39,3 +39,9 @@ bindkey '^Xe' edit-command-line-in-geany
 autoload rationalize-dots
 zle -N rationalize-dots
 bindkey . rationalize-dots
+
+# Save cancelled commands to history
+TRAPINT () {
+  zle && print -s -- $BUFFER
+  return $1
+}
