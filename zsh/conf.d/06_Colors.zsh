@@ -105,6 +105,11 @@ if [[ -x `which colorsvn` ]]; then
   alias @svn='command svn' && alias svn='colorsvn'
 fi
 
+# Colorizing with colorcvs.
+if [[ -x `which colorcvs` ]]; then
+  alias @cvs='command cvs' && alias cvs='colorcvs'
+fi
+
 # Colorizing with colorgcc.
 if [[ -x `which colorgcc` ]]; then
   alias @gcc='command gcc' && alias gcc='colorgcc'
