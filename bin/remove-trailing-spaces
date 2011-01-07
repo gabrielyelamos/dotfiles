@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Remove trailing spaces from the given files.
+#
+# Arguments
+#   * (required) The files to clean.
+# ----------------------------------------------------------------------
+
+if [[ $# -eq 0 ]]; then
+  echo "No input file given." 2>&1
+  exit 1
+fi
+sed -ie 's/[[:blank:]]*$//' $*
+
