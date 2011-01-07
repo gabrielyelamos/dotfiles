@@ -68,7 +68,7 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
 # Colorizing with grc.
-if [[ -x `which grc` ]]; then
+if type grc &>/dev/null; then
   alias @diff='command diff' && alias diff='grc diff'
   alias @make='command make' && alias make='grc make'
   alias @gcc='command gcc' && alias gcc='grc gcc'
@@ -81,7 +81,7 @@ if [[ -x `which grc` ]]; then
 fi
 
 # Colorizing with colorex.
-if [[ -x `which colorex` ]]; then
+if type colorex &>/dev/null; then
   alias @mvn='command mvn' && alias mvn='colorex --config mvn3 -- mvn'
   alias @mvn2='command mvn2' && alias mvn2='colorex --config mvn2 -- mvn2'
   alias @diff='command diff' && alias diff='colorex -- diff'
@@ -96,22 +96,22 @@ if [[ -x `which colorex` ]]; then
 fi
 
 # Colorizing with colordiff.
-if [[ -x `which colordiff` ]]; then
+if type colordiff &>/dev/null; then
   alias @diff='command diff' && alias diff='colordiff'
 fi
 
 # Colorizing with colorsvn.
-if [[ -x `which colorsvn` ]]; then
+if type colorsvn &>/dev/null; then
   alias @svn='command svn' && alias svn='colorsvn'
 fi
 
 # Colorizing with colorcvs.
-if [[ -x `which colorcvs` ]]; then
+if type colorcvs &>/dev/null; then
   alias @cvs='command cvs' && alias cvs='colorcvs'
 fi
 
 # Colorizing with colorgcc.
-if [[ -x `which colorgcc` ]]; then
+if type colorgcc &>/dev/null; then
   alias @gcc='command gcc' && alias gcc='colorgcc'
 fi
 
@@ -156,6 +156,6 @@ fi
 # Command line syntax highlighting.
 # ------------------------------------------------------------------------------
 
-if [[ -e ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+if [[ -f ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
   . ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
