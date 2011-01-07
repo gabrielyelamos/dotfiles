@@ -110,6 +110,37 @@ if [[ -x `which colorgcc` ]]; then
   alias @gcc='command gcc' && alias gcc='colorgcc'
 fi
 
+# Colorizing with highlight.
+if type highlight &>/dev/null; then
+  function cat sed awk grep() {
+    local syntax=""
+    for file in $@; do
+      if [[ -f $file ]]; then
+        case $file in
+          *.java) syntax="java";;
+          *.php)  syntax="php";;
+          *.py)   syntax="python";;
+          *.diff) syntax="diff";;
+          *.awk)  syntax="awk";;
+          *.c)    syntax="c";;
+          *.css)  syntax="css";;
+          *.js)   syntax="js";;
+          *.jsp)  syntax="jsp";;
+          *.xml)  syntax="xml";;
+          *.sql)  syntax="sql";;
+          *.pl)   syntax="pl";;
+          httpd.*|/etc/apache*/*|/etc/httpd/*) syntax="httpd";;
+        esac
+      fi
+    done
+    if [[ -n $syntax ]]; then
+      command $0 $@ | highlight --ansi --syntax=$syntax
+    else
+      command $0 $@
+    fi
+  }
+fi
+
 
 # ------------------------------------------------------------------------------
 # Command line syntax highlighting.
