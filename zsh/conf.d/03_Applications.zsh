@@ -38,14 +38,17 @@ alias rm='nocorrect rm -i'
 # ------------------------------------------------------------------------------
 
 # Geany, default to vim if not available.
-EDITOR=`which geany`
-EDITOR=${EDITOR:-vim}
-VISUAL=`which geany`
-VISUAL=${VISUAL:-vim}
-CVSEDITOR=`which geany`
-CVSEDITOR=${CVSEDITOR:-vim}
-SVN_EDITOR=`which geany`
-SVN_EDITOR=${SVN_EDITOR:-vim}
+if type geany &>/dev/null; then
+  EDITOR=`which geany`
+  VISUAL=$EDITOR
+else
+  echo "geany is not installed."
+  if type vim &>/dev/null; then
+    EDITOR=`which vim`
+  else
+    echo "vim is not installed."
+  fi
+fi
 
 
 # ------------------------------------------------------------------------------
@@ -53,7 +56,24 @@ SVN_EDITOR=${SVN_EDITOR:-vim}
 # ------------------------------------------------------------------------------
 
 # Google Chrome/elinks.
-[[ -n "$DISPLAY" ]] && BROWSER="google-chrome" || BROWSER="elinks"
+if [[ -n "$DISPLAY" ]]; then
+  if type google-chrome &>/dev/null; then
+    BROWSER=`which google-chrome`
+  else
+    echo "google-chrome is not installed."
+    if type firefox &>/dev/null; then
+      BROWSER=`which firefox`
+    else
+      echo "firefox is not installed."
+    fi
+  fi
+else
+  if type elinks &>/dev/null; then
+    BROWSER=`which elinks`
+  else
+    echo "elinks is not installed."
+  fi
+fi
 
 # Zsh web browser handler.
 autoload -U pick-web-browser
@@ -111,8 +131,10 @@ alias so='gksudo gnome-open'
 # Package auto-suggestion on "command not found"
 # ------------------------------------------------------------------------------
 
-if [ -e /etc/zsh_command_not_found ]; then
+if [[ -f /etc/zsh_command_not_found ]]; then
   . /etc/zsh_command_not_found
+else
+  echo "command-not-found is not installed."
 fi
 
 
@@ -121,16 +143,20 @@ fi
 # ------------------------------------------------------------------------------
 
 # todo.sh
-if [[ -n `which todo.sh` ]]; then
+if type todo.sh &>/dev/null; then
   alias todo.sh='env TODO_STORAGE_DIR=$TODO_STORAGE_DIR todo.sh'
   alias t='todo.sh'
   compdef t=todo.sh
+else
+  echo "todo.sh is not installed."
 fi
 
 # plowshare
-if [[ -n `which plowdown` ]]; then
+if type plowdown &>/dev/null; then
   alias plowdel='noglob plowdel'
   alias plowdown='noglob plowdown'
   alias plowlist='noglob plowlist'
   alias plowup='noglob plowup'
+else
+  echo "plowshare is not installed."
 fi

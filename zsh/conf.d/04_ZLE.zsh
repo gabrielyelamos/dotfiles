@@ -8,7 +8,7 @@
 bindkey -e
 
 # Word separators (default '*?_-.[]~=/&;!#$%^(){}<>')
-export WORDCHARS=''
+WORDCHARS=''
 
 # <ctrl><left> => previous word
 bindkey '^[[1;5D' emacs-backward-word
