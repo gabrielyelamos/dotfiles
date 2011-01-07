@@ -53,8 +53,10 @@ FG[lightgrey]=$FG[15];  BG[lightgrey]=$BG[15]
 
 # ls colorizing with dircolors.
 DIRCOLORS_INIT_FILE=~/.dir_colors
-if [[ -x /usr/bin/dircolors ]]; then
+if type dircolors &>/dev/null; then
   [[ -e $DIRCOLORS_INIT_FILE ]] && eval $(dircolors $DIRCOLORS_INIT_FILE) || eval $(dircolors)
+else
+  echo "dircolors is not installed."
 fi
 ZLS_COLORS=$LS_COLORS
 
@@ -78,6 +80,8 @@ if type grc &>/dev/null; then
   alias @ping='command ping' && alias ping='grc ping'
   alias @cvs='command cvs' && alias cvs='grc cvs'
   alias @traceroute='command traceroute' && alias traceroute='grc traceroute'
+else
+  echo "grc is not installed."
 fi
 
 # Colorizing with colorex.
@@ -93,31 +97,43 @@ if type colorex &>/dev/null; then
   alias @top='command top' && alias top='colorex -- top'
   alias @traceroute='command traceroute' && alias traceroute='colorex -- traceroute'
   alias @jonas='command jonas' && alias jonas='colorex -- jonas'
+else
+  echo "colorex is not installed."
 fi
 
 # Colorizing with colordiff.
 if type colordiff &>/dev/null; then
   alias @diff='command diff' && alias diff='colordiff'
+else
+  echo "colordiff is not installed."
 fi
 
 # Colorizing with colorsvn.
 if type colorsvn &>/dev/null; then
   alias @svn='command svn' && alias svn='colorsvn'
+else
+  echo "colorsvn is not installed."
 fi
 
 # Colorizing with colorcvs.
 if type colorcvs &>/dev/null; then
   alias @cvs='command cvs' && alias cvs='colorcvs'
+else
+  echo "colorcvs is not installed."
 fi
 
 # Colorizing with colorgcc.
 if type colorgcc &>/dev/null; then
   alias @gcc='command gcc' && alias gcc='colorgcc'
+else
+  echo "colorgcc is not installed."
 fi
 
 # Colorizing with colormake.
 if type colormake &>/dev/null; then
   alias @make='command make' && alias make='colormake'
+else
+  echo "colormake is not installed."
 fi
 
 # Colorizing with highlight.
@@ -149,6 +165,8 @@ if type highlight &>/dev/null; then
       command $0 $@
     fi
   }
+else
+  echo "highlight is not installed."
 fi
 
 
@@ -158,4 +176,6 @@ fi
 
 if [[ -f ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
   . ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  echo "zsh-syntax-highlighting is not installed."
 fi
