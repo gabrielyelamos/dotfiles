@@ -36,12 +36,12 @@
 
 [alias]
   co = checkout
-  ci = commit
-  cia = commit -a -v
+  ci = commit --signoff
+  cia = commit --all --signoff
   d = diff
-  b = branch -v
+  b = branch --verbose
   w = whatchanged
-  st = status -s
+  st = status --short
   ll = log --graph --pretty=format:\"%C(yellow)%h %C(green)%d%Creset %s  %C(black bold)%an, %ar%Creset\"
   lll = log --stat --decorate --graph
   rl = reflog  --date=relative
