@@ -110,6 +110,11 @@ if [[ -x `which colorgcc` ]]; then
   alias @gcc='command gcc' && alias gcc='colorgcc'
 fi
 
+# Colorizing with colormake.
+if type colormake &>/dev/null; then
+  alias @make='command make' && alias make='colormake'
+fi
+
 # Colorizing with highlight.
 if type highlight &>/dev/null; then
   function cat sed awk grep() {
