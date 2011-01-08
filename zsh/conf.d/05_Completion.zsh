@@ -19,11 +19,15 @@ bashcompinit
 # ------------------------------------------------------------------------------
 
 # Activate auto-completion
+zmodload -i zsh/complist
 autoload -Uz compinit && compinit -u
 
 # Force rehash to have completion picking up new commands in $path.
 autoload _force_rehash
 zstyle ':completion:::::' completer _force_rehash _complete _approximate
+
+# Match first by all letters case-insensitively, then partial-word, then substring
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 # Use cache
 zstyle ':completion:*' use-cache on
