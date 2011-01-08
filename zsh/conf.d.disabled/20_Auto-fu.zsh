@@ -4,11 +4,11 @@
 # Auto-fu: https://github.com/hchbaw/auto-fu.zsh
 # ------------------------------------------------------------------------------
 
-if [ -e ~/projects/auto-fu.zsh/auto-fu.zsh ]; then
+if [[ -f ~/projects/auto-fu.zsh/auto-fu.zsh ]]; then
   . ~/projects/auto-fu.zsh/auto-fu.zsh
+  zle-line-init () {auto-fu-init;}; zle -N zle-line-init
+  zstyle ':completion:*' completer _oldlist _complete
+  zstyle ':auto-fu:var' postdisplay ''
+else
+  echo "auto-fu is not installed."
 fi
-
-zle-line-init () {auto-fu-init;}; zle -N zle-line-init
-
-zstyle ':completion:*' completer _oldlist _complete
-zstyle ':auto-fu:var' postdisplay ''
