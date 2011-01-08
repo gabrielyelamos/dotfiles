@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # vim: ft=zsh sw=2 ts=2 et
 # ------------------------------------------------------------------------------
-# Key bindings for the Zsh shell.
+# Key bindings / ZLE configuration.
 # ------------------------------------------------------------------------------
 
 # Use Emacs line editing mode
@@ -39,6 +39,10 @@ bindkey '^Xe' edit-command-line-in-geany
 autoload rationalize-dots
 zle -N rationalize-dots
 bindkey . rationalize-dots
+
+# Autoquote URLs pasted in ZLE
+autoload -U url-quote-magic
+zle -N self-insert url-quote-magic
 
 # Save cancelled commands to history
 TRAPINT () {
