@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # ----------------------------------------------------------------------
 # Description
 #   Import and install the GPG key.
@@ -10,5 +10,27 @@
 #   $ import-gpg-key 2EE5793634EF4A35
 # ----------------------------------------------------------------------
 
-gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-key $1 &&
-gpg -a --export $1 | sudo apt-key add -
+
+GPG_KEY_SERVERS=(
+  pgp.mit.edu
+  keyserver.ubuntu.com
+  keyserver.ubuntu.com
+  pgp.rediris.es
+  gpg-keyserver.de
+  pgp.surfnet.nl
+  keys.kfwebs.net
+  keys.nayr.net
+  hufu.ki.iif.hu
+  keyserver.oeg.com.au
+  keyserver.pramberger.at
+  keyserver.stack.n
+  keyserver.linux.it
+  pgp.uni-mainz.de
+  pgpkeys.logintas.ch
+  wwwkeys.de.pgp.net
+  wwwkeys.stinkfoot.us.pgp.net
+)
+
+for keyserver in $GPG_KEY_SERVERS; do 
+  gpg --keyserver $keyserver --recv-key $1 && gpg -a --export $1 | sudo apt-key add - && break
+done
