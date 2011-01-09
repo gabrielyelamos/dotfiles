@@ -47,4 +47,5 @@
   rl = reflog  --date=relative
   po = push-current
   pu = pull-current
+  ar = add-remove
   pastebinit = !sh -c 'git format-patch -1 --stdout $1 | pastebinit -f diff' -
