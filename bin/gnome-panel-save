@@ -5,10 +5,12 @@
 #
 # Arguments
 #   1 (required) the name of the config to save. The file will be saved
-#                at $HOME/.config/dotfiles/gnome/apps/panel/<name>
+#                at $GNOME_PANEL_CONFS_DIR/<name>
 #
 # Dependencies
 #   * Commands: gconftool.
 # ----------------------------------------------------------------------
 
-gconftool --dump /apps/panel > $HOME/.gnome-panel-confs/$@
+
+[[ -n $GNOME_PANEL_CONFS_DIR ]] || "\$GNOME_PANEL_CONFS_DIR is not defined."
+gconftool --dump /apps/panel > $GNOME_PANEL_CONFS_DIR/$@

@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+# ------------------------------------------------------------------------------------------
+# Description
+#   ZLE widget that sources ~/.zshrc.
+#
+# Usage
+#   Bind it to F5 for example:
+#     autoload source-zshrc
+#     zle -N source-zshrc
+#     bindkey $terminfo[kf5] source-zshrc
+# ------------------------------------------------------------------------------------------
+
+source ~/.zshrc

@@ -1,0 +1,9 @@
+# Groovy
+--type-set=groovy=.groovy
+--type-add=groovy=.gtmpl
+--type-add=groovy=.gpp
+--type-add=groovy=.grunit
+
+# Log files
+--type-set=log=.log
+

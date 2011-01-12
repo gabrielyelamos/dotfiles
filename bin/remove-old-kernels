@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+# ----------------------------------------------------------------------
+# Description
+#   Deletes old kernels and only keeps the current one to make room
+#   in /boot.
+# ----------------------------------------------------------------------
+
+
+# Remove old kernels.
+sudo aptitude remove ${$(ls /boot/ | grep vmlinuz | sed 's@vmlinuz-@linux-image-@g' | grep -v `uname -r`)[*]}
+
+# Update Grub
+sudo update-grub

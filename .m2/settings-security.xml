@@ -1,0 +1,3 @@
+<settingsSecurity>
+    <relocation>${env.DROPBOX_DIR}/system/maven/settings-security.xml</relocation>
+</settingsSecurity>

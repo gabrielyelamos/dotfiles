@@ -1,0 +1,3 @@
+#compdef gnome-volume-control-applet
+
+_arguments --
