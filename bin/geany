@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Wrapper script for Geany that forces opening a new instance if there
+# is no Geany window in the current workspace.
+# ----------------------------------------------------------------------
+
+# Geany executable path
+GEANY_EXEC_PATH=/usr/bin/geany
+
+# Get the dimensions of one workspace
+workspace_dimensions=$(command xdpyinfo | command grep -oP '(?<=dimensions:    )[0-9]+x[0-9]+')
+
+# Loop on windows owned by geany processes
+for window_id in $(command xwininfo -root -children | command grep -oP '(?<=     )0x[0-9abcdef]+(?=.*\(\"geany\" "Geany"\))'); do
+
+  # Retrieve infos about the window
+  window_info="$(command xwininfo -id $window_id)"
+
+  # If the window is viewable
+  if [[ -n $(echo "$window_info" | command grep 'IsViewable') ]]; then
+
+    # Get its position (relative to the current workspace)
+    window_x=$(echo "$window_info" | command grep -oP '(?<=Absolute upper-left X:  )[\-0-9]+')
+    window_y=$(echo "$window_info" | command grep -oP '(?<=Absolute upper-left Y:  )[\-0-9]+')
+
+    # If the window is in the current worskpace, ie if its coordinates are in the range [0,workspace size[
+    if [[ $window_x -ge 0 && $window_y -ge 0 && $window_x -lt ${workspace_dimensions%x*} && $window_y -lt ${workspace_dimensions#*x} ]]; then
+
+      # Launch Geany normally
+      $GEANY_EXEC_PATH $@
+      exit $?
+    fi
+  fi
+done
+
+# If no Geany window detected in the current workspace, force opening a new instance
+$GEANY_EXEC_PATH --new-instance $@
+exit $?
