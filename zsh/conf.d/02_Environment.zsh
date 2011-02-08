@@ -16,6 +16,15 @@ PATH=$HOME/bin:$PATH
 # Zsh options
 # ----------------------------------------------------------------------------
 
+# Report login/logout events for everybody except me.
+watch=(notme)
+
+# Time (seconds) between checks for login/logout activity.
+LOGCHECK=60
+
+# Display usage statistics for commands running > 5 sec.
+REPORTTIME=5
+
 # Changing Directories
 
 # If a command is issued that can't be executed as a normal command, and the
