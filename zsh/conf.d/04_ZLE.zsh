@@ -50,3 +50,9 @@ TRAPINT () {
   zle && print -s -- $BUFFER
   return $1
 }
+
+# <ctrl><x> <x> => enter a password that will be hidden in the buffer and
+# shell history.
+autoload enter-password
+zle -N enter-password
+bindkey '^Xx' enter-password
