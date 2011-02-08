@@ -871,8 +871,10 @@ setopt ZLE
 # ------------------------------------------------------------------------------
 
 # Hooks initialization
-autoload add-zsh-hook
+typeset -ga precmd_functions
+typeset -ga preexec_functions
+typeset -ga chpwd_functions
 
 # Force refresh the terminal title before each command.
 update_terminal_title () {print -Pn "\e]0;%~\a"}
-add-zsh-hook precmd update_terminal_title
+precmd_functions+=update_terminal_title
