@@ -18,6 +18,9 @@
 [merge]
   tool = meld
 
+[branch]
+  autosetuprebase = always
+
 [push]
   default = matching
 
