@@ -27,12 +27,12 @@ for window_id in $(command xwininfo -root -children | command grep -oP '(?<=    
     if [[ $window_x -ge 0 && $window_y -ge 0 && $window_x -lt ${workspace_dimensions%x*} && $window_y -lt ${workspace_dimensions#*x} ]]; then
 
       # Launch Geany normally
-      $GEANY_EXEC_PATH $@
+      $GEANY_EXEC_PATH "$@"
       exit $?
     fi
   fi
 done
 
 # If no Geany window detected in the current workspace, force opening a new instance
-$GEANY_EXEC_PATH --new-instance $@
+$GEANY_EXEC_PATH --new-instance "$@"
 exit $?
