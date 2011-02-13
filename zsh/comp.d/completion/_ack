@@ -1,0 +1,68 @@
+#compdef ack ack-grep
+# -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
+# vim: ft=zsh sw=2 ts=2 et
+# See: https://github.com/petdance/ack/blob/master/etc/ack.bash_completion.sh
+
+#_ack{
+#
+#  local curcontext="$curcontext" state line cmds ret=1
+#
+#  _arguments -C \
+#    '()'{-a,--all}'[Operate on all files, regardless of type (but still skip directories like blib, CVS, etc.)]' \
+#    '()'{-A,--after-context=}'[Print NUM lines of trailing context after matching lines.]' \
+#    '()'{-B,--before-context=}'[Print NUM lines of leading context before matching lines.]' \
+#    '()'{-C,--context}'[Print NUM lines (default 2) of context around matching lines.]' \
+#    '()'{-c,--count}'[Suppress normal output; instead print a count of matching lines for each input file.]' \
+#    '()'{--color}'[Highlight the matching text.]' \
+#    '()'{--nocolor}'[Supress the color.]' \
+#    '()'{--color-filename=}'[Sets the color to be used for filenames.]' \
+#    '()'{--color-match=}'[Sets the color to be used for matches.]' \
+#    '()'{--color-lineno=}'[Sets the color to be used for line numbers.]' \
+#    '()'{--column}'[Show the column number of the first match.  This is helpful for editors that can place your cursor at a given position.]' \
+#    '()'{--env}'[Enable environment processing.]' \
+#    '()'{--noenv}'[Disable all environment processing. No .ackrc is read and all environment variables are ignored.]' \
+#    '()'{--flush}'[Flush output immediately.]' \
+#    '()'{-f}'[Only print the files that would be searched, without actually doing any searching.]' \
+#    '()'{--follow}'[Follow symlinks.]' \
+#    '()'{--nofollow}'[Don't follow symlinks.]' \
+#    '()'{-G}'[Only paths matching REGEX are included in the search.]' \
+#    '()'{-g}'[Print files where the relative path + filename matches REGEX.]' \
+#    '()'{--group}'[Group matches by file name.]' \
+#    '()'{--nogroup}'[Do not group matches by file name.]' \
+#    '()'{-H,--with-filename}'[Print the filename for each match.]' \
+#    '()'{-h,--no-filename}'[Suppress the prefixing of filenames on output when multiple files are searched.]' \
+#    '()'{--help}'[Print a short help statement.]' \
+#    '()'{-i,--ignore-case}'[Ignore case in the search strings.]' \
+#    '()'{--ignore-dir=}'[Ignore directory.]' \
+#    '()'{--noignore-dir=}'[Don't ignore directory.]' \
+#    '()'{--line=}'[Only print line NUM of each file.]' \
+#    '()'{-l,--files-with-matches}'[Only print the filenames of matching files, instead of the matching text.]' \
+#    '()'{-L,--files-without-matches}'[Only print the filenames of files that do NOT match.]' \
+#    '()'{--match=}'[Specify the REGEX explicitly.]' \
+#    '()'{-m,--max-count=}'[Stop reading a file after NUM matches.]' \
+#    '()'{--man}'[Print the manual page.]' \
+#    '()'{-n,--no-recurse}'[No descending into subdirectories.]' \
+#    '()'{-o}'[Show only the part of each line matching PATTERN (turns off text highlighting)]' \
+#    '()'{--output=}'[Output the evaluation of expr for each line (turns off text highlighting)]' \
+#    '()'{--pager=}'[Direct ack's output through program.]' \
+#    '()'{--passthru}'[Prints all lines, whether or not they match the expression.]' \
+#    '()'{--print0}'[The filenames are output separated with a null byte instead of the usual newline.]' \
+#    '()'{-Q,--literal}'[Quote all metacharacters in PATTERN, it is treated as a literal.]' \
+#    '()'{-r,-R,--recurse}'[Recurse into sub-directories.]' \
+#    '()'{--smart-case}'[Ignore case in the search strings if PATTERN contains no uppercase characters.]' \
+#    '()'{--no-smart-case}'[Disable --smart-case option.]' \
+#    '()'{--sort-files}'[Sorts the found files lexically.]' \
+#    '()'{--show-types}'[Outputs the filetypes that ack associates with each file.]' \
+#    '()'{--thpppt}'[Display the all-important Bill The Cat logo.  Note that the exact spelling of --thpppppt is not important.  It's checked against a regular expression.]' \
+#    '()'{--type=}'[Specify the types of files to include or exclude from a search.]' \
+#    '()'{--type-set=}'[Files with the given EXTENSION(s) are recognized as being of type TYPE.]' \
+#    '()'{-u,--unrestricted}'[All files and directories (including blib/, core.*, ...) are searched, nothing is skipped.]' \
+#    '()'{-v,--invert-match}'[Invert match: select non-matching lines.]' \
+#    '()'{--version}'[Display version and copyright information.]' \
+#    '()'{-w,--word-regexp}'[Force PATTERN to match only whole words.]' \
+#    '()'{-1}'[Stops after reporting first match of any kind.]' \
+#  && ret=0
+#}
+#
+#_ack "$@"
+#
