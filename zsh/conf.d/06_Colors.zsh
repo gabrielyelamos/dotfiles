@@ -176,6 +176,7 @@ fi
 
 if [[ -f ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
   . ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  ZSH_HIGHLIGHT_KEYWORD_KEYWORDS+=('rm -rf *' 'fg=white,bold,bg=red')
 else
   echo "zsh-syntax-highlighting is not installed."
 fi
