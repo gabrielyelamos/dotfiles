@@ -39,8 +39,8 @@
 
 [alias]
   co = checkout
-  ci = commit --signoff
-  cia = commit --all --signoff
+  ci = commit
+  cia = commit --all
   d = diff
   b = branch --verbose
   w = whatchanged
