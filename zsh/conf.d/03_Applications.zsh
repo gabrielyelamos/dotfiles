@@ -146,7 +146,6 @@ fi
 if type todo.sh &>/dev/null; then
   alias todo.sh='env TODO_STORAGE_DIR=$TODO_STORAGE_DIR todo.sh'
   alias t='todo.sh'
-  compdef t=todo.sh
 else
   echo "todo.sh is not installed."
 fi
