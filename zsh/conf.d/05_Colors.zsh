@@ -48,6 +48,13 @@ FG[lightgrey]=$FG[15];  BG[lightgrey]=$BG[15]
 
 
 # ------------------------------------------------------------------------------
+# STDERR colored in red.
+# ------------------------------------------------------------------------------
+
+exec 2>>(while read line; do print "$FX[bold]$FG[red]${(q)line}$FX[reset]" > /dev/tty; print -n $'\0'; done &)
+
+
+# ------------------------------------------------------------------------------
 # Commands output coloring.
 # ------------------------------------------------------------------------------
 
@@ -58,7 +65,6 @@ if type dircolors &>/dev/null; then
 else
   echo "dircolors is not installed."
 fi
-ZLS_COLORS=$LS_COLORS
 
 # Colors for less.
 export LESS_TERMCAP_mb=$'\E[01;31m'
