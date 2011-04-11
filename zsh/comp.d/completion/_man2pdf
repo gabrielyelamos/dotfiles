@@ -1,4 +1,0 @@
-#compdef man2pdf 
-
-_man "$@"
-
