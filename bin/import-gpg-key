@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # ----------------------------------------------------------------------
 # Description
-#   Import and install the GPG key.
+#   Find, import the GPG key and register it with apt.
 #
 # Arguments
 #   1 (required) the key to import.
@@ -31,6 +31,5 @@ GPG_KEY_SERVERS=(
   wwwkeys.stinkfoot.us.pgp.net
 )
 
-for keyserver in $GPG_KEY_SERVERS; do 
-  gpg --keyserver $keyserver --recv-key $1 && gpg -a --export $1 | sudo apt-key add - && break
-done
+for server ($GPG_KEY_SERVERS) gpg --keyserver $server --recv-key $1 && gpg -a --export $1 | sudo apt-key add - && exit 0
+echo "Could not find key" &>2 && exit 1
