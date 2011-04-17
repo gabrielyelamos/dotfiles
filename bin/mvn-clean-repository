@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Remove Maven artifacts that have not been used for a while, by
+#   default 3 months.
+#
+# Arguments
+#   1 (optional) the period since last access, in a 'date' compliant
+#                form (see man date). Defaults to '3 months ago'.
+# ----------------------------------------------------------------------
+
+
+# Maven repository directory.
+MAVEN_REPOSITORY_DIR=${M2_REPO:-~/.m2/repository}
+
+# By default, remove artifacts that have not been used since this time.
+DEFAULT_PERIOD='3 months ago'
+
+limit_date=$(date -d "${1:-$DEFAULT_PERIOD}" +%s)
+shopt -s globstar
+for artifact in $MAVEN_REPOSITORY_DIR/**/*.pom; do
+  if [[ $(stat -c %X $artifact) -lt $limit_date ]]; then
+    echo "Deleting $(dirname $artifact)"
+    rm -rf $(dirname $artifact)
+  fi
+done
