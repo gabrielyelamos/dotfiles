@@ -43,7 +43,7 @@ bindkey . rationalize-dots
 
 # Autoquote URLs pasted in ZLE
 autoload -U url-quote-magic
-_url-quote-magic() { url-quote-magic; [[ ${+ZSH_HIGHLIGHT_STYLES} -eq 1 ]] && _zsh_highlight-zle-buffer }
+_url-quote-magic() { url-quote-magic; [[ ${+ZSH_HIGHLIGHT_STYLES} -eq 1 ]] && _zsh_highlight }
 zle -N self-insert _url-quote-magic
 
 # Save cancelled commands to history
