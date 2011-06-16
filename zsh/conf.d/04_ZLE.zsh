@@ -23,6 +23,13 @@ zle -N fizsh-history-search-backward
 bindkey '\e[A' fizsh-history-search-backward
 bindkey '\e[B' fizsh-history-search-forward
 
+# Fish style history substring search
+if [[ -f ~/.config/modules/zsh-history-substring-search/history-substring-search.zsh ]]; then
+  . ~/.config/modules/zsh-history-substring-search/history-substring-search.zsh
+else
+  echo "zsh-history-substring-search is not installed."
+fi
+
 # F5 => 'source ~/.zshrc'
 autoload source-zshrc
 zle -N source-zshrc
@@ -43,7 +50,7 @@ bindkey . rationalize-dots
 
 # Autoquote URLs pasted in ZLE
 autoload -U url-quote-magic
-_url-quote-magic() { url-quote-magic; [[ ${+ZSH_HIGHLIGHT_STYLES} -eq 1 ]] && _zsh_highlight-zle-buffer }
+_url-quote-magic() { url-quote-magic; [[ ${+ZSH_HIGHLIGHT_STYLES} -eq 1 ]] && _zsh_highlight }
 zle -N self-insert _url-quote-magic
 
 # Save cancelled commands to history

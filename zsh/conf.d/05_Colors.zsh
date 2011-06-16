@@ -51,7 +51,7 @@ FG[lightgrey]=$FG[15];  BG[lightgrey]=$BG[15]
 # STDERR colored in red.
 # ------------------------------------------------------------------------------
 
-exec 2>>(while read line; do print "$FX[bold]$FG[red]${(q)line}$FX[reset]" > /dev/tty; print -n $'\0'; done &)
+#exec 2>>(while read line; do print "$FX[bold]$FG[red]${(q)line}$FX[reset]" > /dev/tty; print -n $'\0'; done &)
 
 
 # ------------------------------------------------------------------------------
@@ -180,9 +180,10 @@ fi
 # Command line syntax highlighting.
 # ------------------------------------------------------------------------------
 
-if [[ -f ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-  . ~/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  ZSH_HIGHLIGHT_KEYWORD_KEYWORDS+=('rm -rf *' 'fg=white,bold,bg=red')
+if [[ -f ~/.config/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  . ~/.config/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+  ZSH_HIGHLIGHT_PATTERNS+=('rm -rf *' 'fg=white,bold,bg=red')
 else
   echo "zsh-syntax-highlighting is not installed."
 fi
