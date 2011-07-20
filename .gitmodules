@@ -4,3 +4,6 @@
 [submodule ".config/modules/zsh-history-substring-search"]
 	path = .config/modules/zsh-history-substring-search
 	url = git://github.com/sunaku/zsh-history-substring-search.git
+[submodule "zsh/comp.d/zsh-completions"]
+	path = zsh/comp.d/zsh-completions
+	url = git@github.com:zsh-users/zsh-completions.git
