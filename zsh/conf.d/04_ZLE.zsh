@@ -17,8 +17,8 @@ bindkey '^[[1;5D' emacs-backward-word
 bindkey '^[[1;5C' emacs-forward-word
 
 # <up>/<down> => Fish style history substring search
-if [[ -f ~/.config/modules/zsh-history-substring-search/history-substring-search.zsh ]]; then
-  . ~/.config/modules/zsh-history-substring-search/history-substring-search.zsh
+if [[ -f ~/.config/modules/zsh-history-substring-search/zsh-history-substring-search.zsh ]]; then
+  . ~/.config/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
 else
   echo "zsh-history-substring-search is not installed."
 fi
