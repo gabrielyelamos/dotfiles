@@ -16,14 +16,7 @@ bindkey '^[[1;5D' emacs-backward-word
 # <ctrl><right> => next word
 bindkey '^[[1;5C' emacs-forward-word
 
-# <up>/<down> => Fizsh history search
-autoload -U fizsh-history-search-backward
-zle -N fizsh-history-search-forward fizsh-history-search-backward
-zle -N fizsh-history-search-backward
-bindkey '\e[A' fizsh-history-search-backward
-bindkey '\e[B' fizsh-history-search-forward
-
-# Fish style history substring search
+# <up>/<down> => Fish style history substring search
 if [[ -f ~/.config/modules/zsh-history-substring-search/history-substring-search.zsh ]]; then
   . ~/.config/modules/zsh-history-substring-search/history-substring-search.zsh
 else
@@ -50,8 +43,7 @@ bindkey . rationalize-dots
 
 # Autoquote URLs pasted in ZLE
 autoload -U url-quote-magic
-_url-quote-magic() { url-quote-magic; [[ ${+ZSH_HIGHLIGHT_STYLES} -eq 1 ]] && _zsh_highlight }
-zle -N self-insert _url-quote-magic
+zle -N self-insert url-quote-magic
 
 # Save cancelled commands to history
 TRAPINT () {
