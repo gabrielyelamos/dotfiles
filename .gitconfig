@@ -41,7 +41,7 @@
   co = checkout
   ci = commit
   cia = commit --all
-  d = diff
+  d = diff --color-words
   b = branch --verbose
   w = whatchanged
   st = status --short
