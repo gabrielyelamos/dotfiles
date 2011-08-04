@@ -56,3 +56,7 @@ TRAPINT () {
 autoload enter-password
 zle -N enter-password
 bindkey '^Xx' enter-password
+
+# Completion debugging
+bindkey '^Xh' _complete_help
+bindkey '^X?' _complete_debug
