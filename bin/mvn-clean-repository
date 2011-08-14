@@ -19,7 +19,7 @@ DEFAULT_PERIOD='3 months ago'
 limit_date=$(date -d "${1:-$DEFAULT_PERIOD}" +%s)
 shopt -s globstar
 for artifact in $MAVEN_REPOSITORY_DIR/**/*.pom; do
-  if [[ $(stat -c %X $artifact) -lt $limit_date ]]; then
+  if [[ $artifact == *-SNAPSHOT* ]] || [[ $(stat -c %X $artifact) -lt $limit_date ]]; then
     echo "Deleting $(dirname $artifact)"
     rm -rf $(dirname $artifact)
   fi
