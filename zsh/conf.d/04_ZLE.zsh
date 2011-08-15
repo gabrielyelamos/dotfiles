@@ -40,6 +40,16 @@ bindkey '^Xe' edit-command-line-in-geany
 autoload rationalize-dots
 zle -N rationalize-dots
 bindkey . rationalize-dots
+bindkey -M isearch . self-insert 2>/dev/null
+
+# Display a symbol while waiting for completion matches to be generated
+expand-or-complete-with-symbol() {
+  echo -n "▶"
+  zle expand-or-complete
+  zle redisplay
+}
+zle -N expand-or-complete-with-symbol
+bindkey "^I" expand-or-complete-with-symbol
 
 # Autoquote URLs pasted in ZLE
 autoload -U url-quote-magic
