@@ -6,3 +6,6 @@
 
 # Update PATH to use Ruby gems.
 [[ -d ~/.gem/ruby/1.8/bin ]] && export PATH=~/.gem/ruby/1.8/bin:$PATH
+
+# RVM
+[[ -s ~/.rvm/scripts/rvm ]] && source ~/.rvm/scripts/rvm
