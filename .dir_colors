@@ -324,3 +324,6 @@ EXEC 01;38;05;46
 
 # Other OS stuff 
 .exe             00;38;05;26
+
+# vim:ft=dircolors
+
