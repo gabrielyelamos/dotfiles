@@ -894,3 +894,11 @@ add-zsh-hook precmd update_terminal_title
 #  fc -p
 #}
 #add-zsh-hook zshaddhistory history_append_cwd
+
+# Strip out passwords from commands before inserting in history.
+history_strip_passwords() {
+  # Strip out -Dgpg.passphrase option value (Maven)
+  print -sr "${${1%%$'\n'}//(#b)(gpg.passphrase=)*[:space:]/$match[1]}"
+  fc -p
+}
+add-zsh-hook zshaddhistory history_strip_passwords
