@@ -883,5 +883,22 @@ setopt ZLE
 autoload add-zsh-hook
 
 # Force refresh the terminal title before each command.
-update_terminal_title () {print -Pn "\e]0;%~\a"}
+update_terminal_title() {
+  print -Pn "\e]0;%~\a"
+}
 add-zsh-hook precmd update_terminal_title
+
+# Append current working directory as a comment in history lines.
+#history_append_cwd() {
+#  print -sr "${1%%$'\n'} # ${PWD}"
+#  fc -p
+#}
+#add-zsh-hook zshaddhistory history_append_cwd
+
+# Strip out passwords from commands before inserting in history.
+history_strip_passwords() {
+  # Strip out -Dgpg.passphrase option value (Maven)
+  print -sr "${${1%%$'\n'}//(#b)(gpg.passphrase=)*[:space:]/$match[1]}"
+  fc -p
+}
+add-zsh-hook zshaddhistory history_strip_passwords
