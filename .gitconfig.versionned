@@ -38,11 +38,15 @@
   color = auto
 
 [sendemail]
-	smtpserver = smtp.gmail.com
-	smtpserverport = 587
-	smtpencryption = tls
-	smtpuser = julien.nicoulaud@gmail.com
-#	smtppass = XXXXXXXXX
+  smtpserver = smtp.gmail.com
+  smtpserverport = 587
+  smtpencryption = tls
+  smtpuser = julien.nicoulaud@gmail.com
+# smtppass = XXXXXXXXX
+
+[github]
+  user = nicoulaj
+# token = XXXXXXXXX
 
 [alias]
   co = checkout
@@ -59,4 +63,3 @@
   pu = pull-current
   ar = add-remove
   pastebinit = !sh -c 'git format-patch -1 --stdout $1 | pastebinit -f diff' -
-
