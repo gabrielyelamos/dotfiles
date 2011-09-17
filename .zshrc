@@ -1116,7 +1116,7 @@ else
 fi
 
 # F5 => 'source ~/.zshrc'
-autoload source-zshrc
+source-zshrc() { source $NICOULAJ_HOME/.zshrc }
 zle -N source-zshrc
 bindkey $terminfo[kf5] source-zshrc
 
