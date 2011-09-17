@@ -1316,11 +1316,12 @@ bindkey '^X?' _complete_debug
 autoload -Uz compinit && compinit -u -d $ZSH_HOME/zcompdump
 
 # Force rehash to have completion picking up new commands in $path.
-autoload _force_rehash && zstyle ':completion:::::' completer _force_rehash \
-                                                              _complete \
-                                                              _ignored \
-                                                              _gnu_generic \
-                                                              _approximate
+_force_rehash() { (( CURRENT == 1 )) && rehash; return 1 }
+zstyle ':completion:::::' completer _force_rehash \
+                                    _complete \
+                                    _ignored \
+                                    _gnu_generic \
+                                    _approximate
 
 # Default to parsing "--help" for command that have completion functions.
 zstyle ':completion:*' completer _complete \
