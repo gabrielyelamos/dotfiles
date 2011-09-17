@@ -4,8 +4,12 @@
 # Settings for Ruby.
 # ------------------------------------------------------------------------------
 
+
+RUBY_VERSION=1.8
+
 # Update PATH to use Ruby gems.
-[[ -d ~/.gem/ruby/1.8/bin ]] && export PATH=~/.gem/ruby/1.8/bin:$PATH
+[[ -d ~/.gem/ruby/$RUBY_VERSION/bin ]] && export PATH=~/.gem/ruby/$RUBY_VERSION/bin:$PATH
+[[ -d /var/lib/gems/$RUBY_VERSION/bin ]] && export PATH=/var/lib/gems/$RUBY_VERSION/bin:$PATH
 
 # RVM
 [[ -s ~/.rvm/scripts/rvm ]] && source ~/.rvm/scripts/rvm
