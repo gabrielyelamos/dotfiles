@@ -29,8 +29,8 @@ zstyle ':completion:*' accept-exact-dirs true
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/zsh/cache
 
-# Use colors defined with dircolors.
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# Default colors for listings.
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")'
 
 # Separate directories from files.
 zstyle ':completion:*' list-dirs-first true
@@ -62,7 +62,7 @@ zstyle ':completion:*:(all-|other-|)files' ignored-patterns '(.|*/.)*'
 zstyle ':completion:*:(local-|)directories' ignored-patterns '(.|*/.)*'
 zstyle ':completion:*:cd:*' ignored-patterns '(.|*/.)*'
 
-# Do not complete completion functions/widgets.
+# Don't complete completion functions/widgets.
 zstyle ':completion:*:functions' ignored-patterns '_*'
 
 # Don't complete uninteresting users.
