@@ -30,7 +30,7 @@ DOWNLOADS_DIR=$DOCUMENTS_DIR/downloads
 # ----------------------------------------------------------------------------
 
 # Zsh functions path.
-fpath=($ZSH_HOME/functions/** $fpath)
+fpath=($ZSH_HOME/functions/**/ $fpath)
 
 # Commands path.
 PATH=$NICOULAJ_HOME/bin:$PATH
@@ -246,7 +246,7 @@ setopt GLOB
 unsetopt GLOB_ASSIGN
 
 # Do not require a leading `.' in a filename to be matched explicitly.
-setopt GLOB_DOTS
+unsetopt GLOB_DOTS
 
 # Treat any characters resulting from parameter expansion as being eligible for file
 # expansion and filename generation, and any characters resulting from command substitution
@@ -872,7 +872,7 @@ setopt COMBINING_CHARS
 setopt EMACS
 
 # Start up the line editor in overstrike mode.
-unsetopt OVERSTRIKE
+setopt OVERSTRIKE
 
 # Use single-line command line editing instead of multi-line.
 # Note that although this is on by default in ksh emulation it only provides superficial compatibility
