@@ -1387,9 +1387,6 @@ zstyle ':completion:*:*:*:users' ignored-patterns adm amanda apache avahi beagli
                                                   postgres privoxy pulse pvm quagga radvd rpc rpcuser rpm shutdown \
                                                   squid sshd sync uucp vcsa xfs www-data avahi-autoipd
 
-# Don't complete uninteresting hosts.
-zstyle ':completion:*:*:*:hosts' ignored-patterns 'ip6*' 'localhost*'
-
 # Show ignored patterns if needed.
 zstyle '*' single-ignored show
 
@@ -1407,12 +1404,13 @@ zstyle ':completion:*:manuals' separate-sections true
 # rm/cp/mv style.
 zstyle ':completion:*:(rm|mv|cp):*' ignore-line yes
 
-# Hostnames completion, using ~/.ssh/config, ~/.ssh/known_hosts and /etc/hosts.
-_hosts=()
-[[ -r ~/.ssh/config ]] && _hosts+=(${${${(@M)${(f)"$(<~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
-[[ -r ~/.ssh/known_hosts ]] && _hosts+=(${${${${(f)"$(<~/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*})
-[[ -r /etc/hosts ]] && _hosts+=(${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}})
-zstyle ':completion:*:hosts' hosts $_hosts
+# Hostnames completion.
+zstyle -e ':completion:*:hosts' hosts 'reply=(
+  ${${${${(f)"$(<~/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}
+  ${${${(@M)${(f)"$(<~/.ssh/config)"}:#Host *}#Host }:#*[*?]*}
+  ${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}#*[[:blank:]]}}
+)'
+zstyle ':completion:*:*:*:hosts' ignored-patterns 'ip6*' 'localhost*'
 
 # Completion functions development.
 bindkey "^Xh" _complete_help
