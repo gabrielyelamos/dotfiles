@@ -872,7 +872,7 @@ setopt COMBINING_CHARS
 setopt EMACS
 
 # Start up the line editor in overstrike mode.
-setopt OVERSTRIKE
+unsetopt OVERSTRIKE
 
 # Use single-line command line editing instead of multi-line.
 # Note that although this is on by default in ksh emulation it only provides superficial compatibility
@@ -916,10 +916,10 @@ update_terminal_title() {
 add-zsh-hook precmd update_terminal_title
 
 # Append current working directory as a comment in history lines.
-#history_append_cwd() {
-#  print -sr "${1%%$'\n'} # ${PWD}"
-#  fc -p
-#}
+history_append_cwd() {
+  print -sr "${1%%$'\n'} # ${PWD}"
+  fc -p
+}
 #add-zsh-hook zshaddhistory history_append_cwd
 
 # Strip out passwords from commands before inserting in history.
@@ -1106,11 +1106,7 @@ bindkey '^[[1;5D' emacs-backward-word
 bindkey '^[[1;5C' emacs-forward-word
 
 # <up>/<down> => Fish style history substring search
-if [[ -f ~/.config/modules/zsh-history-substring-search/zsh-history-substring-search.zsh ]]; then
-  . ~/.config/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
-else
-  echo "zsh-history-substring-search is not installed."
-fi
+[[ -f $NICOULAJ_HOME/.config/modules/zsh-history-substring-search/zsh-history-substring-search.zsh ]] && . $NICOULAJ_HOME/.config/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 # F5 => 'source ~/.zshrc'
 source-zshrc() { source $NICOULAJ_HOME/.zshrc }
