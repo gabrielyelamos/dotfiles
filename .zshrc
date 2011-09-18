@@ -442,7 +442,7 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 # File where history is saved.
-HISTFILE="$ZSH_HOME/history"
+HISTFILE="$NICOULAJ_HOME/.zshhistory"
 
 # Size of the history.
 HISTFILESIZE=65536
@@ -1318,7 +1318,7 @@ bindkey '^X?' _complete_debug
 # ------------------------------------------------------------------------------
 
 # Activate completion.
-autoload -Uz compinit && compinit -u -d $ZSH_HOME/zcompdump
+autoload -Uz compinit && compinit -u
 
 # Force rehash to have completion picking up new commands in $path.
 _force_rehash() { (( CURRENT == 1 )) && rehash; return 1 }
@@ -1340,7 +1340,7 @@ zstyle ':completion:*' accept-exact-dirs true
 
 # Cache setup.
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/zsh/cache
+#zstyle ':completion:*' cache-path $ZSH_HOME/cache
 
 # Default colors for listings.
 zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")'
@@ -1427,7 +1427,7 @@ compdef t=todo.sh
 # ------------------------------------------------------------------------------
 
 # Load configs in $ZSH_HOME/conf.d.
-source $ZSH_HOME/conf.d/*.(|ba|z|tc|k)sh
+source $ZSH_HOME/zshrc.d/*.(|ba|z|tc|k)sh
 
 
 # ------------------------------------------------------------------------------
