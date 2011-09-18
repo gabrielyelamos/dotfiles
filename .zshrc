@@ -1078,8 +1078,6 @@ alias so='gksudo gnome-open'
 if type todo.sh &>/dev/null; then
   alias todo.sh='env TODO_STORAGE_DIR="$TODO_STORAGE_DIR" todo.sh'
   alias t='todo.sh'
-else
-  echo "todo.sh is not installed."
 fi
 
 # plowshare
@@ -1088,8 +1086,6 @@ if type plowdown &>/dev/null; then
   alias plowdown='noglob plowdown'
   alias plowlist='noglob plowlist'
   alias plowup='noglob plowup'
-else
-  echo "plowshare is not installed."
 fi
 
 # ------------------------------------------------------------------------------
@@ -1221,13 +1217,13 @@ bindkey '^X?' _complete_debug
   (( $+commands[dircolors] )) && eval $(dircolors ~/.dir_colors)
 
   # Colors for less.
-  export LESS_TERMCAP_mb=$'\E[01;31m'
-  export LESS_TERMCAP_md=$'\E[01;31m'
-  export LESS_TERMCAP_me=$'\E[0m'
-  export LESS_TERMCAP_se=$'\E[0m'
-  export LESS_TERMCAP_so=$'\E[01;44;33m'
-  export LESS_TERMCAP_ue=$'\E[0m'
-  export LESS_TERMCAP_us=$'\E[01;32m'
+  export LESS_TERMCAP_mb=$FX[bold]$FG[blue]
+  export LESS_TERMCAP_md=$FX[bold]$FG[blue]
+  export LESS_TERMCAP_me=$FX[reset]
+  export LESS_TERMCAP_se=$FX[reset]
+  export LESS_TERMCAP_so=$BG[darkgrey]$FG[lightgrey]
+  export LESS_TERMCAP_ue=$FX[reset]
+  export LESS_TERMCAP_us=$FG[blue]
 
   # Colorizing with grc.
   (( $+commands[grc] )) && {
