@@ -1,6 +1,27 @@
 #!/usr/bin/env zsh
 # vim: ft=zsh sw=2 ts=2 et
 
+prompt_nicoulaj_help () {
+  cat <<'EOF'
+This prompt shows 'user@hostname' only if connected over SSH. The path is shown relatively to the current VCS
+repository root if any, and cropped to a maximum length at any times. It is colored to indicate the last
+command exit status.
+
+The right prompt shows info about the current VCS repository and status.
+
+This prompt is configurable. You can invoke it thus:
+
+  prompt nicoulaj [<path_length> [<color_success> [<color_failure> [<color_vcs_info> [<color_vcs_changes>]]]]]
+
+where the settings are:
+ * path_length: maximum path length in the left prompt (default: 40)
+ * color_success: color of the left prompt when the previous command exit code is zero (default: green)
+ * color_failure: color of the left prompt when the previous command exit code is non-zero (default: red)
+ * color_vcs_info: color of the right prompt showing VCS info (default: grey)
+ * color_vcs_changes: color of the right prompt showing VCS changes (default: yellow)
+EOF
+}
+
 function prompt_nicoulaj_setup() {
   setopt localoptions noxtrace noksharrays
   prompt_opts=(cr subst percent)
