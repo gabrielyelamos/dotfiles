@@ -1421,7 +1421,8 @@ compdef t=todo.sh
 # Prompt
 # ------------------------------------------------------------------------------
 
-autoload -Uz promptinit && promptinit -i && prompt nicoulaj
+autoload -Uz promptinit && promptinit -i
+prompt nicoulaj 30 ${FG[71]} ${FG[124]} ${FG[darkgrey]} ${FG[172]}
 
 
 # ------------------------------------------------------------------------------

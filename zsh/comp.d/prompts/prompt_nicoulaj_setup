@@ -2,8 +2,15 @@
 # vim: ft=zsh sw=2 ts=2 et
 
 function prompt_nicoulaj_setup() {
-  setopt noxtrace noksharrays localoptions
+  setopt localoptions noxtrace noksharrays
   prompt_opts=(cr subst percent)
+
+  # Prompt settings.
+  prompt_nicoulaj_path_length=${1:-40}
+  prompt_nicoulaj_color_success=${2:-'%F{green}'}
+  prompt_nicoulaj_color_failure=${3:-'%F{red}'}
+  prompt_nicoulaj_color_vcs_info=${4:-'%F{grey}'}
+  prompt_nicoulaj_color_vcs_changes=${5:-'%F{yellow}'}
 
   # Load required modules.
   autoload -Uz add-zsh-hook
@@ -19,10 +26,10 @@ function prompt_nicoulaj_setup() {
   zstyle ':vcs_info:*' actionformats "%S" "%r/%s/%b (%a)" "%u"
   zstyle ':vcs_info:*' formats "%S" "%r/%s/%b" "%u"
   zstyle ':vcs_info:*' nvcsformats "%~" "" ""
-  
+
   # Prompts definition.
-  PROMPT="%(0?.%{${FG[71]}%}.%{${FG[124]}%})${SSH_TTY:+[%n@%m]}%{$FX[bold]%}%30<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.❯❯❯.❯)%{$FX[no-bold]%}%{$FX[reset]%} "
-  RPROMPT="%{${FG[darkgrey]}%}"'$vcs_info_msg_1_'"%{$FX[reset]%}%{${FG[172]}%}"'$vcs_info_msg_2_'"%{$FX[reset]%}"
+  PROMPT="%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})${SSH_TTY:+[%n@%m]}%{$FX[bold]%}%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.❯❯❯.❯)%{$FX[no-bold]%}%{$FX[reset]%} "
+  RPROMPT="%{${prompt_nicoulaj_color_vcs_info}%}"'$vcs_info_msg_1_'"%{$FX[reset]%}%{${prompt_nicoulaj_color_vcs_changes%}"'$vcs_info_msg_2_'"%{$FX[reset]%}"
 }
 
 prompt_nicoulaj_setup "$@"
