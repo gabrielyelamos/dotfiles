@@ -928,7 +928,7 @@ history_strip_passwords() {
   print -sr "${${1%%$'\n'}//(#b)(gpg.passphrase=)*[:space:]/$match[1]}"
   fc -p
 }
-add-zsh-hook zshaddhistory history_strip_passwords
+#add-zsh-hook zshaddhistory history_strip_passwords
 
 
 # ------------------------------------------------------------------------------
@@ -1016,7 +1016,7 @@ PAGER="less"
 MANPAGER="less"
 
 # Settings for less.
-export LESS="--long-prompt --status-column --HILITE-UNREAD --ignore-case --tabs=2 --shift 5 --tilde"
+export LESS="--LONG-PROMPT --HILITE-UNREAD --ignore-case --tabs=2 --shift 5 --tilde"
 export LESSCHARSET=utf-8
 export LESSHISTFILE="$HOME/.lesshst"
 export LESSHISTSIZE=100
@@ -1075,18 +1075,19 @@ alias so='gksudo gnome-open'
 # ------------------------------------------------------------------------------
 
 # todo.sh
-if type todo.sh &>/dev/null; then
+(( $+commands[todo.sh] )) && {
   alias todo.sh='env TODO_STORAGE_DIR="$TODO_STORAGE_DIR" todo.sh'
   alias t='todo.sh'
-fi
+}
 
 # plowshare
-if type plowdown &>/dev/null; then
+(( $+commands[plowdown] )) && {
   alias plowdel='noglob plowdel'
   alias plowdown='noglob plowdown'
   alias plowlist='noglob plowlist'
   alias plowup='noglob plowup'
-fi
+}
+
 
 # ------------------------------------------------------------------------------
 # Key bindings / ZLE configuration
@@ -1437,3 +1438,4 @@ source $ZSH_HOME/conf.d/*.(|ba|z|tc|k)sh
 autoload -U zrecompile
 [[ -f $NICOULAJ_HOME/.zshrc ]] && zrecompile -p $NICOULAJ_HOME/.zshrc
 [[ -f $NICOULAJ_HOME/.zshrc.zwc.old ]] && rm -f $NICOULAJ_HOME/.zshrc.zwc.old
+
