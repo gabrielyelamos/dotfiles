@@ -30,7 +30,7 @@ DOWNLOADS_DIR=$DOCUMENTS_DIR/downloads
 # ----------------------------------------------------------------------------
 
 # Zsh functions path.
-fpath=($ZSH_HOME/comp.d/** $fpath)
+fpath=($ZSH_HOME/functions/** $fpath)
 
 # Commands path.
 PATH=$NICOULAJ_HOME/bin:$PATH
