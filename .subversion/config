@@ -123,6 +123,8 @@ enable-auto-props = yes
 *.java       = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
 *.as         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
 *.mxml       = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.groovy     = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.gtmpl      = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
 
 # Scriptish formats
 *.bat        = svn:eol-style=native; svn:keywords=Id; svn-mine-type=text/plain
