@@ -58,7 +58,7 @@ setopt AUTO_CD \
        AUTO_PARAM_SLASH \
        AUTO_REMOVE_SLASH \
        NO_BASH_AUTO_LIST \
-       COMPLETE_ALIASES \
+       NO_COMPLETE_ALIASES \
        COMPLETE_IN_WORD \
        GLOB_COMPLETE \
        HASH_LIST_ALL \
@@ -310,11 +310,7 @@ fi
 [[ -f /usr/share/vim/vimcurrent/macros/less.sh ]] && alias vless='/usr/share/vim/vimcurrent/macros/less.sh'
 
 
-# ------------------------------------------------------------------------------
 # Grep
-# ------------------------------------------------------------------------------
-
-# Ignore SCM directories.
 GREP_OPTIONS="--color=auto \
               --exclude=\*.pyc \
               --exclude-dir=.svn \
@@ -323,10 +319,7 @@ GREP_OPTIONS="--color=auto \
               --exclude-dir=.git"
 
 
-# ------------------------------------------------------------------------------
 # Gnome
-# ------------------------------------------------------------------------------
-
 alias o='gnome-open'
 alias so='gksudo gnome-open'
 
@@ -360,6 +353,7 @@ alias so='gksudo gnome-open'
 # ------------------------------------------------------------------------------
 # Key bindings / ZLE configuration
 # ------------------------------------------------------------------------------
+
 
 # Activate completion.
 autoload -Uz compinit && compinit -u
@@ -495,38 +489,38 @@ bindkey '^X?' _complete_debug
 
   # Colorizing with grc.
   (( $+commands[grc] )) && {
-    alias @diff='command diff'             && compdef @diff=diff             && alias diff='grc diff'
-    alias @make='command make'             && compdef @make=make             && alias make='grc make'
-    alias @gcc='command gcc'               && compdef @gcc=gcc               && alias gcc='grc gcc'
-    alias @g++='command g++'               && compdef @g++=g++               && alias g++='grc g++'
-    alias @ld='command ld'                 && compdef @ld=ld                 && alias ld='grc ld'
-    alias @netstat='command netstat'       && compdef @netstat=netstat       && alias netstat='grc netstat'
-    alias @ping='command ping'             && compdef @ping=ping             && alias ping='grc ping'
-    alias @cvs='command cvs'               && compdef @cvs=cvs               && alias cvs='grc cvs'
-    alias @traceroute='command traceroute' && compdef @traceroute=traceroute && alias traceroute='grc traceroute'
+    alias @diff='command diff'             && alias diff='grc diff'
+    alias @make='command make'             && alias make='grc make'
+    alias @gcc='command gcc'               && alias gcc='grc gcc'
+    alias @g++='command g++'               && alias g++='grc g++'
+    alias @ld='command ld'                 && alias ld='grc ld'
+    alias @netstat='command netstat'       && alias netstat='grc netstat'
+    alias @ping='command ping'             && alias ping='grc ping'
+    alias @cvs='command cvs'               && alias cvs='grc cvs'
+    alias @traceroute='command traceroute' && alias traceroute='grc traceroute'
   }
 
   # Colorizing with colorex.
   (( $+commands[colorex] )) && {
-    alias @mvn='command mvn'               && compdef @mvn=mvn               && alias mvn='colorex --config mvn3 -- mvn'
-    alias @mvn2='command mvn2'             && compdef @mvn2=mvn2             && alias mvn2='colorex --config mvn2 -- mvn2'
-    alias @diff='command diff'             && compdef @diff=diff             && alias diff='colorex -- diff'
-    alias @df='command df'                 && compdef @df=df                 && alias df='colorex -- df'
-    alias @host='command host'             && compdef @host=host             && alias host='colorex -- host'
-    alias @ifconfig='command ifconfig'     && compdef @ifconfig=ifconfig     && alias ifconfig='colorex -- ifconfig'
-    alias @md5sum='command md5sum'         && compdef @md5sum=md5sum         && alias md5sum='colorex -- md5sum'
-    alias @ping='command ping'             && compdef @ping=ping             && alias ping='colorex -- ping'
-    alias @top='command top'               && compdef @top=top               && alias top='colorex -- top'
-    alias @traceroute='command traceroute' && compdef @traceroute=traceroute && alias traceroute='colorex -- traceroute'
-    alias @jonas='command jonas'           && compdef @jonas=jonas           && alias jonas='colorex -- jonas'
+    alias @mvn='command mvn'               && alias mvn='colorex --config mvn3 -- mvn'
+    alias @mvn2='command mvn2'             && alias mvn2='colorex --config mvn2 -- mvn2'
+    alias @diff='command diff'             && alias diff='colorex -- diff'
+    alias @df='command df'                 && alias df='colorex -- df'
+    alias @host='command host'             && alias host='colorex -- host'
+    alias @ifconfig='command ifconfig'     && alias ifconfig='colorex -- ifconfig'
+    alias @md5sum='command md5sum'         && alias md5sum='colorex -- md5sum'
+    alias @ping='command ping'             && alias ping='colorex -- ping'
+    alias @top='command top'               && alias top='colorex -- top'
+    alias @traceroute='command traceroute' && alias traceroute='colorex -- traceroute'
+    alias @jonas='command jonas'           && alias jonas='colorex -- jonas'
   }
 
   # Colorizing with color(diff|svn|cvs|gcc|make).
-  (( $+commands[colordiff] )) && alias @diff='command diff' && compdef @diff=diff && alias diff='colordiff'
-  (( $+commands[colorsvn] ))  && alias @svn='command svn'   && compdef @svn=svn   && alias svn='colorsvn'
-  (( $+commands[colorcvs] ))  && alias @cvs='command cvs'   && compdef @cvs=cvs   && alias cvs='colorcvs'
-  (( $+commands[colorgcc] ))  && alias @gcc='command gcc'   && compdef @gcc=gcc   && alias gcc='colorgcc'
-  (( $+commands[colormake] )) && alias @make='command make' && compdef @make=make && alias make='colormake'
+  (( $+commands[colordiff] )) && alias @diff='command diff' && alias diff='colordiff'
+  (( $+commands[colorsvn] ))  && alias @svn='command svn'   && alias svn='colorsvn'
+  (( $+commands[colorcvs] ))  && alias @cvs='command cvs'   && alias cvs='colorcvs'
+  (( $+commands[colorgcc] ))  && alias @gcc='command gcc'   && alias gcc='colorgcc'
+  (( $+commands[colormake] )) && alias @make='command make' && alias make='colormake'
 
   # Colorizing with highlight.
   (( $+commands[highlight] )) && {
