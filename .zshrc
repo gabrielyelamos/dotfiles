@@ -58,7 +58,7 @@ setopt AUTO_CD \
        AUTO_PARAM_SLASH \
        AUTO_REMOVE_SLASH \
        NO_BASH_AUTO_LIST \
-       NO_COMPLETE_ALIASES \
+       COMPLETE_ALIASES \
        COMPLETE_IN_WORD \
        GLOB_COMPLETE \
        HASH_LIST_ALL \
