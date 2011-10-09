@@ -689,5 +689,4 @@ source $ZSH_HOME/zshrc.d/*.(|ba|z|tc|k)sh
 # Recompile if needed.
 autoload -U zrecompile
 [[ -f $NICOULAJ_HOME/.zshrc ]] && zrecompile -p $NICOULAJ_HOME/.zshrc
-[[ -f $NICOULAJ_HOME/.zshrc.zwc.old ]] && rm -f $NICOULAJ_HOME/.zshrc.zwc.old
-
+[[ -f $NICOULAJ_HOME/.zcompdump ]] && zrecompile -p $NICOULAJ_HOME/.zcompdump
