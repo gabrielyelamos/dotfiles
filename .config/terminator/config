@@ -1,9 +1,7 @@
 [global_config]
-  title_hide_sizetext = True
-  dbus = True
+  enabled_plugins = ActivityWatch, TerminalShot, LaunchpadCodeURLHandler, APTURLHandler, MavenPluginURLHandler, LaunchpadBugURLHandler
   title_transmit_fg_color = "#FFFFFF"
   title_inactive_fg_color = "#ffffff"
-  enabled_plugins = CustomCommandsMenu, ActivityWatch, TerminalShot, LaunchpadCodeURLHandler, APTURLHandler, MavenPluginURLHandler, LaunchpadBugURLHandler
   title_receive_bg_color = "#a31100"
   title_transmit_bg_color = "#0e6daf"
   title_inactive_bg_color = "#000000"
