@@ -364,6 +364,9 @@ bindkey -e
 # Word separators (default '*?_-.[]~=/&;!#$%^(){}<>')
 WORDCHARS=''
 
+# Sometimes <DEL> is not bound correctly
+bindkey '^[[3~' delete-char-or-list 
+
 # <ctrl><left> => previous word
 bindkey '^[[1;5D' emacs-backward-word
 
@@ -519,8 +522,8 @@ bindkey '^X?' _complete_debug
   (( $+commands[colordiff] )) && alias @diff='command diff' && alias diff='colordiff'
   (( $+commands[colorsvn] ))  && alias @svn='command svn'   && alias svn='colorsvn'
   (( $+commands[colorcvs] ))  && alias @cvs='command cvs'   && alias cvs='colorcvs'
-  (( $+commands[colorgcc] ))  && alias @gcc='command gcc'   && alias gcc='colorgcc'
   (( $+commands[colormake] )) && alias @make='command make' && alias make='colormake'
+  (( $+commands[colorgcc] ))  && [[ -d /usr/lib/colorgcc/bin ]] && export PATH="/usr/lib/colorgcc/bin:$PATH"
 
   # Colorizing with highlight.
   (( $+commands[highlight] )) && {
