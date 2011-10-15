@@ -5,8 +5,5 @@
 # ------------------------------------------------------------------------------
 
 ANDROID_HOME=/opt/android/android-sdk-linux_x86
-if [[ -d $ANDROID_HOME ]]; then
-  PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
-else
-  echo "Android SDK is not installed at $ANDROID_HOME."
-fi
+[[ -d $ANDROID_HOME ]] && PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
+
