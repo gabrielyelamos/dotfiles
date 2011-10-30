@@ -349,6 +349,9 @@ alias so='gksudo gnome-open'
   alias plowup='noglob plowup'
 }
 
+# ArchLinux specific aliases
+alias upgrade='yaourt -Syyu --aur --devel'
+
 
 # ------------------------------------------------------------------------------
 # Key bindings / ZLE configuration
