@@ -682,7 +682,7 @@ bindkey "^Xh" _complete_help
 # ------------------------------------------------------------------------------
 
 # Load configs in $ZSH_HOME/conf.d.
-source $ZSH_HOME/zshrc.d/*.(|ba|z|tc|k)sh
+for conf ($ZSH_HOME/zshrc.d/*.(|ba|z|tc|k)sh) source $conf
 
 
 # ------------------------------------------------------------------------------
