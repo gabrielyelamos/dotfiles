@@ -350,7 +350,7 @@ alias so='gksudo gnome-open'
 }
 
 # ArchLinux specific aliases
-alias upgrade='yaourt -Syyu --aur --devel'
+alias upgrade='yaourt -Syyu --aur --devel && sudo pacdiffviewer && sudo etckeeper commit upgrade'
 
 
 # ------------------------------------------------------------------------------
@@ -405,7 +405,7 @@ expand-or-complete-with-symbol() {
   zle redisplay
 }
 zle -N expand-or-complete-with-symbol
-bindkey "^I" expand-or-complete-with-symbol
+#bindkey "^I" expand-or-complete-with-symbol
 
 # Autoquote URLs pasted in ZLE
 autoload -U url-quote-magic
@@ -506,19 +506,19 @@ bindkey '^X?' _complete_debug
     alias @traceroute='command traceroute' && alias traceroute='grc traceroute'
   }
 
-  # Colorizing with colorex.
-  (( $+commands[colorex] )) && {
-    alias @mvn='command mvn'               && alias mvn='colorex --config mvn3 -- mvn'
-    alias @mvn2='command mvn2'             && alias mvn2='colorex --config mvn2 -- mvn2'
-    alias @diff='command diff'             && alias diff='colorex -- diff'
-    alias @df='command df'                 && alias df='colorex -- df'
-    alias @host='command host'             && alias host='colorex -- host'
-    alias @ifconfig='command ifconfig'     && alias ifconfig='colorex -- ifconfig'
-    alias @md5sum='command md5sum'         && alias md5sum='colorex -- md5sum'
-    alias @ping='command ping'             && alias ping='colorex -- ping'
-    alias @top='command top'               && alias top='colorex -- top'
-    alias @traceroute='command traceroute' && alias traceroute='colorex -- traceroute'
-    alias @jonas='command jonas'           && alias jonas='colorex -- jonas'
+  # Colorizing with rainbow.
+  (( $+commands[rainbow] )) && {
+    alias @mvn='command mvn'               && alias mvn='rainbow --config mvn3 -- mvn'
+    alias @mvn2='command mvn2'             && alias mvn2='rainbow --config mvn2 -- mvn2'
+    alias @diff='command diff'             && alias diff='rainbow -- diff'
+    alias @df='command df'                 && alias df='rainbow -- df'
+    alias @host='command host'             && alias host='rainbow -- host'
+    alias @ifconfig='command ifconfig'     && alias ifconfig='rainbow -- ifconfig'
+    alias @md5sum='command md5sum'         && alias md5sum='rainbow -- md5sum'
+    alias @ping='command ping'             && alias ping='rainbow -- ping'
+    alias @top='command top'               && alias top='rainbow -- top'
+    alias @traceroute='command traceroute' && alias traceroute='rainbow -- traceroute'
+    alias @jonas='command jonas'           && alias jonas='rainbow -- jonas'
   }
 
   # Colorizing with color(diff|svn|cvs|gcc|make).
