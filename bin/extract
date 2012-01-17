@@ -7,8 +7,8 @@
 #   1 (required) the file to extract.
 # ----------------------------------------------------------------------
 
-local filename="${1}"
-local extension=`echo ${1} | cut -d. -f2-`
+filename="${1}"
+extension=`echo ${1} | cut -d. -f2-`
 case "$extension" in
   tar)
     tar xvf "$filename";;
