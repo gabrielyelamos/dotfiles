@@ -482,7 +482,7 @@ bindkey '^X?' _complete_debug
   # ----------------------------------------------------------------------------
 
   # ls colorizing with dircolors.
-  (( $+commands[dircolors] )) && eval $(dircolors ~/.dir_colors)
+  (( $+commands[dircolors] )) && eval $(dircolors $NICOULAJ_HOME/.dir_colors)
 
   # Colors for less.
   export LESS_TERMCAP_mb=$FX[bold]$FG[blue]
@@ -685,7 +685,7 @@ bindkey "^Xh" _complete_help
 # ------------------------------------------------------------------------------
 
 # Load configs in $ZSH_HOME/conf.d.
-source $ZSH_HOME/zshrc.d/*.(|ba|z|tc|k)sh
+for conf ($ZSH_HOME/zshrc.d/*.(|ba|z|tc|k)sh) source $conf
 
 
 # ------------------------------------------------------------------------------

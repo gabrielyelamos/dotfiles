@@ -43,13 +43,13 @@ function prompt_nicoulaj_setup() {
   # vcs_info setup.
   zstyle ':vcs_info:*' enable hg bzr svn git
   zstyle ':vcs_info:*' check-for-changes true # Can be slow on big repos.
-  zstyle ':vcs_info:*' unstagedstr " ●"
+  zstyle ':vcs_info:*' unstagedstr " !"
   zstyle ':vcs_info:*' actionformats "%S" "%r/%s/%b (%a)" "%u"
   zstyle ':vcs_info:*' formats "%S" "%r/%s/%b" "%u"
   zstyle ':vcs_info:*' nvcsformats "%~" "" ""
 
   # Prompts definition.
-  PROMPT="%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})${SSH_TTY:+[%n@%m]}%{$FX[bold]%}%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.❯❯❯.❯)%{$FX[no-bold]%}%{$FX[reset]%} "
+  PROMPT="%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})${SSH_TTY:+[%n@%m]}%{$FX[bold]%}%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.>>>.>)%{$FX[no-bold]%}%{$FX[reset]%} "
   RPROMPT="%{${prompt_nicoulaj_color_vcs_info}%}"'$vcs_info_msg_1_'"%{$FX[reset]%}%{${prompt_nicoulaj_color_vcs_changes}%}"'$vcs_info_msg_2_'"%{$FX[reset]%}"
 }
 
