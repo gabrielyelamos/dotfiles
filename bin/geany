@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-# ----------------------------------------------------------------------
-# Wrapper script for Geany that forces opening a new instance if there
-# is no Geany window in the current workspace.
-# ----------------------------------------------------------------------
-
-/usr/bin/geany --socket-file "/tmp/geany_viewport_${${"$(xprop -root _NET_DESKTOP_VIEWPORT)"##*= }/, /}" "$@"
