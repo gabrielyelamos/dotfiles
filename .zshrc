@@ -1,39 +1,27 @@
 #!/usr/bin/env zsh
-# vim: ft=zsh sw=2 ts=2 et
 
 # ------------------------------------------------------------------------------
 # Environment
 # ------------------------------------------------------------------------------
 
 # Some personal info.
-NAME='Julien Nicoulaud'
-MAIL='julien.nicoulaud@gmail.com'
-GPGKEY='A20BF77D'
+export NAME='Julien Nicoulaud'
+export MAIL='julien.nicoulaud@gmail.com'
+export GPGKEY='A20BF77D'
 
 # Constants used for Debian packaging.
-DEBFULLNAME=$NAME
-DEBEMAIL=$MAIL
+export DEBFULLNAME=$NAME
+export DEBEMAIL=$MAIL
 
-# Places.
-NICOULAJ_HOME=${${(%):-%N}:A:h}
-ZSH_HOME=$NICOULAJ_HOME/zsh
-GNOME_PANEL_CONFS_DIR=$NICOULAJ_HOME/.gnome-panel-confs
-DROPBOX_DIR=$NICOULAJ_HOME/Dropbox
-TODO_STORAGE_DIR=$DROPBOX_DIR/todo
-DOCUMENTS_DIR=$NICOULAJ_HOME/documents
-PRIVATE_DIR=$DOCUMENTS_DIR/private
-DOWNLOADS_DIR=$DOCUMENTS_DIR/downloads
+# System "main" user info.
+export MAIN_USER_HOME=${${(%):-%N}:A:h} # Resolve from zshrc location, following symlinks.
+export MAIN_USER=${MAIN_USER_HOME:t}
 
-
-# ----------------------------------------------------------------------------
-# Path
-# ----------------------------------------------------------------------------
-
-# Zsh functions path.
-fpath=($ZSH_HOME/functions/**/ $fpath)
+# Functions path.
+[[ -d $MAIN_USER_HOME/.config/zsh/functions ]] && fpath=($MAIN_USER_HOME/.config/zsh/functions/**/ $fpath)
 
 # Commands path.
-PATH=$NICOULAJ_HOME/bin:$PATH
+[[ -d $MAIN_USER_HOME/bin ]] && path=($MAIN_USER_HOME/bin $path)
 
 
 # ----------------------------------------------------------------------------
@@ -194,222 +182,118 @@ setopt AUTO_CD \
        NO_VI \
        ZLE
 
-# File where history is saved.
-HISTFILE="$NICOULAJ_HOME/.zshhistory"
+# History settings.
+export HISTFILE="$MAIN_USER_HOME/.zshhistory"
+export HISTFILESIZE=65536
+export HISTSIZE=4096
+export SAVEHIST=$HISTSIZE
 
-# Size of the history.
-HISTFILESIZE=65536
-HISTSIZE=4096
-SAVEHIST=$HISTSIZE
-
-# User activity reporting
-
-# Report login/logout events for everybody except me.
+# User activity reporting.
 watch=(notme)
-
-# Time (seconds) between checks for login/logout activity.
 LOGCHECK=60
 
 # Display usage statistics for commands running > 5 sec.
 REPORTTIME=5
 
-
-# ------------------------------------------------------------------------------
-# Shell events hooks
-# ------------------------------------------------------------------------------
-
-# Hooks initialization
-autoload add-zsh-hook
-
-# Force refresh the terminal title before each command.
-update_terminal_title() {
-  print -Pn "\e]0;%~\a"
+# Hooks.
+autoload -U add-zsh-hook && {
+  # Force refresh the terminal title before each command.
+  update_terminal_title() { print -Pn "\e]0;%~\a"; }
+  add-zsh-hook precmd update_terminal_title
 }
-add-zsh-hook precmd update_terminal_title
-
-# Append current working directory as a comment in history lines.
-history_append_cwd() {
-  print -sr "${1%%$'\n'} # ${PWD}"
-  fc -p
-}
-#add-zsh-hook zshaddhistory history_append_cwd
-
-# Strip out passwords from commands before inserting in history.
-history_strip_passwords() {
-  # Strip out -Dgpg.passphrase option value (Maven)
-  print -sr "${${1%%$'\n'}//(#b)(gpg.passphrase=)*[:space:]/$match[1]}"
-  fc -p
-}
-#add-zsh-hook zshaddhistory history_strip_passwords
 
 
-# ------------------------------------------------------------------------------
-# MIME types handling
-# ------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# Aliases / default applications settings
+# ----------------------------------------------------------------------------
 
-# Zsh MIME types handler.
-autoload -U zsh-mime-setup
-autoload -U zsh-mime-handler
-zsh-mime-setup
+# Open aliases
+alias o='xdg-open'
+alias so='gksudo xdg-open'
 
+# ls
+alias ls='ls --color=auto --group-directories-first --classify --human-readable'
+alias ll='ls --color=auto --group-directories-first --classify --human-readable -l'
+alias la='ls --color=auto --group-directories-first --classify --human-readable -l --almost-all'
 
-# ------------------------------------------------------------------------------
-# Directory browsing
-# ------------------------------------------------------------------------------
-
-alias ls='ls                                  --classify --group-directories-first --color=auto'
-alias ll='ls -l              --human-readable --classify --group-directories-first --color=auto'
-alias la='ls -l --almost-all --human-readable --classify --group-directories-first --color=auto'
-
-
-# ------------------------------------------------------------------------------
-# File management
-# ------------------------------------------------------------------------------
-
+# cp/mv/rm
 alias cp='nocorrect cp -i'
 alias mv='nocorrect mv -i'
 alias rm='nocorrect rm -i'
 
+# Default editors/browsers.
+export EDITOR=vim
+export VISUAL=geany
+export BROWSER=google-chrome
 
-# ------------------------------------------------------------------------------
-# Text editor
-# ------------------------------------------------------------------------------
-
-EDITOR=vim
-VISUAL=geany
-BROWSER=google-chrome
-
-# Zsh web browser handler.
-autoload -U pick-web-browser
-zstyle ':mime:*' x-browsers google-chrome firefox elinks
-alias -s html=pick-web-browser
-
-
-# ------------------------------------------------------------------------------
 # Pager
-# ------------------------------------------------------------------------------
-
-PAGER=less
-MANPAGER=$PAGER
-
-# Settings for less.
-LESS="--LONG-PROMPT --HILITE-UNREAD --ignore-case --tabs=2 --shift 5 --tilde"
-LESSCHARSET=utf-8
-LESSHISTFILE="$HOME/.lesshst"
-LESSHISTSIZE=100
-
-# Use source-highlight if available, else fall back to lesspipe.
-if [[ -f /usr/share/source-highlight/src-hilite-lesspipe.sh ]]; then
-  LESS="${LESS} --RAW-CONTROL-CHARS"
-  LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
-else
-  [[ -x /usr/bin/lesspipe ]] && eval $(lesspipe)
-fi
-
-# Vim as pager.
-[[ -f /usr/share/vim/vimcurrent/macros/less.sh ]] && alias vless='/usr/share/vim/vimcurrent/macros/less.sh'
-
+export PAGER=less
+export MANPAGER=$PAGER
+export LESS='--LONG-PROMPT --HILITE-UNREAD --ignore-case --tabs=2 --shift 5 --tilde'
+export LESSCHARSET=utf-8
+export LESSHISTFILE="$MAIN_USER_HOME/.lesshst"
+export LESSHISTSIZE=2000
 
 # Grep
-GREP_OPTIONS="--color=auto \
-              --exclude=\*.pyc \
-              --exclude-dir=.svn \
-              --exclude-dir=.hg \
-              --exclude-dir=.bzr \
-              --exclude-dir=.git"
+export GREP_OPTIONS='--color=auto \
+                     --exclude=*.pyc \
+                     --exclude-dir=.svn \
+                     --exclude-dir=.hg \
+                     --exclude-dir=.bzr \
+                     --exclude-dir=.git'
 
-
-# Gnome
-alias o='gnome-open'
-alias so='gksudo gnome-open'
-
-
-# ------------------------------------------------------------------------------
-# Package auto-suggestion on "command not found"
-# ------------------------------------------------------------------------------
-
+# Command not found
 [[ -f /etc/zsh_command_not_found ]] && . /etc/zsh_command_not_found
 
-
-# ------------------------------------------------------------------------------
-# Misc
-# ------------------------------------------------------------------------------
-
-# todo.sh
-(( $+commands[todo.sh] )) && {
-  alias todo.sh='env TODO_STORAGE_DIR="$TODO_STORAGE_DIR" todo.sh'
-  alias t='todo.sh'
+# Zsh MIME types handling.
+autoload -U zsh-mime-setup zsh-mime-handler && {
+  zsh-mime-setup
+  autoload -U pick-web-browser && {
+    zstyle ':mime:*' x-browsers google-chrome firefox elinks
+    alias -s html=pick-web-browser
+  }
 }
-
-# plowshare
-(( $+commands[plowdown] )) && {
-  alias plowdel='noglob plowdel'
-  alias plowdown='noglob plowdown'
-  alias plowlist='noglob plowlist'
-  alias plowup='noglob plowup'
-}
-
-# ArchLinux specific aliases
-alias upgrade='yaourt -Syyu --aur --devel && sudo pacdiffviewer && sudo etckeeper commit upgrade'
 
 
 # ------------------------------------------------------------------------------
 # Key bindings / ZLE configuration
 # ------------------------------------------------------------------------------
 
-
-# Activate completion.
-autoload -Uz compinit && compinit -u
-
 # Use Emacs line editing mode
 bindkey -e
 
-# Word separators (default '*?_-.[]~=/&;!#$%^(){}<>')
+# Word separator characters
 WORDCHARS=''
 
-# Sometimes <DEL> is not bound correctly
-bindkey '^[[3~' delete-char-or-list 
+# Common key bindings
+bindkey '^[[3~'   delete-char-or-list # <del> => delete next char
+bindkey '^[[1;5D' emacs-backward-word # <ctrl><left>  => previous word
+bindkey '^[[1;5C' emacs-forward-word  # <ctrl><right> => next word
+bindkey '^[[3;5~' backward-kill-word  # <ctrl><del>   => delete next word
+bindkey ' '       magic-space         # <space> => perform history expansion
 
-# <ctrl><left> => previous word
-bindkey '^[[1;5D' emacs-backward-word
-
-# <ctrl><right> => next word
-bindkey '^[[1;5C' emacs-forward-word
-
-# <up>/<down> => Fish style history substring search
-[[ -f $NICOULAJ_HOME/.config/modules/zsh-history-substring-search/zsh-history-substring-search.zsh ]] && . $NICOULAJ_HOME/.config/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-# F5 => 'source ~/.zshrc'
-source-zshrc() { source $NICOULAJ_HOME/.zshrc }
-zle -N source-zshrc
-bindkey $terminfo[kf5] source-zshrc
-
-# <space> => perform history expansion
-bindkey ' ' magic-space
+# F5 => '. ~/.zshrc'
+r() { . $MAIN_USER_HOME/.zshrc }
+zle -N r
+bindkey $terminfo[kf5] r
 
 # <ctrl><x> <e> => open current line in editor
-autoload edit-command-line-in-geany
-zle -N edit-command-line-in-geany
-bindkey '^Xe' edit-command-line-in-geany
+autoload -U edit-command-line-in-geany && {
+  zle -N edit-command-line-in-geany
+  bindkey '^Xe' edit-command-line-in-geany
+}
 
 # ..../ => ../../../
-autoload rationalize-dots
-zle -N rationalize-dots
-bindkey . rationalize-dots
-bindkey -M isearch . self-insert 2>/dev/null
-
-# Display a symbol while waiting for completion matches to be generated
-expand-or-complete-with-symbol() {
-  echo -n "▶"
-  zle expand-or-complete
-  zle redisplay
+autoload -U rationalize-dots && {
+  zle -N rationalize-dots
+  bindkey . rationalize-dots
+  bindkey -M isearch . self-insert &>/dev/null # Exclude from isearch
 }
-zle -N expand-or-complete-with-symbol
-#bindkey "^I" expand-or-complete-with-symbol
 
 # Autoquote URLs pasted in ZLE
-autoload -U url-quote-magic
-zle -N self-insert url-quote-magic
+autoload -U url-quote-magic && {
+  zle -N self-insert url-quote-magic
+}
 
 # Save cancelled commands to history
 TRAPINT () {
@@ -419,30 +303,133 @@ TRAPINT () {
 
 # <ctrl><x> <x> => enter a password that will be hidden in the buffer and
 # shell history.
-autoload enter-password
-zle -N enter-password
-bindkey '^Xx' enter-password
+autoload -U enter-password && {
+  zle -N enter-password
+  bindkey '^Xx' enter-password
+}
 
-# Completion debugging
-bindkey '^Xh' _complete_help
-bindkey '^X?' _complete_debug
+# <up>/<down> => Fish style history substring search
+. /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh &>/dev/null || \
+. $MAIN_USER_HOME/projects/zsh-history-substring-search/zsh-history-substring-search.zsh &>/dev/null
 
 
 # ------------------------------------------------------------------------------
-# Shell coloring
+# Completion
+# ------------------------------------------------------------------------------
+
+autoload -U compinit && {
+
+  # Init completion, ignoring security checks.
+  compinit -C
+
+  # Force rehash to have completion picking up new commands in path.
+  _force_rehash() { (( CURRENT == 1 )) && rehash; return 1 }
+  zstyle ':completion:::::' completer _force_rehash \
+                                      _complete \
+                                      _ignored \
+                                      _gnu_generic \
+                                      _approximate
+
+  # Default to parsing "--help" for command that have completion functions.
+  zstyle ':completion:*' completer _complete \
+                                   _ignored \
+                                   _gnu_generic \
+                                   _approximate
+
+  # Speed up completion by avoiding partial globs.
+  zstyle ':completion:*' accept-exact '*(N)'
+  zstyle ':completion:*' accept-exact-dirs true
+
+  # Cache setup.
+  zstyle ':completion:*' use-cache on
+
+  # Default colors for listings.
+  zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")'
+
+  # Separate directories from files.
+  zstyle ':completion:*' list-dirs-first true
+
+  # Turn on menu selection only when selections do not fit on screen.
+  zstyle ':completion:*' menu true=long select=long
+
+  # Separate matches into groups.
+  zstyle ':completion:*:matches' group yes
+  zstyle ':completion:*' group-name ''
+
+  # Always use the most verbose completion.
+  zstyle ':completion:*' verbose true
+
+  # Treat sequences of slashes as single slash.
+  zstyle ':completion:*' squeeze-slashes true
+
+  # Describe options.
+  zstyle ':completion:*:options' description yes
+
+  # Completion presentation styles.
+  zstyle ':completion:*:options' auto-description '%d'
+  zstyle ':completion:*:descriptions' format $'\e[1m -- %d --\e[22m'
+  zstyle ':completion:*:messages' format $'\e[1m -- %d --\e[22m'
+  zstyle ':completion:*:warnings' format $'\e[1m -- No matches found --\e[22m'
+
+  # Ignore hidden files by default
+  zstyle ':completion:*:(all-|other-|)files' ignored-patterns '*/.*'
+  zstyle ':completion:*:(local-|)directories' ignored-patterns '*/.*'
+  zstyle ':completion:*:cd:*' ignored-patterns '*/.*'
+
+  # Don't complete completion functions/widgets.
+  zstyle ':completion:*:functions' ignored-patterns '_*'
+
+  # Don't complete uninteresting users.
+  zstyle ':completion:*:*:*:users' ignored-patterns adm amanda apache avahi \
+    beaglidx bin cacti canna clamav daemon dbus distcache dovecot junkbust  \
+    games gdm gkrellmd gopher hacluster haldaemon halt hsqldb ident ftp fax \
+    ldap lp mail mailman mailnull mldonkey mysql nagios named netdump news  \
+    nfsnobody nobody nscd ntp nut nx openvpn operator pcap postfix postgres \
+    privoxy pulse pvm quagga radvd rpc rpcuser rpm shutdown squid sshd sync \
+    uucp vcsa xfs www-data avahi-autoipd gitblit http rtkit sabnzbd usbmux  \
+    sickbeard
+
+  # Show ignored patterns if needed.
+  zstyle '*' single-ignored show
+
+  # cd style.
+  zstyle ':completion:*:cd:*' ignore-parents parent pwd # cd never selects the parent directory (e.g.: cd ../<TAB>)
+  zstyle ':completion:*:*:cd:*' tag-order local-directories path-directories
+
+  # kill style.
+  zstyle ':completion:*:*:kill:*' command 'ps -a -w -w -u $USER -o pid,cmd --sort=-pid'
+  zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=39=32"
+
+  # rm/cp/mv style.
+  zstyle ':completion:*:(rm|mv|cp):*' ignore-line yes
+
+  # Hostnames completion.
+  zstyle -e ':completion:*:hosts' hosts 'reply=(
+    ${${${${(f)"$(<~/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}
+    ${${${(@M)${(f)"$(<~/.ssh/config)"}:#Host *}#Host }:#*[*?]*}
+    ${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}#*[[:blank:]]}}
+  )'
+  zstyle ':completion:*:*:*:hosts' ignored-patterns 'ip6*' 'localhost*'
+
+  # Use zsh-completions if available.
+  [[ -d $MAIN_USER_HOME/projects/zsh-completions ]] && fpath=($MAIN_USER_HOME/projects/zsh-completions $fpath)
+
+  # Completion debugging
+  bindkey '^Xh' _complete_help
+  bindkey '^X?' _complete_debug
+}
+
+
+# ------------------------------------------------------------------------------
+# Colors
 # ------------------------------------------------------------------------------
 
 # Not all terms like colors stuff...
 [[ "$TERM" != (dumb|linux) ]] && {
 
-  # ----------------------------------------------------------------------------
-  # Colors definition
-  # ----------------------------------------------------------------------------
-  
-  autoload colors && colors
+  # Effects array, 256 colors foreground/background arrays,
+  autoload -U colors && colors
   typeset -Ag FX FG BG
-  
-  # Effects.
   FX=(
     reset     "[00m"
     bold      "[01m" no-bold      "[22m"
@@ -451,14 +438,10 @@ bindkey '^X?' _complete_debug
     blink     "[05m" no-blink     "[25m"
     reverse   "[07m" no-reverse   "[27m"
   )
-  
-  # 256 colors array (foreground and background).
   for color in {0..255}; do
     FG[$color]="[38;5;${color}m"
     BG[$color]="[48;5;${color}m"
   done
-  
-  # Add 16 named colors.
   FG[none]=$FG[0];        BG[none]=$BG[0]
   FG[darkred]=$FG[1];     BG[darkred]=$BG[1]
   FG[darkgreen]=$FG[2];   BG[darkgreen]=$BG[2]
@@ -476,15 +459,14 @@ bindkey '^X?' _complete_debug
   FG[cyan]=$FG[14];       BG[cyan]=$BG[14]
   FG[lightgrey]=$FG[15];  BG[lightgrey]=$BG[15]
 
-
-  # ----------------------------------------------------------------------------
-  # Commands output coloring
-  # ----------------------------------------------------------------------------
+  # Prompt
+  autoload -Uz promptinit && promptinit -i
+  prompt nicoulaj 30 ${FG[71]} ${FG[124]} ${FG[darkgrey]} ${FG[172]}
 
   # ls colorizing with dircolors.
-  (( $+commands[dircolors] )) && eval $(dircolors $NICOULAJ_HOME/.dir_colors)
+  (( $+commands[dircolors] )) && eval $(dircolors $MAIN_USER_HOME/.dir_colors)
 
-  # Colors for less.
+  # less: colors
   export LESS_TERMCAP_mb=$FX[bold]$FG[blue]
   export LESS_TERMCAP_md=$FX[bold]$FG[blue]
   export LESS_TERMCAP_me=$FX[reset]
@@ -492,6 +474,14 @@ bindkey '^X?' _complete_debug
   export LESS_TERMCAP_so=$BG[darkgrey]$FG[lightgrey]
   export LESS_TERMCAP_ue=$FX[reset]
   export LESS_TERMCAP_us=$FG[blue]
+
+  # less: syntax highlighting
+  if (( $+commands[src-hilite-lesspipe.sh] )); then
+    export LESS="${LESS} --RAW-CONTROL-CHARS"
+    export LESSOPEN="| src-hilite-lesspipe.sh %s"
+  elif (( $+commands[lesspipe.sh] )); then
+    eval $(lesspipe.sh)
+  fi
 
   # Colorizing with grc.
   (( $+commands[grc] )) && {
@@ -526,173 +516,38 @@ bindkey '^X?' _complete_debug
   (( $+commands[colorsvn] ))  && alias @svn='command svn'   && alias svn='colorsvn'
   (( $+commands[colorcvs] ))  && alias @cvs='command cvs'   && alias cvs='colorcvs'
   (( $+commands[colormake] )) && alias @make='command make' && alias make='colormake'
-  (( $+commands[colorgcc] ))  && [[ -d /usr/lib/colorgcc/bin ]] && export PATH="/usr/lib/colorgcc/bin:$PATH"
+  (( $+commands[colorgcc] ))  && [[ -d /usr/lib/colorgcc/bin ]] && path=(/usr/lib/colorgcc/bin $path)
 
-  # Colorizing with highlight.
-  (( $+commands[highlight] )) && {
-    function cat sed awk grep() {
-      local syntax=""
-      for file in $@; do
-        if [[ -f $file ]]; then
-          case $file in
-            *.java) syntax="java";;
-            *.php)  syntax="php";;
-            *.py)   syntax="python";;
-            *.diff) syntax="diff";;
-            *.awk)  syntax="awk";;
-            *.c)    syntax="c";;
-            *.css)  syntax="css";;
-            *.js)   syntax="js";;
-            *.jsp)  syntax="jsp";;
-            *.xml)  syntax="xml";;
-            *.sql)  syntax="sql";;
-            *.pl)   syntax="pl";;
-            httpd.*|/etc/apache*/*|/etc/httpd/*) syntax="httpd";;
-          esac
-        fi
-      done
-      if [[ -n $syntax ]]; then
-        command $0 $@ | highlight --ansi --syntax=$syntax
-      else
-        command $0 $@
-      fi
-    }
-  }
-
-
-  # ----------------------------------------------------------------------------
-  # Prompt
-  # ----------------------------------------------------------------------------
-
-  autoload -Uz promptinit && promptinit -i
-  prompt nicoulaj 30 ${FG[71]} ${FG[124]} ${FG[darkgrey]} ${FG[172]}
-
-
-  # ----------------------------------------------------------------------------
-  # Command line syntax highlighting
-  # ----------------------------------------------------------------------------
-
-  [[ -f $NICOULAJ_HOME/.config/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && {
-    . $NICOULAJ_HOME/.config/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  # zsh-syntax-highlighting
+  . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh &>/dev/null || \
+  . $MAIN_USER_HOME/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh &>/dev/null && {
     ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
     ZSH_HIGHLIGHT_PATTERNS+=('rm -rf *' 'fg=white,bold,bg=red')
+    ZSH_HIGHLIGHT_PATTERNS+=('rm -fr *' 'fg=white,bold,bg=red')
   }
 }
 
 
 # ------------------------------------------------------------------------------
-# Completion
+# Site-specific stuff
 # ------------------------------------------------------------------------------
 
-# Force rehash to have completion picking up new commands in $path.
-_force_rehash() { (( CURRENT == 1 )) && rehash; return 1 }
-zstyle ':completion:::::' completer _force_rehash \
-                                    _complete \
-                                    _ignored \
-                                    _gnu_generic \
-                                    _approximate
+# Distro-specific stuff
+if grep -q 'Arch Linux' /etc/issue &> /dev/null; then
+  alias upgrade='yaourt -Syyu --aur --devel && sudo pacdiffviewer'
+elif grep -q 'CentOS' /etc/issue &> /dev/null; then
+  alias upgrade='yum udate'
+fi
 
-# Default to parsing "--help" for command that have completion functions.
-zstyle ':completion:*' completer _complete \
-                                 _ignored \
-                                 _gnu_generic \
-                                 _approximate
-
-# Speed up completion by avoiding partial globs.
-zstyle ':completion:*' accept-exact '*(N)'
-zstyle ':completion:*' accept-exact-dirs true
-
-# Cache setup.
-zstyle ':completion:*' use-cache on
-#zstyle ':completion:*' cache-path $ZSH_HOME/cache
-
-# Default colors for listings.
-zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")'
-
-# Separate directories from files.
-zstyle ':completion:*' list-dirs-first true
-
-# Turn on menu selection only when selections do not fit on screen.
-zstyle ':completion:*' menu true=long select=long
-
-# Separate matches into groups.
-zstyle ':completion:*:matches' group yes
-zstyle ':completion:*' group-name ''
-
-# Always use the most verbose completion.
-zstyle ':completion:*' verbose true
-
-# Treat sequences of slashes as single slash.
-zstyle ':completion:*' squeeze-slashes true
-
-# Describe options.
-zstyle ':completion:*:options' description yes
-
-# Completion presentation styles.
-zstyle ':completion:*:options' auto-description '%d'
-zstyle ':completion:*:descriptions' format $'\e[1m -- %d --\e[22m'
-zstyle ':completion:*:messages' format $'\e[1m -- %d --\e[22m'
-zstyle ':completion:*:warnings' format $'\e[1m -- No matches found --\e[22m'
-
-# Ignore hidden files by default
-zstyle ':completion:*:(all-|other-|)files' ignored-patterns '(.|*/.)*'
-zstyle ':completion:*:(local-|)directories' ignored-patterns '(.|*/.)*'
-zstyle ':completion:*:cd:*' ignored-patterns '(.|*/.)*'
-
-# Don't complete completion functions/widgets.
-zstyle ':completion:*:functions' ignored-patterns '_*'
-
-# Don't complete uninteresting users.
-zstyle ':completion:*:*:*:users' ignored-patterns adm amanda apache avahi beaglidx bin cacti canna clamav daemon \
-                                                  dbus distcache dovecot fax ftp games gdm gkrellmd gopher \
-                                                  hacluster haldaemon halt hsqldb ident junkbust ldap lp mail \
-                                                  mailman mailnull mldonkey mysql nagios named netdump news \
-                                                  nfsnobody nobody nscd ntp nut nx openvpn operator pcap postfix \
-                                                  postgres privoxy pulse pvm quagga radvd rpc rpcuser rpm shutdown \
-                                                  squid sshd sync uucp vcsa xfs www-data avahi-autoipd
-
-# Show ignored patterns if needed.
-zstyle '*' single-ignored show
-
-# cd style.
-zstyle ':completion:*:cd:*' ignore-parents parent pwd # cd never selects the parent directory (e.g.: cd ../<TAB>)
-zstyle ':completion:*:*:cd:*' tag-order local-directories path-directories
-
-# kill style.
-zstyle ':completion:*:*:kill:*' command 'ps -a -w -w -u $USER -o pid,cmd --sort=-pid'
-zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=39=32"
-
-# man style.
-zstyle ':completion:*:manuals' separate-sections true
-
-# rm/cp/mv style.
-zstyle ':completion:*:(rm|mv|cp):*' ignore-line yes
-
-# Hostnames completion.
-zstyle -e ':completion:*:hosts' hosts 'reply=(
-  ${${${${(f)"$(<~/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}
-  ${${${(@M)${(f)"$(<~/.ssh/config)"}:#Host *}#Host }:#*[*?]*}
-  ${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}#*[[:blank:]]}}
-)'
-zstyle ':completion:*:*:*:hosts' ignored-patterns 'ip6*' 'localhost*'
-
-# Completion functions development.
-bindkey "^Xh" _complete_help
+# Local/modularized stuff.
+for conf ($MAIN_USER_HOME/.config/zsh/zshrc.d/*.(|ba|z|tc|k)sh(#q.N)) source $conf
 
 
 # ------------------------------------------------------------------------------
-# Config fragments
-# ------------------------------------------------------------------------------
-
-# Load configs in $ZSH_HOME/conf.d.
-for conf ($ZSH_HOME/zshrc.d/*.(|ba|z|tc|k)sh) source $conf
-
-
-# ------------------------------------------------------------------------------
-# Compilation
+# Performance
 # ------------------------------------------------------------------------------
 
 # Recompile if needed.
-autoload -U zrecompile
-[[ -f $NICOULAJ_HOME/.zshrc ]] && zrecompile -p $NICOULAJ_HOME/.zshrc
-[[ -f $NICOULAJ_HOME/.zcompdump ]] && zrecompile -p $NICOULAJ_HOME/.zcompdump
+autoload -U zrecompile && zrecompile -p $MAIN_USER_HOME/.{zcompdump,zshrc} &>/dev/null
+
+# vim: ft=zsh sw=2 ts=2 et

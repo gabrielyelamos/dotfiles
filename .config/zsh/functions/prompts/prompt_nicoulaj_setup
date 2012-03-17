@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-# vim: ft=zsh sw=2 ts=2 et
 
 prompt_nicoulaj_help () {
   cat <<'EOF'
@@ -34,23 +33,26 @@ function prompt_nicoulaj_setup() {
   prompt_nicoulaj_color_vcs_changes=${5:-'%F{yellow}'}
 
   # Load required modules.
-  autoload -Uz add-zsh-hook
-  autoload -Uz vcs_info
+  autoload -Uz add-zsh-hook vcs_info && {
 
-  # Add hook for calling vcs_info before each command.
-  add-zsh-hook precmd vcs_info
+    # Add hook for calling vcs_info before each command.
+    add-zsh-hook precmd vcs_info
 
-  # vcs_info setup.
-  zstyle ':vcs_info:*' enable hg bzr svn git
-  zstyle ':vcs_info:*' check-for-changes true # Can be slow on big repos.
-  zstyle ':vcs_info:*' unstagedstr " !"
-  zstyle ':vcs_info:*' actionformats "%S" "%r/%s/%b (%a)" "%u"
-  zstyle ':vcs_info:*' formats "%S" "%r/%s/%b" "%u"
-  zstyle ':vcs_info:*' nvcsformats "%~" "" ""
+    # vcs_info setup.
+    zstyle ':vcs_info:*' enable hg bzr svn git
+    zstyle ':vcs_info:*' check-for-changes true # Can be slow on big repos.
+    zstyle ':vcs_info:*' unstagedstr "!"
+    zstyle ':vcs_info:*' actionformats "%S" "%r/%s/%b (%a)" "%u"
+    zstyle ':vcs_info:*' formats "%S" "%r/%s/%b" "%u"
+    zstyle ':vcs_info:*' nvcsformats "%~" "" ""
+    zstyle ':vcs_info:*:*:'$MAIN_USER formats "%S"
 
-  # Prompts definition.
-  PROMPT="%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})${SSH_TTY:+[%n@%m]}%{$FX[bold]%}%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.>>>.>)%{$FX[no-bold]%}%{$FX[reset]%} "
-  RPROMPT="%{${prompt_nicoulaj_color_vcs_info}%}"'$vcs_info_msg_1_'"%{$FX[reset]%}%{${prompt_nicoulaj_color_vcs_changes}%}"'$vcs_info_msg_2_'"%{$FX[reset]%}"
+    # Prompts definition.
+    PROMPT="%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})${SSH_TTY:+[%n@%m]}%{$FX[bold]%}%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.>>>.>)%{$FX[no-bold]%}%{$FX[reset]%} "
+    RPROMPT="%{${prompt_nicoulaj_color_vcs_info}%}"'$vcs_info_msg_1_'"%{$FX[reset]%}%{${prompt_nicoulaj_color_vcs_changes}%}"'$vcs_info_msg_2_'"%{$FX[reset]%}"
+  }
 }
 
 prompt_nicoulaj_setup "$@"
+
+# vim: ft=zsh sw=2 ts=2 et
