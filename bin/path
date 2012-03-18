@@ -4,4 +4,4 @@
 #   Display the PATH variable with one line per entry.
 # ----------------------------------------------------------------------
 
-echo -e ${PATH//:/\\n} | ${PAGER:-less}
+echo -e ${PATH//:/\\n}

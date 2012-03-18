@@ -7,9 +7,8 @@
 #   * (required) The files to clean.
 # ----------------------------------------------------------------------
 
-if [[ $# -eq 0 ]]; then
+[[ $# -eq 0 ]] && {
   echo "No input file given." 2>&1
   exit 1
-fi
+}
 sed -ie 's/[[:blank:]]*$//' $*
-

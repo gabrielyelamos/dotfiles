@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ----------------------------------------------------------------------
 # Description
-#   Set recursively the svn:ignore rules defined in the file.
+#   Recursively set the svn:ignore rules defined in the file.
 #
 # Arguments
 #   1 (optional) The file containing the svn:ignore rules.

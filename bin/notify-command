@@ -25,6 +25,5 @@ if [ `which notify-send` ]; then
   esac
 else
   echo "notify-send is not available."
-  echo "It is available in the 'libnotify-bin' package."
   return 1
 fi

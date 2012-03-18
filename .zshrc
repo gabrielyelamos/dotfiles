@@ -207,9 +207,10 @@ autoload -U add-zsh-hook && {
 # Aliases / default applications settings
 # ----------------------------------------------------------------------------
 
-# Open aliases
+# Shortcuts
 alias o='xdg-open'
 alias so='gksudo xdg-open'
+alias p='pwd'
 
 # ls
 alias ls='ls --color=auto --group-directories-first --classify --human-readable'
@@ -235,12 +236,7 @@ export LESSHISTFILE="$MAIN_USER_HOME/.lesshst"
 export LESSHISTSIZE=2000
 
 # Grep
-export GREP_OPTIONS='--color=auto \
-                     --exclude=*.pyc \
-                     --exclude-dir=.svn \
-                     --exclude-dir=.hg \
-                     --exclude-dir=.bzr \
-                     --exclude-dir=.git'
+export GREP_OPTIONS='--color=auto --exclude="*.pyc" --exclude-dir=".svn" --exclude-dir=".hg" --exclude-dir=".bzr" --exclude-dir=".git"'
 
 # Command not found
 [[ -f /etc/zsh_command_not_found ]] && . /etc/zsh_command_not_found
@@ -329,12 +325,10 @@ autoload -U compinit && {
                                       _ignored \
                                       _gnu_generic \
                                       _approximate
-
-  # Default to parsing "--help" for command that have completion functions.
-  zstyle ':completion:*' completer _complete \
-                                   _ignored \
-                                   _gnu_generic \
-                                   _approximate
+  zstyle ':completion:*'    completer _complete \
+                                      _ignored \
+                                      _gnu_generic \
+                                      _approximate
 
   # Speed up completion by avoiding partial globs.
   zstyle ':completion:*' accept-exact '*(N)'
@@ -368,13 +362,13 @@ autoload -U compinit && {
   # Completion presentation styles.
   zstyle ':completion:*:options' auto-description '%d'
   zstyle ':completion:*:descriptions' format $'\e[1m -- %d --\e[22m'
-  zstyle ':completion:*:messages' format $'\e[1m -- %d --\e[22m'
-  zstyle ':completion:*:warnings' format $'\e[1m -- No matches found --\e[22m'
+  zstyle ':completion:*:messages'     format $'\e[1m -- %d --\e[22m'
+  zstyle ':completion:*:warnings'     format $'\e[1m -- No matches found --\e[22m'
 
   # Ignore hidden files by default
-  zstyle ':completion:*:(all-|other-|)files' ignored-patterns '*/.*'
+  zstyle ':completion:*:(all-|other-|)files'  ignored-patterns '*/.*'
   zstyle ':completion:*:(local-|)directories' ignored-patterns '*/.*'
-  zstyle ':completion:*:cd:*' ignored-patterns '*/.*'
+  zstyle ':completion:*:cd:*'                 ignored-patterns '*/.*'
 
   # Don't complete completion functions/widgets.
   zstyle ':completion:*:functions' ignored-patterns '_*'
@@ -461,7 +455,7 @@ autoload -U compinit && {
 
   # Prompt
   autoload -Uz promptinit && promptinit -i
-  prompt nicoulaj 30 ${FG[71]} ${FG[124]} ${FG[darkgrey]} ${FG[172]}
+  prompt nicoulaj 30 ${FG[71]} ${FG[172]} ${FG[darkgrey]} ${FG[172]}
 
   # ls colorizing with dircolors.
   (( $+commands[dircolors] )) && eval $(dircolors $MAIN_USER_HOME/.dir_colors)
@@ -533,10 +527,12 @@ autoload -U compinit && {
 # ------------------------------------------------------------------------------
 
 # Distro-specific stuff
-if grep -q 'Arch Linux' /etc/issue &> /dev/null; then
-  alias upgrade='yaourt -Syyu --aur --devel && sudo pacdiffviewer'
-elif grep -q 'CentOS' /etc/issue &> /dev/null; then
-  alias upgrade='yum udate'
+if grep -q 'Arch Linux' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME/bin/arch ]]; then
+  path=($MAIN_USER_HOME/bin/arch $path)
+elif grep -Pq '(Ubuntu|Debian)' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME/bin/debian ]]; then
+  path=($MAIN_USER_HOME/bin/debian $path)
+elif grep -Pq '(Red Hat|CentOS)' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME/bin/rhel ]]; then
+  path=($MAIN_USER_HOME/bin/rhel $path)
 fi
 
 # Local/modularized stuff.

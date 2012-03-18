@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # ----------------------------------------------------------------------
 # Description
-#   Display public IP.
+#   Do packages upgrades and cleanup.
 # ----------------------------------------------------------------------
 
-dig +short @resolver1.opendns.com myip.opendns.com
+flag-command yaourt -Syyu --aur --devel && \
+flag-command sudo pacdiffviewer

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # ----------------------------------------------------------------------
 # Description
 #   Insert a flag (a visual marker) with the specified content. If no content passed, insert the
@@ -8,10 +8,10 @@
 #   1 (optional) the message to print.
 # ----------------------------------------------------------------------
 
-echo -ne "`set_color white -o -b blue` "
+echo -ne "[01m[48;5;4m[38;5;255m "
 if [ -z $1 ]; then
   echo -ne  "`date +"%A %e %B %Y"`, `date +"%H"`h`date +"%M"`"
 else
   echo -ne  "$@"
 fi
-echo -e " `set_color normal`"
+echo -e " [00m"

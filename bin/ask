@@ -9,10 +9,6 @@
 
 read -p "$@ [y/N] " ans
 case "$ans" in
-  y*|Y*)
-    return 0
-    ;;
-  *)
-    return 1
-    ;;
+  y|Y|yes|Yes) return 0;;
+  *)     return 1;;
 esac
