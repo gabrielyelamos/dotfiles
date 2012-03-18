@@ -41,10 +41,11 @@ function prompt_nicoulaj_setup() {
     # vcs_info setup.
     zstyle ':vcs_info:*' enable hg bzr svn git
     zstyle ':vcs_info:*' check-for-changes true # Can be slow on big repos.
-    zstyle ':vcs_info:*' unstagedstr "!"
-    zstyle ':vcs_info:*' actionformats "%S" "%r/%s/%b (%a)" "%u"
-    zstyle ':vcs_info:*' formats "%S" "%r/%s/%b" "%u"
-    zstyle ':vcs_info:*' nvcsformats "%~" "" ""
+    zstyle ':vcs_info:*' unstagedstr " *"
+    zstyle ':vcs_info:*' max-exports 3
+    zstyle ':vcs_info:*' actionformats "%S" "%r/%b" " (%a)%u"
+    zstyle ':vcs_info:*' formats "%S" "%r/%b" "%u"
+    zstyle ':vcs_info:*' nvcsformats "%~"
     zstyle ':vcs_info:*:*:'$MAIN_USER formats "%S"
 
     # Prompts definition.
