@@ -21,7 +21,8 @@ export MAIN_USER=${MAIN_USER_HOME:t}
 [[ -d $MAIN_USER_HOME/.config/zsh/functions ]] && fpath=($MAIN_USER_HOME/.config/zsh/functions/**/ $fpath)
 
 # Commands path.
-[[ -d $MAIN_USER_HOME/bin ]] && path=($MAIN_USER_HOME/bin $path)
+[[ -d $MAIN_USER_HOME/bin ]]       && path=($MAIN_USER_HOME/bin $path)             # ~/bin
+[[ -d $MAIN_USER_HOME/.gem/ruby ]] && path=($MAIN_USER_HOME/.gem/ruby/*/bin $path) # Ruby gems
 
 
 # ----------------------------------------------------------------------------
@@ -425,12 +426,13 @@ autoload -U compinit && {
   autoload -U colors && colors
   typeset -Ag FX FG BG
   FX=(
-    reset     "[00m"
-    bold      "[01m" no-bold      "[22m"
-    italic    "[03m" no-italic    "[23m"
-    underline "[04m" no-underline "[24m"
-    blink     "[05m" no-blink     "[25m"
-    reverse   "[07m" no-reverse   "[27m"
+    reset     "$(tput sgr0)"
+    bold      "$(tput bold)"
+    italic    "$(tput sitm)"  no-italic    "$(tput ritm)"
+    underline "$(tput smul)"  no-underline "$(tput rmul)"
+    blink     "$(tput blink)"
+    reverse   "$(tput rev)"   no-reverse   "$(tput rum)"
+    standout  "$(tput smso)"  no-standout  "$(tput rmso)"
   )
   for color in {0..255}; do
     FG[$color]="[38;5;${color}m"
@@ -464,10 +466,12 @@ autoload -U compinit && {
   export LESS_TERMCAP_mb=$FX[bold]$FG[blue]
   export LESS_TERMCAP_md=$FX[bold]$FG[blue]
   export LESS_TERMCAP_me=$FX[reset]
-  export LESS_TERMCAP_se=$FX[reset]
   export LESS_TERMCAP_so=$BG[darkgrey]$FG[lightgrey]
-  export LESS_TERMCAP_ue=$FX[reset]
-  export LESS_TERMCAP_us=$FG[blue]
+  export LESS_TERMCAP_se=$FX[reset]
+  export LESS_TERMCAP_us=$FX[underline]$FG[white]
+  export LESS_TERMCAP_ue=$FX[no-underline]$FX[reset]
+  export LESS_TERMCAP_mr=$FX[reverse]$FX[bold]
+  export LESS_TERMCAP_mh=$FX[bold]
 
   # less: syntax highlighting
   if (( $+commands[src-hilite-lesspipe.sh] )); then
