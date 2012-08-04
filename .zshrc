@@ -110,7 +110,7 @@ setopt AUTO_CD \
        ALIASES  \
        CLOBBER \
        CORRECT \
-       CORRECT_ALL \
+       NO_CORRECT_ALL \
        NO_DVORAK \
        FLOW_CONTROL \
        NO_IGNORE_EOF \
