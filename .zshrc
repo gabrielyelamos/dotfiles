@@ -407,7 +407,7 @@ autoload -U compinit && {
   zstyle ':completion:*:*:*:hosts' ignored-patterns 'ip6*' 'localhost*'
 
   # Use zsh-completions if available.
-  [[ -d $MAIN_USER_HOME/projects/zsh-completions ]] && fpath=($MAIN_USER_HOME/projects/zsh-completions $fpath)
+  [[ -d $MAIN_USER_HOME/projects/zsh-completions ]] && fpath=($MAIN_USER_HOME/projects/zsh-completions/src $fpath)
 
   # Completion debugging
   bindkey '^Xh' _complete_help
