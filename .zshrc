@@ -22,7 +22,7 @@ export MAIN_USER=${MAIN_USER_HOME:t}
 
 # Commands path.
 [[ -d $MAIN_USER_HOME/bin ]]       && path=($MAIN_USER_HOME/bin $path)             # ~/bin
-[[ -d $MAIN_USER_HOME/.gem/ruby ]] && path=($MAIN_USER_HOME/.gem/ruby/*/bin $path) # Ruby gems
+(( $+commands[gem] )) && path=($(ruby -rubygems -e "puts Gem.user_dir")/bin $path) # Ruby gems
 
 
 # ----------------------------------------------------------------------------
@@ -294,7 +294,7 @@ autoload -U url-quote-magic && {
 
 # Save cancelled commands to history
 TRAPINT () {
-  zle && print -s -- $BUFFER
+  zle && [[ $HISTNO -eq $HISTCMD ]] && print -rs -- $BUFFER
   return $1
 }
 
