@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-gksudo nautilus $NAUTILUS_SCRIPT_CURRENT_URI
-
