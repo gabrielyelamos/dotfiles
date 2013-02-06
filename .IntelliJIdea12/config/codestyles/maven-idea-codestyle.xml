@@ -89,9 +89,6 @@
     <option name="CONTINUATION_INDENT_SIZE" value="4" />
     <option name="TAB_SIZE" value="2" />
   </ADDITIONAL_INDENT_OPTIONS>
-  <ADDITIONAL_INDENT_OPTIONS fileType="sass">
-    <option name="INDENT_SIZE" value="2" />
-  </ADDITIONAL_INDENT_OPTIONS>
   <codeStyleSettings language="ECMA Script Level 4">
     <option name="KEEP_LINE_BREAKS" value="false" />
     <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
