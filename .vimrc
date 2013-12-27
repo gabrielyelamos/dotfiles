@@ -110,4 +110,5 @@ set whichwrap=<,>,[,]
 set nostartofline
 
 " Get root privilieges while editing a file
-command W w !sudo tee % >/dev/null
+cmap w!! %!sudo tee > /dev/null %
+
