@@ -4,5 +4,5 @@
 #   Do packages upgrades and cleanup.
 # ----------------------------------------------------------------------
 
-flag-command yaourt -Syyu --aur --devel && \
+flag-command yaourt -Syyua --devel && \
 flag-command sudo pacdiffviewer
