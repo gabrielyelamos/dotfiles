@@ -237,7 +237,7 @@ export LESSHISTFILE="$MAIN_USER_HOME/.lesshst"
 export LESSHISTSIZE=2000
 
 # Grep
-export GREP_OPTIONS='--color=auto --exclude="*.pyc" --exclude-dir=".svn" --exclude-dir=".hg" --exclude-dir=".bzr" --exclude-dir=".git"'
+alias grep='grep --color=auto --exclude="*.pyc" --exclude-dir=".svn" --exclude-dir=".hg" --exclude-dir=".bzr" --exclude-dir=".git"'
 
 # Command not found
 [[ -f /etc/zsh_command_not_found ]] && . /etc/zsh_command_not_found
