@@ -1,90 +1,90 @@
 [global_config]
   enabled_plugins = ActivityWatch, TerminalShot, LaunchpadCodeURLHandler, APTURLHandler, MavenPluginURLHandler, LaunchpadBugURLHandler
-  title_transmit_fg_color = "#FFFFFF"
+  title_inactive_bg_color = "#000000"
   title_inactive_fg_color = "#ffffff"
   title_receive_bg_color = "#a31100"
   title_transmit_bg_color = "#0e6daf"
-  title_inactive_bg_color = "#000000"
+  title_transmit_fg_color = "#FFFFFF"
 [keybindings]
+  close_term = <Ctrl><Shift>W
   close_window = <Ctrl><Shift>Q
-  resize_left = <Ctrl><Shift>Left
-  reset_clear = <Ctrl><Shift>G
+  copy = <Ctrl><Shift>C
+  go_down = <Alt><Shift>Down
+  go_left = <Alt><Shift>Left
+  go_next = <Ctrl><Shift>N
+  go_prev = <Ctrl><Shift>P
   go_right = <Alt><Shift>Right
-  new_tab = <Ctrl>T
-  resize_right = <Ctrl><Shift>Right
-  resize_down = <Ctrl><Shift>Down
-  toggle_zoom = <Ctrl><Shift>X
-  scaled_zoom = <Ctrl><Shift>Z
-  zoom_in = <Ctrl>plus
-  paste = <Ctrl><Shift>V
+  go_up = <Alt><Shift>Up
+  hide_window = <Ctrl><Shift><Alt>a
+  move_tab_left = <Ctrl><Shift>Page_Up
   move_tab_right = <Ctrl><Shift>Page_Down
+  new_tab = <Ctrl>T
+  new_window = <Ctrl><Shift>I
+  next_tab = <Alt>Right
+  paste = <Ctrl><Shift>V
   prev_tab = <Alt>Left
+  reset = <Ctrl><Shift>R
+  reset_clear = <Ctrl><Shift>G
+  resize_down = <Ctrl><Shift>Down
+  resize_left = <Ctrl><Shift>Left
+  resize_right = <Ctrl><Shift>Right
+  resize_up = <Ctrl><Shift>Up
+  scaled_zoom = <Ctrl><Shift>Z
+  search = <Ctrl><Shift>F
+  split_horiz = <Ctrl><Shift>O
   split_vert = <Ctrl><Shift>E
+  toggle_scrollbar = <Ctrl><Shift>S
+  toggle_zoom = <Ctrl><Shift>X
   ungroup_all = <Super><Shift>G
   ungroup_tab = <Super><Shift>T
-  zoom_out = <Ctrl>minus
-  go_prev = <Ctrl><Shift>P
-  close_term = <Ctrl><Shift>W
-  go_next = <Ctrl><Shift>N
-  go_left = <Alt><Shift>Left
-  copy = <Ctrl><Shift>C
-  hide_window = <Ctrl><Shift><Alt>a
-  reset = <Ctrl><Shift>R
-  search = <Ctrl><Shift>F
-  go_up = <Alt><Shift>Up
-  resize_up = <Ctrl><Shift>Up
-  next_tab = <Alt>Right
-  split_horiz = <Ctrl><Shift>O
+  zoom_in = <Ctrl>plus
   zoom_normal = <Ctrl>0
-  go_down = <Alt><Shift>Down
-  new_window = <Ctrl><Shift>I
-  move_tab_left = <Ctrl><Shift>Page_Up
-  toggle_scrollbar = <Ctrl><Shift>S
-[profiles]
-  [[default]]
-    palette = "#000000:#cc0000:#4e9a06:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:#ad7fa8:#34e2e2:#eeeeec"
-    login_shell = True
-    background_image = None
-    background_darkness = 0.92
-    urgent_bell = True
-    background_type = transparent
-    use_system_font = False
-    cursor_color = "#FFFFFF"
-    foreground_color = "#ffffff"
-    scroll_on_output = False
-    cursor_shape = underline
-    font = Inconsolata Medium 12
-    scrollback_lines = 10000
-  [[black on white]]
-    palette = "#000000:#cc0000:#4e9a06:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:#ad7fa8:#34e2e2:#eeeeec"
-    login_shell = True
-    background_darkness = 0.92
-    urgent_bell = True
-    background_type = transparent
-    background_image = None
-    foreground_color = "#000000"
-    cursor_shape = underline
-    background_color = "#ffffff"
-    scrollback_lines = 10000
+  zoom_out = <Ctrl>minus
 [layouts]
   [[default]]
     [[[child1]]]
-      type = Terminal
       parent = window0
       profile = default
+      type = Terminal
     [[[window0]]]
-      type = Window
       parent = ""
+      type = Window
   [[white]]
     [[[child0]]]
-      position = 0:0
-      type = Window
       order = 0
       parent = ""
+      position = 0:0
       size = 1920, 1152
+      type = Window
     [[[terminal1]]]
-      profile = black on white
-      type = Terminal
       order = 0
       parent = child0
+      profile = black on white
+      type = Terminal
 [plugins]
+[profiles]
+  [[default]]
+    background_darkness = 0.92
+    background_image = None
+    background_type = transparent
+    cursor_color = "#FFFFFF"
+    cursor_shape = underline
+    font = Monospace 12
+    foreground_color = "#ffffff"
+    login_shell = True
+    palette = "#000000:#cc0000:#4e9a06:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:#ad7fa8:#34e2e2:#eeeeec"
+    scroll_on_output = False
+    scrollback_lines = 10000
+    urgent_bell = True
+    use_system_font = False
+  [[black on white]]
+    background_color = "#ffffff"
+    background_darkness = 0.92
+    background_image = None
+    background_type = transparent
+    cursor_shape = underline
+    foreground_color = "#000000"
+    login_shell = True
+    palette = "#000000:#cc0000:#4e9a06:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:#ad7fa8:#34e2e2:#eeeeec"
+    scrollback_lines = 10000
+    urgent_bell = True
