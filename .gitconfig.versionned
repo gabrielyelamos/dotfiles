@@ -1,6 +1,7 @@
 [user]
   name = Julien Nicoulaud
   email = julien.nicoulaud@gmail.com
+  signingkey = A20BF77D
 
 [core]
   editor = vim
