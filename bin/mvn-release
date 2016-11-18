@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Perform a Maven release.
+# ----------------------------------------------------------------------
+
+echo -n "Enter your GPG key passphrase: "
+read -sr PASSPHRASE
+echo
+
+command mvn release:prepare \
+            release:perform \
+            release:clean \
+            -Dgpg.passphrase="${PASSPHRASE}"

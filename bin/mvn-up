@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Update project dependencies/plugins versions.
+# ----------------------------------------------------------------------
+
+mvn versions:update-parent \
+    versions:commit \
+    -Dmaven.version.rules=file://$HOME/.m2/versions-rules.xml
+
+mvn versions:use-latest-releases \
+    versions:update-properties \
+    versions:commit \
+    -Dmaven.version.rules=file://$HOME/.m2/versions-rules.xml
