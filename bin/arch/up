@@ -4,5 +4,17 @@
 #   Do packages upgrades and cleanup.
 # ----------------------------------------------------------------------
 
+# List failed units
+flag-command systemctl --failed --all && \
+
+# List errors
+flag-command journalctl --priority 3 --catalog --boot --no-pager && \
+
+# Remote unused packages
+flag-command pacman -Qtdq && sudo pacman -Rns $(pacman -Qtdq) || true && \
+
+# Full upgrade
 flag-command yaourt -Syyua --devel && \
+
+# Config files update
 flag-command sudo pacdiffviewer
