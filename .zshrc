@@ -375,15 +375,7 @@ autoload -U compinit && {
   zstyle ':completion:*:functions' ignored-patterns '_*'
 
   # Don't complete uninteresting users.
-  zstyle ':completion:*:*:*:users' ignored-patterns adm amanda apache avahi \
-    beaglidx bin cacti canna clamav daemon dbus distcache dovecot junkbust  \
-    games gdm gkrellmd gopher hacluster haldaemon halt hsqldb ident ftp fax \
-    ldap lp mail mailman mailnull mldonkey mysql nagios named netdump news  \
-    nfsnobody nobody nscd ntp nut nx openvpn operator pcap postfix postgres \
-    privoxy pulse pvm quagga radvd rpc rpcuser rpm shutdown squid sshd sync \
-    uucp vcsa xfs www-data avahi-autoipd gitblit http rtkit sabnzbd usbmux  \
-    sickbeard systemd-\* nvidia-\* polkitd colord grafana influxdb netdata \
-    sonarr uuidd xmms2 lxdm
+  zstyle -e ':completion:*:users' users 'local user; getent passwd | while IFS=: read -rA user; do (( user[3] >= 1000 || user[3] == 0 )) && reply+=($user[1]); done'
 
   # Show ignored patterns if needed.
   zstyle '*' single-ignored show
