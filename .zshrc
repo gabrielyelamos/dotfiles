@@ -382,7 +382,8 @@ autoload -U compinit && {
     nfsnobody nobody nscd ntp nut nx openvpn operator pcap postfix postgres \
     privoxy pulse pvm quagga radvd rpc rpcuser rpm shutdown squid sshd sync \
     uucp vcsa xfs www-data avahi-autoipd gitblit http rtkit sabnzbd usbmux  \
-    sickbeard
+    sickbeard systemd-\* nvidia-\* polkitd colord grafana influxdb netdata \
+    sonarr uuidd xmms2 lxdm
 
   # Show ignored patterns if needed.
   zstyle '*' single-ignored show
@@ -400,8 +401,7 @@ autoload -U compinit && {
 
   # Hostnames completion.
   zstyle -e ':completion:*:hosts' hosts 'reply=(
-    ${${${${(f)"$(<~/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}
-    ${${${(@M)${(f)"$(<~/.ssh/config)"}:#Host *}#Host }:#*[*?]*}
+    ${(s/ /)${${${(@M)${(f)"$(<~/.ssh/config)"}:#Host *}#Host }:#*[*?]*}}
     ${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}#*[[:blank:]]}}
   )'
   zstyle ':completion:*:*:*:hosts' ignored-patterns 'ip6*' 'localhost*'
