@@ -307,7 +307,7 @@ autoload -U enter-password && {
 
 # <up>/<down> => Fish style history substring search
 . /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh &>/dev/null || \
-. $MAIN_USER_HOME/projects/zsh-history-substring-search/zsh-history-substring-search.zsh &>/dev/null
+. $MAIN_USER_HOME/workspace/zsh-history-substring-search/zsh-history-substring-search.zsh &>/dev/null
 
 
 # ------------------------------------------------------------------------------
@@ -407,7 +407,7 @@ autoload -U compinit && {
   zstyle ':completion:*:*:*:hosts' ignored-patterns 'ip6*' 'localhost*'
 
   # Use zsh-completions if available.
-  [[ -d $MAIN_USER_HOME/projects/zsh-completions ]] && fpath=($MAIN_USER_HOME/projects/zsh-completions/src $fpath)
+  [[ -d $MAIN_USER_HOME/workspace/zsh-completions ]] && fpath=($MAIN_USER_HOME/workspace/zsh-completions/src $fpath)
 
   # Completion debugging
   bindkey '^Xh' _complete_help
@@ -518,7 +518,7 @@ autoload -U compinit && {
 
   # zsh-syntax-highlighting
   . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh &>/dev/null || \
-  . $MAIN_USER_HOME/projects/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh &>/dev/null && {
+  . $MAIN_USER_HOME/workspace/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh &>/dev/null && {
     ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
     ZSH_HIGHLIGHT_PATTERNS+=('rm -rf *' 'fg=white,bold,bg=red')
     ZSH_HIGHLIGHT_PATTERNS+=('rm -fr *' 'fg=white,bold,bg=red')
