@@ -12,6 +12,7 @@ hgext.fetch=
 hgext.graphlog=
 hgext.pager=
 hgext.bookmarks=
+hggit =
 
 [gpg]
 key=A20BF77D
