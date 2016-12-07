@@ -11,4 +11,5 @@ flag-command pacman -Qtdq && sudo pacman -Rns $(pacman -Qtdq) || true && \
 flag-command yaourt -Syyua --devel && \
 
 # Config files update
-flag-command sudo pacdiffviewer
+flag-command yaourt -C
+
