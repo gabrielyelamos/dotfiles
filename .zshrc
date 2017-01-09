@@ -398,6 +398,11 @@ autoload -U compinit && {
   )'
   zstyle ':completion:*:*:*:hosts' ignored-patterns 'ip6*' 'localhost*'
 
+  # Show dots while completion is running
+  autoload expand-or-complete-with-dots
+  zle -N expand-or-complete-with-dots
+  bindkey "^I" expand-or-complete-with-dots
+
   # Use zsh-completions if available.
   [[ -d $MAIN_USER_HOME/workspace/zsh-completions ]] && fpath=($MAIN_USER_HOME/workspace/zsh-completions/src $fpath)
 
