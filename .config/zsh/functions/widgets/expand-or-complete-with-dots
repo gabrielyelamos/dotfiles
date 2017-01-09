@@ -10,6 +10,7 @@
 #     bindkey "^I" expand-or-complete-with-dots
 # ------------------------------------------------------------------------------------------
 
-echo -ne "\e[31m…\e[0m"
+echo -n '…'
 zle expand-or-complete
 zle redisplay
+
