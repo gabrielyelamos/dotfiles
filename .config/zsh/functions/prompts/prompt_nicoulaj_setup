@@ -2,22 +2,23 @@
 
 prompt_nicoulaj_help () {
   cat <<'EOF'
-This prompt shows 'user@hostname' only if connected over SSH. The path is shown relatively to the current VCS
-repository root if any, and cropped to a maximum length at any times. It is colored to indicate the last
-command exit status.
+This prompt shows 'user@hostname' only if connected over SSH, with a unique color per host. The path is shown relatively to the
+current VCS repository root if any, and cropped to a maximum length at any times. It is also colored to indicate the last
+command exit status. If root, three prompt characters are show instead of only one
 
 The right prompt shows info about the current VCS repository and status.
 
 This prompt is configurable. You can invoke it thus:
 
-  prompt nicoulaj [<path_length> [<color_success> [<color_failure> [<color_vcs_info> [<color_vcs_changes>]]]]]
+  prompt nicoulaj [<path_length> [<color_success> [<color_failure> [<prompt_nicoulaj_color_faint> [<prompt_nicoulaj_color_changes>] [<prompt_nicoulaj_char>]]]]]
 
 where the settings are:
  * path_length: maximum path length in the left prompt (default: 40)
  * color_success: color of the left prompt when the previous command exit code is zero (default: green)
  * color_failure: color of the left prompt when the previous command exit code is non-zero (default: red)
- * color_vcs_info: color of the right prompt showing VCS info (default: grey)
- * color_vcs_changes: color of the right prompt showing VCS changes (default: yellow)
+ * prompt_nicoulaj_color_faint: color of the right prompt showing VCS info, and continuation or debug prompt (default: grey)
+ * prompt_nicoulaj_color_changes: color of the right prompt showing VCS changes (default: yellow)
+ * prompt_nicoulaj_char: prompt character (default: >)
 EOF
 }
 
@@ -32,6 +33,11 @@ function prompt_nicoulaj_setup() {
   prompt_nicoulaj_color_faint=${4:-'%F{grey}'}
   prompt_nicoulaj_color_changes=${5:-'%F{yellow}'}
   prompt_nicoulaj_char=${6:-'>'}
+
+  # Hostname color.
+  hostname_hash=0
+  for i ({1..${#HOSTNAME}}); hostname_hash=$(( $hostname_hash + $((#HOSTNAME[$i])) ))
+  prompt_nicoulaj_color_host="%{${FG[$((( hostname_hash % 255 ) + 1 ))]}%}"
 
   # Load required modules.
   autoload -Uz add-zsh-hook vcs_info && {
@@ -50,7 +56,7 @@ function prompt_nicoulaj_setup() {
     zstyle ':vcs_info:*:*:'$MAIN_USER formats "%S"
 
     # Prompts definition.
-    PROMPT="%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})${SSH_TTY:+[%n@%m]}%{$FX[bold]%}%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.${prompt_nicoulaj_char}${prompt_nicoulaj_char}${prompt_nicoulaj_char}.${prompt_nicoulaj_char})%{$FX[no-bold]%}%{$FX[reset]%} "
+    PROMPT="%{$FX[bold]%}${SSH_TTY:+${prompt_nicoulaj_color_host}[%n@%m]}%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.${prompt_nicoulaj_char}${prompt_nicoulaj_char}${prompt_nicoulaj_char}.${prompt_nicoulaj_char})%{$FX[no-bold]%}%{$FX[reset]%} "
     PROMPT2='%{${prompt_nicoulaj_color_faint}%}%_%{$FX[reset]%}%{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
     PROMPT3='? %{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
     PROMPT4='%{${prompt_nicoulaj_color_faint}%}%N:%i%{$FX[reset]%}%{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
