@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Reinstall all packages dependending on one package.
+# ----------------------------------------------------------------------
+
+if [[ $# -ne 1 ]]; then
+  echo "Usage: $0 <package name>" >&2
+  exit 1
+fi
+
+pactree --linear --reverse $1 | xargs yaourt --noconfirm -S
+

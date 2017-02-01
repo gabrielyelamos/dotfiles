@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Reinstall all foreign packages.
+# ----------------------------------------------------------------------
+
+pacman -Qm | cut -d ' ' -f1 | xargs -I {} yaourt --noconfirm -S {}
+
