@@ -29,8 +29,9 @@ function prompt_nicoulaj_setup() {
   prompt_nicoulaj_path_length=${1:-40}
   prompt_nicoulaj_color_success=${2:-'%F{green}'}
   prompt_nicoulaj_color_failure=${3:-'%F{red}'}
-  prompt_nicoulaj_color_vcs_info=${4:-'%F{grey}'}
-  prompt_nicoulaj_color_vcs_changes=${5:-'%F{yellow}'}
+  prompt_nicoulaj_color_faint=${4:-'%F{grey}'}
+  prompt_nicoulaj_color_changes=${5:-'%F{yellow}'}
+  prompt_nicoulaj_char=${6:-'>'}
 
   # Load required modules.
   autoload -Uz add-zsh-hook vcs_info && {
@@ -49,8 +50,12 @@ function prompt_nicoulaj_setup() {
     zstyle ':vcs_info:*:*:'$MAIN_USER formats "%S"
 
     # Prompts definition.
-    PROMPT="%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})${SSH_TTY:+[%n@%m]}%{$FX[bold]%}%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.>>>.>)%{$FX[no-bold]%}%{$FX[reset]%} "
-    RPROMPT="%{${prompt_nicoulaj_color_vcs_info}%}"'$vcs_info_msg_1_'"%{$FX[reset]%}%{${prompt_nicoulaj_color_vcs_changes}%}"'$vcs_info_msg_2_'"%{$FX[reset]%}"
+    PROMPT="%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})${SSH_TTY:+[%n@%m]}%{$FX[bold]%}%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.${prompt_nicoulaj_char}${prompt_nicoulaj_char}${prompt_nicoulaj_char}.${prompt_nicoulaj_char})%{$FX[no-bold]%}%{$FX[reset]%} "
+    PROMPT2='%{${prompt_nicoulaj_color_faint}%}%_%{$FX[reset]%}%{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
+    PROMPT3='? %{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
+    PROMPT4='%{${prompt_nicoulaj_color_faint}%}%N:%i%{$FX[reset]%}%{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
+    RPROMPT="%{${prompt_nicoulaj_color_faint}%}"'$vcs_info_msg_1_'"%{$FX[reset]%}%{${prompt_nicoulaj_color_changes}%}"'$vcs_info_msg_2_'"%{$FX[reset]%}"
+    SPROMPT='Correct ${prompt_nicoulaj_color_failure}$FX[bold]%R$FX[reset] to ${prompt_nicoulaj_color_success}$FX[bold]%r$FX[reset] ? ${prompt_nicoulaj_color_faint}[nyae]$FX[reset] '
   }
 }
 

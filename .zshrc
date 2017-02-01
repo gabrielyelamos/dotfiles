@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+# Profiling, uncomment to enable
+# zmodload zsh/zprof
+
 # ------------------------------------------------------------------------------
 # Environment
 # ------------------------------------------------------------------------------
@@ -242,15 +245,6 @@ alias grep='grep --color=auto --exclude="*.pyc" --exclude-dir=".svn" --exclude-d
 # Command not found
 [[ -f /etc/zsh_command_not_found ]] && . /etc/zsh_command_not_found
 
-# Zsh MIME types handling.
-autoload -U zsh-mime-setup zsh-mime-handler && {
-  zsh-mime-setup
-  autoload -U pick-web-browser && {
-    zstyle ':mime:*' x-browsers google-chrome firefox elinks
-    alias -s html=pick-web-browser
-  }
-}
-
 
 # ------------------------------------------------------------------------------
 # Key bindings / ZLE configuration
@@ -454,7 +448,7 @@ autoload -U compinit && {
 
   # Prompt
   autoload -Uz promptinit && promptinit -i
-  prompt nicoulaj 30 ${FG[71]} ${FG[172]} ${FG[darkgrey]} ${FG[172]}
+  prompt nicoulaj 30 ${FG[71]} ${FG[172]} ${FG[darkgrey]} ${FG[172]} '>'
 
   # ls colorizing with dircolors.
   (( $+commands[dircolors] )) && eval $(dircolors $MAIN_USER_HOME/.dir_colors)
@@ -494,7 +488,6 @@ autoload -U compinit && {
   # Colorizing with rainbow.
   (( $+commands[rainbow] )) && {
     alias @mvn='command mvn'               && alias mvn='rainbow --config mvn3 -- mvn'
-    alias @mvn2='command mvn2'             && alias mvn2='rainbow --config mvn2 -- mvn2'
     alias @diff='command diff'             && alias diff='rainbow -- diff'
     alias @df='command df'                 && alias df='rainbow -- df'
     alias @host='command host'             && alias host='rainbow -- host'
@@ -503,7 +496,6 @@ autoload -U compinit && {
     alias @ping='command ping'             && alias ping='rainbow -- ping'
     alias @top='command top'               && alias top='rainbow -- top'
     alias @traceroute='command traceroute' && alias traceroute='rainbow -- traceroute'
-    alias @jonas='command jonas'           && alias jonas='rainbow -- jonas'
   }
 
   # Colorizing with color(diff|svn|cvs|gcc|make).
@@ -524,20 +516,37 @@ autoload -U compinit && {
 
 
 # ------------------------------------------------------------------------------
-# Site-specific stuff
+# Site specific stuff
 # ------------------------------------------------------------------------------
 
-# Distro-specific stuff
+# Distro specific stuff
 if grep -q 'Arch Linux' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME/bin/arch ]]; then
   path=($MAIN_USER_HOME/bin/arch $path)
+  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/arch/*.(|ba|z|tc|k)sh(#q.N)) . $file
 elif grep -Pq '(Ubuntu|Debian)' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME/bin/debian ]]; then
   path=($MAIN_USER_HOME/bin/debian $path)
+  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/debian/*.(|ba|z|tc|k)sh(#q.N)) . $file
 elif grep -Pq '(Red Hat|CentOS)' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME/bin/rhel ]]; then
   path=($MAIN_USER_HOME/bin/rhel $path)
+  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/rhel/*.(|ba|z|tc|k)sh(#q.N)) . $file
+fi
+
+# Init system specific stuff
+if (( $+commands[systemctl] )) && [[ -d $MAIN_USER_HOME/bin/systemd ]]; then
+  path=($MAIN_USER_HOME/bin/systemd $path)
+  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/systemd/*.(|ba|z|tc|k)sh(#q.N)) . $file
+fi
+if (( $+commands[initctl] )) && [[ -d $MAIN_USER_HOME/bin/upstart ]]; then
+  path=($MAIN_USER_HOME/bin/upstart $path)
+  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/upstart/*.(|ba|z|tc|k)sh(#q.N)) . $file
+fi
+if (( $+commands[service] )) && [[ -d $MAIN_USER_HOME/bin/sysvinit ]]; then
+  path=($MAIN_USER_HOME/bin/sysvinit $path)
+  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/sysvinit/*.(|ba|z|tc|k)sh(#q.N)) . $file
 fi
 
 # Local/modularized stuff.
-for conf ($MAIN_USER_HOME/.config/zsh/zshrc.d/*.(|ba|z|tc|k)sh(#q.N)) source $conf
+for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/*.(|ba|z|tc|k)sh(#q.N)) . $file
 
 
 # ------------------------------------------------------------------------------
