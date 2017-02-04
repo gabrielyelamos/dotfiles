@@ -448,7 +448,7 @@ autoload -U compinit && {
 
   # Prompt
   autoload -Uz promptinit && promptinit -i
-  prompt nicoulaj 30 ${FG[71]} ${FG[172]} ${FG[darkgrey]} ${FG[172]} '>'
+  prompt nicoulaj 30 ${FG[71]} ${FG[172]} ${FG[darkgrey]} ${FG[172]} '❯'
 
   # ls colorizing with dircolors.
   (( $+commands[dircolors] )) && eval $(dircolors $MAIN_USER_HOME/.dir_colors)

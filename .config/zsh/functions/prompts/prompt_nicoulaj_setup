@@ -34,10 +34,15 @@ function prompt_nicoulaj_setup() {
   prompt_nicoulaj_color_changes=${5:-'%F{yellow}'}
   prompt_nicoulaj_char=${6:-'>'}
 
+  # User/host.
+  [[ "${USER}" != "${MAIN_USER}" ]] || [[ -n "${SUDO_USER}" ]] && prompt_nicoulaj_user="%n"
+  [[ -n "${SSH_CONNECTION}" ]] || [[ -n "${SUDO_USER}" ]] && prompt_nicoulaj_host="@%m"
+  [[ -n "${prompt_nicoulaj_user}" ]] || [[ -n "${prompt_nicoulaj_host}" ]] && prompt_nicoulaj_separator=' '
+  
   # Hostname color.
-  hostname_hash=0
-  for i ({1..${#HOSTNAME}}); hostname_hash=$(( $hostname_hash + $((#HOSTNAME[$i])) ))
-  prompt_nicoulaj_color_host="%{${FG[$((( hostname_hash % 255 ) + 1 ))]}%}"
+  host_hash=0
+  for l (${(ws::)HOST[(ws:.:)1]}) (( host_hash += #l ))
+  prompt_nicoulaj_color_host="%{${FG[$((host_hash % 255 + 100))]}%}"
 
   # Load required modules.
   autoload -Uz add-zsh-hook vcs_info && {
@@ -56,7 +61,7 @@ function prompt_nicoulaj_setup() {
     zstyle ':vcs_info:*:*:'$MAIN_USER formats "%S"
 
     # Prompts definition.
-    PROMPT="%{$FX[bold]%}${SSH_TTY:+${prompt_nicoulaj_color_host}[%n@%m]}%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<%(!.${prompt_nicoulaj_char}${prompt_nicoulaj_char}${prompt_nicoulaj_char}.${prompt_nicoulaj_char})%{$FX[no-bold]%}%{$FX[reset]%} "
+    PROMPT="%B%(!.%{$FG[darkred]%}.%{${prompt_nicoulaj_color_host}%})${prompt_nicoulaj_user}${prompt_nicoulaj_color_host}${prompt_nicoulaj_host}${prompt_nicoulaj_separator}%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<${prompt_nicoulaj_char}%{$FX[reset]%} "
     PROMPT2='%{${prompt_nicoulaj_color_faint}%}%_%{$FX[reset]%}%{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
     PROMPT3='? %{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
     PROMPT4='%{${prompt_nicoulaj_color_faint}%}%N:%i%{$FX[reset]%}%{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
