@@ -61,7 +61,7 @@ function prompt_nicoulaj_setup() {
     zstyle ':vcs_info:*:*:'$MAIN_USER formats "%S"
 
     # Prompts definition.
-    PROMPT="%B%(!.%{$FG[darkred]%}.%{${prompt_nicoulaj_color_host}%})${prompt_nicoulaj_user}${prompt_nicoulaj_color_host}${prompt_nicoulaj_host}${prompt_nicoulaj_separator}%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<${prompt_nicoulaj_char}%{$FX[reset]%} "
+    PROMPT="%{$FX[bold]%}%(!.%{$FG[darkred]%}.%{${prompt_nicoulaj_color_host}%})${prompt_nicoulaj_user}${prompt_nicoulaj_color_host}${prompt_nicoulaj_host}${prompt_nicoulaj_separator}%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<${prompt_nicoulaj_char}%{$FX[reset]%} "
     PROMPT2='%{${prompt_nicoulaj_color_faint}%}%_%{$FX[reset]%}%{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
     PROMPT3='? %{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
     PROMPT4='%{${prompt_nicoulaj_color_faint}%}%N:%i%{$FX[reset]%}%{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
