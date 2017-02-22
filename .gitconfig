@@ -39,17 +39,6 @@
 [status]
   color = auto
 
-[sendemail]
-  smtpserver = smtp.gmail.com
-  smtpserverport = 587
-  smtpencryption = tls
-  smtpuser = julien.nicoulaud@gmail.com
-# smtppass = XXXXXXXXX
-
-[github]
-  user = nicoulaj
-# token = XXXXXXXXX
-
 [alias]
   co = checkout
   ci = commit
@@ -88,4 +77,7 @@
   insteadOf = "aur:"
 [url "ssh+git://aur4.archlinux.org/"]
   pushInsteadOf = "aur:"
+
+[include]
+  path = ~/.gitconfig.local
 
