@@ -52,20 +52,21 @@ function prompt_nicoulaj_setup() {
 
     # vcs_info setup.
     zstyle ':vcs_info:*' enable hg bzr svn git
-    zstyle ':vcs_info:*' check-for-changes true # Can be slow on big repos.
+    zstyle ':vcs_info:*' check-for-changes true
     zstyle ':vcs_info:*' unstagedstr " *"
-    zstyle ':vcs_info:*' max-exports 3
-    zstyle ':vcs_info:*' actionformats "%S" "%r/%b" " (%a)%u"
-    zstyle ':vcs_info:*' formats "%S" "%r/%b" "%u"
-    zstyle ':vcs_info:*' nvcsformats "%~"
-    zstyle ':vcs_info:*:*:'$MAIN_USER formats "%S"
+    zstyle ':vcs_info:*' max-exports 4
+    zstyle ':vcs_info:*' actionformats "%r" "/%S" "%b" " (%a)%u"
+    zstyle ':vcs_info:*' formats "%r" "/%S" "%b" "%u"
+    zstyle ':vcs_info:*' nvcsformats 'NOT_IN_A_REPO' "%~"
+    zstyle ':vcs_info:*:*:'$MAIN_USER formats 'NOT_IN_A_REPO' "%S" ' ' "%u"
+    zstyle ':vcs_info:*:*:' formats 'NOT_IN_A_REPO' "%~" ' ' "%u"
 
     # Prompts definition.
-    PROMPT="%{$FX[bold]%}%(!.%{$FG[darkred]%}.%{${prompt_nicoulaj_color_host}%})${prompt_nicoulaj_user}${prompt_nicoulaj_color_host}${prompt_nicoulaj_host}${prompt_nicoulaj_separator}%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_0_%%.}'"%<<${prompt_nicoulaj_char}%{$FX[reset]%} "
+    PROMPT="%{$FX[bold]%}%(!.%{$FG[darkred]%}.%{${prompt_nicoulaj_color_host}%})${prompt_nicoulaj_user}${prompt_nicoulaj_color_host}${prompt_nicoulaj_host}${prompt_nicoulaj_separator}%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})%{$FX[underline]%}"'${vcs_info_msg_0_:#NOT_IN_A_REPO}'"%{$FX[no-underline]%}%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_1_##(\/.|.)}'"%<<${prompt_nicoulaj_char}%{$FX[reset]%} "
     PROMPT2='%{${prompt_nicoulaj_color_faint}%}%_%{$FX[reset]%}%{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
     PROMPT3='? %{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
     PROMPT4='%{${prompt_nicoulaj_color_faint}%}%N:%i%{$FX[reset]%}%{${prompt_nicoulaj_color_success}%}${prompt_nicoulaj_char}%{$FX[reset]%} '
-    RPROMPT="%{${prompt_nicoulaj_color_faint}%}"'$vcs_info_msg_1_'"%{$FX[reset]%}%{${prompt_nicoulaj_color_changes}%}"'$vcs_info_msg_2_'"%{$FX[reset]%}"
+    RPROMPT="%{${prompt_nicoulaj_color_faint}%}"'$vcs_info_msg_2_'"%{$FX[reset]%}%{${prompt_nicoulaj_color_changes}%}"'$vcs_info_msg_3_'"%{$FX[reset]%}"
     SPROMPT='Correct ${prompt_nicoulaj_color_failure}$FX[bold]%R$FX[reset] to ${prompt_nicoulaj_color_success}$FX[bold]%r$FX[reset] ? ${prompt_nicoulaj_color_faint}[nyae]$FX[reset] '
   }
 }
