@@ -50,8 +50,6 @@
   ll = log --graph --pretty=format:\"%C(yellow)%h %C(green)%d%Creset %s  %C(black bold)%an, %ar%Creset\"
   lll = log --stat --decorate --graph
   rl = reflog  --date=relative
-  po = push-current
-  pu = pull-current
   ar = add-remove
   sclone = clone --depth=1
   pastebinit = !sh -c 'git format-patch -1 --stdout $1 | pastebinit -f diff' -
@@ -80,4 +78,3 @@
 
 [include]
   path = ~/.gitconfig.local
-
