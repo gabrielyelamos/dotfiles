@@ -24,7 +24,7 @@
   autosetuprebase = always
 
 [push]
-  default = matching
+  default = current
 
 [diff]
   rename = copy
