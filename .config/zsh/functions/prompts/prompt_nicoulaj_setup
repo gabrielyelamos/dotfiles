@@ -2,11 +2,13 @@
 
 prompt_nicoulaj_help () {
   cat <<'EOF'
-This prompt shows 'user@hostname' only if connected over SSH, with a unique color per host. The path is shown relatively to the
-current VCS repository root if any, and cropped to a maximum length at any times. It is also colored to indicate the last
-command exit status. If root, three prompt characters are show instead of only one
-
-The right prompt shows info about the current VCS repository and status.
+This prompt has the following settings:
+ * Shows hostname only if connected over SSH, with a unique color per host.
+ * Shows username if different from $MAIN_USER, or under sudo.
+ * Always show current VCS repository name, and relative path within the repo truncated to a maximum length.
+ * Colored green or red to indicate the last command exit status.
+ * On right prompt, shows branch and VSC changes marker.
+ * Also sets up continuation/confirmation prompts.
 
 This prompt is configurable. You can invoke it thus:
 
@@ -38,7 +40,7 @@ function prompt_nicoulaj_setup() {
   [[ "${USER}" != "${MAIN_USER}" ]] || [[ -n "${SUDO_USER}" ]] && prompt_nicoulaj_user="%n"
   [[ -n "${SSH_CONNECTION}" ]] || [[ -n "${SUDO_USER}" ]] && prompt_nicoulaj_host="@%m"
   [[ -n "${prompt_nicoulaj_user}" ]] || [[ -n "${prompt_nicoulaj_host}" ]] && prompt_nicoulaj_separator=' '
-  
+
   # Hostname color.
   host_hash=0
   for l (${(ws::)HOST[(ws:.:)1]}) (( host_hash += #l ))
@@ -53,13 +55,14 @@ function prompt_nicoulaj_setup() {
     # vcs_info setup.
     zstyle ':vcs_info:*' enable hg bzr svn git
     zstyle ':vcs_info:*' check-for-changes true
-    zstyle ':vcs_info:*' unstagedstr " *"
+    zstyle ':vcs_info:*' stagedstr "*"
+    zstyle ':vcs_info:*' unstagedstr "*"
     zstyle ':vcs_info:*' max-exports 4
-    zstyle ':vcs_info:*' actionformats "%r" "/%S" "%b" " (%a)%u"
-    zstyle ':vcs_info:*' formats "%r" "/%S" "%b" "%u"
+    zstyle ':vcs_info:*' actionformats "%r" "/%S" "%b" " (%a) %u%c"
+    zstyle ':vcs_info:*' formats "%r" "/%S" "%b" " %u"
     zstyle ':vcs_info:*' nvcsformats 'NOT_IN_A_REPO' "%~"
-    zstyle ':vcs_info:*:*:'$MAIN_USER formats 'NOT_IN_A_REPO' "%S" ' ' "%u"
-    zstyle ':vcs_info:*:*:' formats 'NOT_IN_A_REPO' "%~" ' ' "%u"
+    zstyle ':vcs_info:*:*:'$MAIN_USER formats 'NOT_IN_A_REPO' "%S" ' ' " %u"
+    zstyle ':vcs_info:*:*:' formats 'NOT_IN_A_REPO' "%~" ' ' " %u"
 
     # Prompts definition.
     PROMPT="%{$FX[bold]%}%(!.%{$FG[darkred]%}.%{${prompt_nicoulaj_color_host}%})${prompt_nicoulaj_user}${prompt_nicoulaj_color_host}${prompt_nicoulaj_host}${prompt_nicoulaj_separator}%(0?.%{${prompt_nicoulaj_color_success}%}.%{${prompt_nicoulaj_color_failure}%})%{$FX[underline]%}"'${vcs_info_msg_0_:#NOT_IN_A_REPO}'"%{$FX[no-underline]%}%${prompt_nicoulaj_path_length}<..<"'${vcs_info_msg_1_##(\/.|.)}'"%<<${prompt_nicoulaj_char}%{$FX[reset]%} "
