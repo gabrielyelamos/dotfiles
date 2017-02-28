@@ -1,0 +1,41 @@
+#!/usr/bin/bash -e
+# ----------------------------------------------------------------------
+# Description
+#   Update an OSC package to a new version.
+#
+# Arguments
+#   1 (required) new version.
+# ----------------------------------------------------------------------
+
+osc st &>/dev/null || {
+  echo "Not in an OSC package" &>2
+  exit 1
+}
+
+[[ $# -eq 1 ]] || {
+  echo "Usage: $0 <version>" &>2
+}
+
+debchange -b --newversion $1 --urgency low -c debian.changelog "Version $1"
+debchange --release -c debian.changelog ""
+sed -ri "s/^(Version:\s+).*/\1$1/" debian.dsc
+
+rpmdev-bumpspec --comment "Version $1" --new $1 *.spec
+
+echo "======================================================================"
+echo "rpmlint"
+echo "======================================================================"
+rpmlint *.spec
+
+echo "======================================================================"
+echo "Diff:"
+echo "======================================================================"
+osc diff | cat
+
+read -n 1 -p "Accept changes (y/n)? " accept
+echo
+
+[[ $accept == 'y' ]] && {
+  osc ci -m "Version $1"
+}
+
