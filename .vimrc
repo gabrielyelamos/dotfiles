@@ -112,3 +112,6 @@ set nostartofline
 " Get root privilieges while editing a file
 cmap w!! %!sudo tee > /dev/null %
 
+" RPM changelog edition
+let spec_chglog_format = "%a %b %d %Y Julien Nicoulaud <julien.nicoulaud@gmail.com>"
+
