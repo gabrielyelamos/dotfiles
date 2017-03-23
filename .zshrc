@@ -1,7 +1,22 @@
 #!/usr/bin/env zsh
 
+# ------------------------------------------------------------------------------
+# Utility functions
+# ------------------------------------------------------------------------------
+
 # Profiling, uncomment to enable
 # zmodload zsh/zprof
+
+# Source file if it exists
+trysource() {
+  [[ -f $1 ]] && . $1
+}
+
+# Source all files in directory if it exists
+trysourceall() {
+  [[ -d $1 ]] && for file ($1/*.(|ba|z|tc|k)sh(#q.N)) . $file
+}
+
 
 # ------------------------------------------------------------------------------
 # Environment
@@ -243,7 +258,8 @@ export LESSHISTSIZE=2000
 alias grep='grep --color=auto --exclude="*.pyc" --exclude-dir=".svn" --exclude-dir=".hg" --exclude-dir=".bzr" --exclude-dir=".git"'
 
 # Command not found
-[[ -f /etc/zsh_command_not_found ]] && . /etc/zsh_command_not_found
+trysource /etc/zsh_command_not_found
+trysource /usr/share/doc/pkgfile/command-not-found.zsh
 
 
 # ------------------------------------------------------------------------------
@@ -487,7 +503,7 @@ autoload -U compinit && {
 
   # Colorizing with rainbow.
   (( $+commands[rainbow] )) && {
-    alias @mvn='command mvn'               && alias mvn='rainbow --config mvn3 -- mvn'
+    alias @mvn='command mvn'               && alias mvn='rainbow -- mvn'
     alias @diff='command diff'             && alias diff='rainbow -- diff'
     alias @df='command df'                 && alias df='rainbow -- df'
     alias @host='command host'             && alias host='rainbow -- host'
@@ -522,31 +538,31 @@ autoload -U compinit && {
 # Distro specific stuff
 if grep -q 'Arch Linux' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME/bin/arch ]]; then
   path=($MAIN_USER_HOME/bin/arch $path)
-  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/arch/*.(|ba|z|tc|k)sh(#q.N)) . $file
+  trysourceall $MAIN_USER_HOME/.config/zsh/zshrc.d/arch
 elif grep -Pq '(Ubuntu|Debian)' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME/bin/debian ]]; then
   path=($MAIN_USER_HOME/bin/debian $path)
-  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/debian/*.(|ba|z|tc|k)sh(#q.N)) . $file
+  trysourceall $MAIN_USER_HOME/.config/zsh/zshrc.d/debian
 elif grep -Pq '(Red Hat|CentOS)' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME/bin/rhel ]]; then
   path=($MAIN_USER_HOME/bin/rhel $path)
-  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/rhel/*.(|ba|z|tc|k)sh(#q.N)) . $file
+  trysourceall $MAIN_USER_HOME/.config/zsh/zshrc.d/rhel
 fi
 
 # Init system specific stuff
 if (( $+commands[systemctl] )) && [[ -d $MAIN_USER_HOME/bin/systemd ]]; then
   path=($MAIN_USER_HOME/bin/systemd $path)
-  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/systemd/*.(|ba|z|tc|k)sh(#q.N)) . $file
+  trysourceall $MAIN_USER_HOME/.config/zsh/zshrc.d/systemd
 fi
 if (( $+commands[initctl] )) && [[ -d $MAIN_USER_HOME/bin/upstart ]]; then
   path=($MAIN_USER_HOME/bin/upstart $path)
-  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/upstart/*.(|ba|z|tc|k)sh(#q.N)) . $file
+  trysourceall $MAIN_USER_HOME/.config/zsh/zshrc.d/upstart
 fi
 if (( $+commands[service] )) && [[ -d $MAIN_USER_HOME/bin/sysvinit ]]; then
   path=($MAIN_USER_HOME/bin/sysvinit $path)
-  for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/sysvinit/*.(|ba|z|tc|k)sh(#q.N)) . $file
+  trysourceall $MAIN_USER_HOME/.config/zsh/zshrc.d/sysvinit
 fi
 
 # Local/modularized stuff.
-for file ($MAIN_USER_HOME/.config/zsh/zshrc.d/*.(|ba|z|tc|k)sh(#q.N)) . $file
+trysourceall $MAIN_USER_HOME/.config/zsh/zshrc.d
 
 
 # ------------------------------------------------------------------------------
