@@ -522,6 +522,7 @@ autoload -U compinit && {
   (( $+commands[colorgcc] ))  && [[ -d /usr/lib/colorgcc/bin ]] && path=(/usr/lib/colorgcc/bin $path)
 
   # zsh-syntax-highlighting
+  . /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh &>/dev/null || \
   . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh &>/dev/null || \
   . $MAIN_USER_HOME/workspace/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh &>/dev/null && {
     ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
