@@ -546,6 +546,9 @@ elif grep -Pq '(Ubuntu|Debian)' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME
 elif grep -Pq '(Red Hat|CentOS)' /etc/issue &> /dev/null && [[ -d $MAIN_USER_HOME/bin/rhel ]]; then
   path=($MAIN_USER_HOME/bin/rhel $path)
   trysourceall $MAIN_USER_HOME/.config/zsh/zshrc.d/rhel
+elif grep -Pq 'Fedora' /etc/fedora-release &> /dev/null && [[ -d $MAIN_USER_HOME/bin/fedora ]]; then
+  path=($MAIN_USER_HOME/bin/fedora $path)
+  trysourceall $MAIN_USER_HOME/.config/zsh/zshrc.d/fedora
 fi
 
 # Init system specific stuff

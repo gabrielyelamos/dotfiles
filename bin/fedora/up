@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Do packages upgrades and cleanup.
+# ----------------------------------------------------------------------
+
+# Full upgrade
+flag-command sudo dnf --color auto --refresh upgrade
