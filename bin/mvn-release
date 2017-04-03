@@ -4,6 +4,6 @@
 #   Perform a Maven release.
 # ----------------------------------------------------------------------
 
-command mvn release:prepare \
-            release:perform \
-            release:clean
+mvn release:prepare \
+    release:perform \
+    release:clean
