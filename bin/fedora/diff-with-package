@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Compare a config file with the package version.
+# ----------------------------------------------------------------------
+
+
+if [[ $# -ne 1 ]]; then
+  echo "usage: $0 <FILE>" >&2
+  exit 1
+fi
+
+if [[ ! -f "${1}" ]]; then
+  echo "No such file: ${1}" >&2
+  exit 1
+fi
+
+cd $(mktemp -d)
+package=$(rpm -qf /etc/xrdp/sesman.ini)
+dnf download ${package} 1>/dev/null
+rpm2cpio ${package}.rpm | cpio --quiet -id .${1}
+${DIFF:-diff} ${1} .${1}
