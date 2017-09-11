@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Delete all stopped Docker containers and images.
+# ----------------------------------------------------------------------
+
+docker rm -vf $(docker ps -a -q)
+docker rmi $(docker images -q)
+
