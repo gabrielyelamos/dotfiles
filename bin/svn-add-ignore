@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# ----------------------------------------------------------------------
+# Description
+#   Recursively append the svn:ignore rules.
+#
+# Arguments
+#   1 The pattern to ignore.
+#
+# Dependencies
+#   * Commands: svn.
+# ----------------------------------------------------------------------
+
+# Usage function
+usage() {
+  cat << EOF
+usage: $0 <pattern to ignore>
+EOF
+}
+
+# Check arguments
+if [[ $# -ne 1 ]]; then
+  usage
+  exit 1
+fi
+
+
+find -type d ! -path "*/.svn*" -exec /bin/bash -c 'value="$(svn propget svn:ignore "{}" 2>/dev/null )"; grep -F -x -q "'$1'" - <<< "$value" || (echo "Adding svn:ignore '$1' on {}"; svn propset svn:ignore "${value}'$'\n'''$1'" "{}")' \;
